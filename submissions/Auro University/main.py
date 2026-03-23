@@ -117,6 +117,39 @@ class GenerateReplyResponse(BaseModel):
     reply: ReplyContent
 
 
+# ── Autopilot Models ──────────────────────────────────────────────────────────
+
+class AutopilotRule(BaseModel):
+    id: str          # client-generated UUID used for logging
+    text: str        # natural language rule, e.g. "Reply to investors formally"
+
+
+class AutopilotRequest(BaseModel):
+    email_id: str
+    subject: str
+    sender_name: str
+    sender_email: str
+    summary: str
+    priority_level: str               # urgent | requires_action | fyi
+    intent: str
+    has_meeting: bool
+    has_tasks: bool
+    suggested_reply_body: str
+    user_name: str
+    user_email: str
+    rules: List[AutopilotRule] = Field(default_factory=list)
+
+
+class AutopilotDecision(BaseModel):
+    email_id: str
+    should_reply: bool
+    should_create_event: bool
+    should_approve_tasks: bool
+    matched_rule_id: Optional[str] = None
+    matched_rule_text: Optional[str] = None
+    reasoning: str
+
+
 # ── Clients ────────────────────────────────────────────────────────────────────
 
 llm_client = OpenAI(
@@ -279,6 +312,30 @@ Rules:
 """
 
 
+AUTOPILOT_SYSTEM_PROMPT = """You are an autonomous email agent. Given an analysed email and a list of user-defined rules, decide which actions to take automatically.
+
+Return ONLY a JSON object — no markdown, no preamble:
+{
+  "email_id": "<string>",
+  "should_reply": <true|false>,
+  "should_create_event": <true|false>,
+  "should_approve_tasks": <true|false>,
+  "matched_rule_id": "<rule id string or null>",
+  "matched_rule_text": "<rule text string or null>",
+  "reasoning": "<one sentence explaining the decision>"
+}
+
+Strict rules:
+- If a user rule explicitly matches this email (by sender, subject keywords, intent, or priority), honour it exactly and set matched_rule_id + matched_rule_text.
+- If no rules match but priority is "urgent", set should_reply=true as a safe default. Set matched_rule_id and matched_rule_text to null.
+- If no rules match and priority is NOT "urgent", set all three action flags to false.
+- NEVER set should_create_event=true unless has_meeting is true.
+- NEVER set should_approve_tasks=true unless has_tasks is true.
+- If the rules list is empty, apply the urgent-only default.
+- Keep the reasoning field to one concise sentence.
+"""
+
+
 def generate_reply_for_email(req: GenerateReplyRequest) -> GenerateReplyResponse:
     """Fetch Supermemory context → generate tone-aware reply with Groq."""
     # 1. Pull relevant memories for this user + email subject
@@ -335,6 +392,58 @@ def generate_reply_for_email(req: GenerateReplyRequest) -> GenerateReplyResponse
     )
 
 
+# ── Autopilot Decision Logic ───────────────────────────────────────────────────
+
+def decide_autopilot(req: AutopilotRequest) -> AutopilotDecision:
+    """Single-shot LLM call to decide which autopilot actions to take for one email."""
+    rules_text = (
+        "\n".join(f"- [id={r.id}] {r.text}" for r in req.rules)
+        if req.rules
+        else "No rules defined."
+    )
+
+    user_prompt = (
+        f"User: {req.user_name} <{req.user_email}>\n\n"
+        f"Email ID: {req.email_id}\n"
+        f"Subject: {req.subject}\n"
+        f"From: {req.sender_name} <{req.sender_email}>\n"
+        f"Summary: {req.summary}\n"
+        f"Priority: {req.priority_level}\n"
+        f"Intent: {req.intent}\n"
+        f"Has meeting: {req.has_meeting}\n"
+        f"Has tasks: {req.has_tasks}\n\n"
+        f"User Rules:\n{rules_text}"
+    )
+
+    response = llm_client.chat.completions.create(
+        model=LLM_MODEL,
+        messages=[
+            {"role": "system", "content": AUTOPILOT_SYSTEM_PROMPT},
+            {"role": "user", "content": user_prompt},
+        ],
+        temperature=0.1,  # Low temp — deterministic rule matching
+        top_p=0.9,
+        max_tokens=256,
+    )
+
+    try:
+        data = json.loads(response.choices[0].message.content)
+        data["email_id"] = req.email_id  # Always trust the input ID, never the LLM
+        return AutopilotDecision.model_validate(data)
+    except (json.JSONDecodeError, Exception) as e:
+        print(f"[Autopilot] LLM parse failed: {e}")
+        # Safe fallback — no actions taken on parse failure
+        return AutopilotDecision(
+            email_id=req.email_id,
+            should_reply=False,
+            should_create_event=False,
+            should_approve_tasks=False,
+            matched_rule_id=None,
+            matched_rule_text=None,
+            reasoning="LLM parse error — no actions taken to avoid unintended behaviour.",
+        )
+
+
 # ── FastAPI App ────────────────────────────────────────────────────────────────
 
 @asynccontextmanager
@@ -385,6 +494,12 @@ async def process_emails(request: ProcessEmailsRequest):
 async def generate_reply(request: GenerateReplyRequest):
     loop = asyncio.get_event_loop()
     return await loop.run_in_executor(None, generate_reply_for_email, request)
+
+
+@app.post("/autopilot-decide", response_model=AutopilotDecision)
+async def autopilot_decide(request: AutopilotRequest):
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, decide_autopilot, request)
 
 
 @app.get("/health")

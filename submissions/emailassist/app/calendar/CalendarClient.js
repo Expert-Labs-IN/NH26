@@ -329,7 +329,7 @@ export default function CalendarClient({ events, userName }) {
               {/* Source email */}
               <div>
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Source Email</p>
-                <p className="text-sm text-gray-300 italic">"{selectedEvent.sourceSubject}"</p>
+                <p className="text-sm text-gray-300 italic">{'"'}{selectedEvent.sourceSubject}{'"'}</p>
                 <p className="text-xs text-gray-500 mt-0.5">from {selectedEvent.sourceSender}</p>
               </div>
 

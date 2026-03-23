@@ -11,20 +11,27 @@ export default function DashboardClient({ initialEmails }) {
   const [fastApiDown, setFastApiDown] = useState(false);
   const [refreshMsg, setRefreshMsg] = useState("");
   const [maxResults, setMaxResults] = useState(20);
+  const [autopilotEnabled, setAutopilotEnabled] = useState(false);
 
-  // Check FastAPI health on mount
+  // Check FastAPI health + load autopilot pref on mount
   useEffect(() => {
     fetch("/api/health")
       .then((r) => r.json())
       .then((d) => setFastApiDown(d.fastapi !== "ok"))
       .catch(() => setFastApiDown(true));
+
+    fetch("/api/preferences")
+      .then((r) => r.json())
+      .then((d) => setAutopilotEnabled(d.autopilotEnabled ?? false))
+      .catch(() => {});
   }, []);
 
-  // Trigger the email processing pipeline then reload the list
+  // Trigger the email processing pipeline, then run autopilot, then reload the list
   function handleRefresh() {
     startRefresh(async () => {
       setRefreshMsg("");
       try {
+        // Step 1: Process new emails through AI
         const processRes = await fetch("/api/emails/process", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -32,7 +39,10 @@ export default function DashboardClient({ initialEmails }) {
         });
         const processData = await processRes.json();
 
-        // Re-fetch the full list from DB
+        // Step 2: Fire autopilot (no-op if disabled — server guards this)
+        fetch("/api/autopilot/run", { method: "POST" }).catch(() => {});
+
+        // Step 3: Reload the full email list from DB
         const listRes = await fetch("/api/emails");
         const listData = await listRes.json();
         setEmails(listData.emails || []);
@@ -96,12 +106,26 @@ export default function DashboardClient({ initialEmails }) {
                 stroke="currentColor"
                 viewBox="0 0 24 24"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
               </svg>
               {isRefreshing ? "Refreshing…" : "Refresh"}
             </button>
           </div>
+
+          {/* Autopilot active indicator */}
+          {autopilotEnabled && (
+            <div className="flex items-center gap-2 px-4 py-2 border-b border-gray-800 bg-blue-500/5">
+              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shrink-0" />
+              <span className="text-[11px] text-green-400">
+                Autopilot active — AI will act on new emails
+              </span>
+            </div>
+          )}
 
           {/* Refresh message */}
           {refreshMsg && (
@@ -120,15 +144,16 @@ export default function DashboardClient({ initialEmails }) {
           </div>
         </aside>
 
-        {/* ── Right Panel: Action Panel ── */}
-        <main className="flex-1 overflow-y-auto bg-gray-950">
+        {/* ── Right Panel: Tabbed Action Panel ── */}
+        <main className="flex-1 overflow-hidden bg-gray-950">
           <ActionPanel
             email={selectedEmail}
             onUpdate={handleEmailUpdate}
+            autopilotEnabled={autopilotEnabled}
+            onAutopilotChange={setAutopilotEnabled}
           />
         </main>
       </div>
     </div>
   );
 }
-
