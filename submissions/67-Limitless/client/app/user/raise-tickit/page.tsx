@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageSquare, Bot, Zap, ShieldCheck, ArrowRight, Send } from "lucide-react";
+import { MessageSquare, Bot, Zap, ShieldCheck, ArrowRight, Send, FileText } from "lucide-react";
 import Link from "next/link";
 
 export default function RaiseTicketPage() {
@@ -76,11 +76,21 @@ export default function RaiseTicketPage() {
 
                     <Link 
                         href="/user/raise-tickit/create"
-                        className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border border-white/20 text-white font-bold text-lg rounded-xl overflow-hidden transition-all hover:bg-white/5 hover:border-white/40"
+                        className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border border-white/20 text-white font-bold text-lg rounded-xl overflow-hidden transition-all hover:bg-white/5 hover:border-white/40 shadow-lg"
                     >
-                        <span className="relative z-10 flex items-center gap-2 font-bold">
+                        <span className="relative z-10 flex items-center gap-2 font-bold uppercase tracking-wider">
                             Manual Ticket
                             <Send className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                    </Link>
+
+                    <Link 
+                        href="/user/my-tickets"
+                        className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border border-white/20 text-white font-bold text-lg rounded-xl overflow-hidden transition-all hover:bg-white/5 hover:border-white/40 shadow-lg"
+                    >
+                        <span className="relative z-10 flex items-center gap-2 font-bold uppercase tracking-wider">
+                            My Tickets
+                            <FileText className="w-5 h-5 group-hover:scale-110 transition-transform" />
                         </span>
                     </Link>
                 </motion.div>
