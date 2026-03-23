@@ -23,6 +23,46 @@ export default function NewTicket() {
   const [department, setDepartment] = useState<string>("General");
   const [priority, setPriority] = useState<string>("medium");
 
+  // Voice input state
+  const [listening, setListening] = useState(false);
+  const [voiceTarget, setVoiceTarget] = useState<"title" | "description">("description");
+  const recognitionRef = useRef<any>(null);
+
+  const startListening = useCallback((target: "title" | "description") => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      toast({ title: "Not supported", description: "Your browser doesn't support voice input.", variant: "destructive" });
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = false;
+    recognition.lang = "en-US";
+    recognitionRef.current = recognition;
+    setVoiceTarget(target);
+
+    recognition.onresult = (event: any) => {
+      const transcript = Array.from(event.results)
+        .map((r: any) => r[0].transcript)
+        .join(" ");
+      if (target === "title") {
+        setTitle((prev) => (prev ? prev + " " : "") + transcript);
+      } else {
+        setDescription((prev) => (prev ? prev + " " : "") + transcript);
+      }
+    };
+    recognition.onerror = () => { setListening(false); };
+    recognition.onend = () => { setListening(false); };
+    recognition.start();
+    setListening(true);
+    toast({ title: "🎙️ Listening…", description: `Speak now to fill the ${target} field.` });
+  }, []);
+
+  const stopListening = useCallback(() => {
+    recognitionRef.current?.stop();
+    setListening(false);
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
