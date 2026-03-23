@@ -1,17 +1,23 @@
 'use client'
 
 import { useState, useEffect, useCallback, useMemo } from 'react'
-import { Mail, Search, ArrowLeft, PenSquare, Loader2, X } from 'lucide-react'
+import {
+  Mail, Search, ArrowLeft, PenSquare, Loader2, X, Inbox, MessageSquare,
+  FileText, Bot, Send, Paperclip, Calendar, CheckSquare, Copy, Check,
+  ChevronDown, RefreshCw, Clock, AlertCircle, Sparkles
+} from 'lucide-react'
 import Link from 'next/link'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { InboxList } from '@/components/inbox-list'
-import { ThreadDetail } from '@/components/thread-detail'
 import { ActionCards } from '@/components/action-cards'
 import { mockThreads as initialThreads } from '@/data/emails'
-import { AnalysisSummary, ReplyAction, CalendarAction, TaskAction, Thread } from '@/types'
+import {
+  AnalysisSummary, ReplyAction, CalendarAction, TaskAction, Thread,
+  EmailCategory, AIChatMessage
+} from '@/types'
 
 type PriorityFilter = 'all' | 'urgent' | 'action' | 'fyi'
+type CategoryFilter = 'all' | EmailCategory
 
 const LS_ANALYSES_KEY = 'mailmate-analyses'
 const LS_ACTIONS_KEY = 'mailmate-actions'
@@ -35,11 +41,96 @@ function saveToStorage<T>(key: string, value: T) {
   }
 }
 
+function PriorityBadge({ priority, small }: { priority: string; small?: boolean }) {
+  const config: Record<string, { label: string; bg: string }> = {
+    urgent: { label: 'Urgent', bg: 'bg-red-100 text-red-700 border-red-200' },
+    action: { label: 'Action', bg: 'bg-amber-100 text-amber-700 border-amber-200' },
+    fyi: { label: 'FYI', bg: 'bg-blue-100 text-blue-700 border-blue-200' },
+  }
+  const c = config[priority] ?? config.fyi
+  return (
+    <span className={`inline-flex items-center border rounded-full font-medium ${c.bg} ${small ? 'text-xs px-2 py-0.5' : 'text-xs px-2.5 py-1'}`}>
+      {c.label}
+    </span>
+  )
+}
+
+function NavIcon({ icon: Icon, label, active }: { icon: React.ComponentType<{ className?: string }>; label: string; active?: boolean }) {
+  return (
+    <button title={label}
+      className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${
+        active ? 'bg-gray-800 text-white' : 'text-gray-500 hover:text-white hover:bg-gray-800'
+      }`}>
+      <Icon className="w-5 h-5" />
+    </button>
+  )
+}
+
+function ThreadListItem({ thread, selected, analysis, onClick }: {
+  thread: Thread
+  selected: boolean
+  analysis?: AnalysisSummary | null
+  onClick: () => void
+}) {
+  const priorityDotColor: Record<string, string> = {
+    urgent: 'bg-red-500',
+    action: 'bg-amber-500',
+    fyi: 'bg-blue-500',
+  }
+
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full text-left px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-100 ${
+        selected ? 'bg-blue-50 border-l-2 border-l-blue-600' : 'border-l-2 border-l-transparent'
+      }`}
+    >
+      <div className="flex items-start gap-3">
+        <div className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center text-sm shrink-0 mt-0.5">
+          {thread.from.avatar || thread.from.name[0]}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center justify-between gap-2 mb-0.5">
+            <p className={`text-sm truncate ${thread.unreadCount > 0 ? 'font-bold text-gray-900' : 'font-medium text-gray-700'}`}>
+              {thread.from.name}
+            </p>
+            <div className="flex items-center gap-1.5 shrink-0">
+              {analysis && <span className={`w-2 h-2 rounded-full ${priorityDotColor[analysis.priority] ?? ''}`} />}
+              {thread.unreadCount > 0 && <span className="w-2 h-2 rounded-full bg-blue-600" />}
+              <span className="text-xs text-gray-400">
+                {new Date(thread.timestamp).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+              </span>
+            </div>
+          </div>
+          <p className="text-sm text-gray-900 truncate">{thread.subject}</p>
+          <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">{thread.preview}</p>
+        </div>
+      </div>
+    </button>
+  )
+}
+
+const categoryTabs: { key: CategoryFilter; label: string }[] = [
+  { key: 'all', label: 'All' },
+  { key: 'primary', label: 'Primary' },
+  { key: 'company', label: 'Company' },
+  { key: 'promotion', label: 'Promotion' },
+  { key: 'social', label: 'Social' },
+]
+
+const priorityTabs: { key: PriorityFilter; label: string; dot?: string }[] = [
+  { key: 'all', label: 'All' },
+  { key: 'urgent', label: 'Urgent', dot: 'bg-red-500' },
+  { key: 'action', label: 'Action', dot: 'bg-amber-500' },
+  { key: 'fyi', label: 'FYI', dot: 'bg-blue-500' },
+]
+
 export default function InboxPage() {
   const [threads, setThreads] = useState<Thread[]>(initialThreads)
   const [selectedThreadId, setSelectedThreadId] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [priorityFilter, setPriorityFilter] = useState<PriorityFilter>('all')
+  const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>('all')
 
   const [analyses, setAnalyses] = useState<
     Record<string, { data: AnalysisSummary | null; loading: boolean; error: string | null }>
@@ -49,6 +140,12 @@ export default function InboxPage() {
   >({})
   const [actionsLoading, setActionsLoading] = useState<Record<string, boolean>>({})
   const [regeneratingId, setRegeneratingId] = useState<string | undefined>()
+
+  // AI panel state
+  const [aiPanelOpen, setAiPanelOpen] = useState(false)
+  const [chatMessages, setChatMessages] = useState<AIChatMessage[]>([])
+  const [chatInput, setChatInput] = useState('')
+  const [chatLoading, setChatLoading] = useState(false)
 
   // Compose modal state
   const [composeOpen, setComposeOpen] = useState(false)
@@ -65,7 +162,6 @@ export default function InboxPage() {
     const savedActions = loadFromStorage<
       Record<string, (ReplyAction | CalendarAction | TaskAction)[]>
     >(LS_ACTIONS_KEY, {})
-    // Reset loading/error flags since we're restoring from storage
     const restoredAnalyses = Object.fromEntries(
       Object.entries(savedAnalyses).map(([k, v]) => [
         k,
@@ -93,7 +189,6 @@ export default function InboxPage() {
 
   const handleAnalyze = useCallback(
     async (threadId: string) => {
-      // Don't re-analyze if already done
       if (analyses[threadId]?.data) return
 
       setAnalyses((prev) => ({
@@ -149,11 +244,10 @@ export default function InboxPage() {
   const handleSelectThread = useCallback(
     (threadId: string) => {
       setSelectedThreadId(threadId)
-      // Mark thread as read
       setThreads((prev) =>
         prev.map((t) => (t.id === threadId ? { ...t, unreadCount: 0 } : t))
       )
-      // Auto-analyze on select
+      setChatMessages([])
       handleAnalyze(threadId)
     },
     [handleAnalyze]
@@ -203,7 +297,7 @@ export default function InboxPage() {
         ) ?? [],
       }))
     } catch {
-      // silently fail — keep existing action
+      // silently fail
     } finally {
       setRegeneratingId(undefined)
     }
@@ -228,19 +322,17 @@ export default function InboxPage() {
     const priorityOrder: Record<string, number> = { urgent: 0, action: 1, fyi: 2 }
 
     let filtered = threads.filter((t) => {
-      // Search filter
       const q = searchQuery.toLowerCase()
       if (q && !t.subject.toLowerCase().includes(q) && !t.from.name.toLowerCase().includes(q)) {
         return false
       }
-      // Priority filter
+      if (categoryFilter !== 'all' && t.category !== categoryFilter) return false
       if (priorityFilter === 'all') return true
       const analysis = analyses[t.id]?.data
       if (!analysis) return false
       return analysis.priority === priorityFilter
     })
 
-    // Sort: analyzed urgent first, then by timestamp desc
     filtered = [...filtered].sort((a, b) => {
       const aPriority = analyses[a.id]?.data?.priority
       const bPriority = analyses[b.id]?.data?.priority
@@ -251,7 +343,7 @@ export default function InboxPage() {
     })
 
     return filtered
-  }, [threads, searchQuery, priorityFilter, analyses])
+  }, [threads, searchQuery, priorityFilter, categoryFilter, analyses])
 
   const currentAnalysis = selectedThreadId ? (analyses[selectedThreadId] ?? null) : null
   const currentActions = selectedThreadId ? (actionsMap[selectedThreadId] ?? []) : []
@@ -277,154 +369,380 @@ export default function InboxPage() {
     }
   }
 
-  const filterTabs: { key: PriorityFilter; label: string }[] = [
-    { key: 'all', label: 'All' },
-    { key: 'urgent', label: 'Urgent' },
-    { key: 'action', label: 'Action' },
-    { key: 'fyi', label: 'FYI' },
-  ]
+  // AI Chat
+  const handleSendChat = async (overrideMsg?: string) => {
+    const msg = overrideMsg ?? chatInput
+    if (!msg.trim()) return
+
+    const userMsg: AIChatMessage = {
+      id: `user-${Date.now()}`,
+      role: 'user',
+      content: msg.trim(),
+      timestamp: new Date().toISOString()
+    }
+
+    setChatMessages(prev => [...prev, userMsg])
+    setChatInput('')
+    setChatLoading(true)
+
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: msg.trim(), threadId: selectedThreadId })
+      })
+      const data = await res.json()
+
+      const assistantMsg: AIChatMessage = {
+        id: `assistant-${Date.now()}`,
+        role: 'assistant',
+        content: data.response ?? 'No response',
+        timestamp: new Date().toISOString()
+      }
+      setChatMessages(prev => [...prev, assistantMsg])
+    } catch {
+      const errMsg: AIChatMessage = {
+        id: `err-${Date.now()}`,
+        role: 'assistant',
+        content: 'Sorry, something went wrong.',
+        timestamp: new Date().toISOString()
+      }
+      setChatMessages(prev => [...prev, errMsg])
+    } finally {
+      setChatLoading(false)
+    }
+  }
 
   return (
-    <main className="h-screen bg-background flex flex-col">
-      {/* Header */}
-      <header className="border-b border-border bg-background px-6 py-4 shadow-sm flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Mail className="w-6 h-6 text-blue-600" />
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">MailMate</h1>
-            <p className="text-sm text-muted-foreground">AI-powered inbox &middot; Groq LLM</p>
-          </div>
+    <main className="h-screen flex overflow-hidden bg-gray-50">
+      {/* Left Icon Sidebar - 64px, dark */}
+      <div className="w-16 bg-gray-900 flex flex-col items-center py-4 gap-1">
+        {/* Logo at top */}
+        <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center mb-6">
+          <Mail className="w-5 h-5 text-white" />
         </div>
-        <Link href="/" className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors">
-          <ArrowLeft className="w-4 h-4" />
-          Back
-        </Link>
-      </header>
 
-      {/* Main Content */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar */}
-        <div className="w-80 flex flex-col border-r border-border">
-          {/* Sidebar header: stats + compose */}
-          <div className="p-3 border-b border-border space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              {/* Stats bar */}
-              <div className="text-xs text-muted-foreground flex items-center gap-1 flex-wrap">
-                {analysisCounts.urgent > 0 && (
-                  <span className="text-red-600 font-medium">&#128308; {analysisCounts.urgent} Urgent</span>
-                )}
-                {analysisCounts.urgent > 0 && (analysisCounts.action > 0 || analysisCounts.fyi > 0) && (
-                  <span>&middot;</span>
-                )}
-                {analysisCounts.action > 0 && (
-                  <span className="text-amber-600 font-medium">&#128993; {analysisCounts.action} Action</span>
-                )}
-                {analysisCounts.action > 0 && analysisCounts.fyi > 0 && (
-                  <span>&middot;</span>
-                )}
-                {analysisCounts.fyi > 0 && (
-                  <span className="text-blue-600 font-medium">&#128309; {analysisCounts.fyi} FYI</span>
-                )}
-                {analysisCounts.urgent === 0 && analysisCounts.action === 0 && analysisCounts.fyi === 0 && (
-                  <span>No analyses yet</span>
-                )}
-              </div>
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => setComposeOpen(true)}
-                className="flex items-center gap-1 shrink-0"
-              >
-                <PenSquare className="w-3.5 h-3.5" />
-                Compose
-              </Button>
-            </div>
+        {/* Nav icons */}
+        <NavIcon icon={Inbox} label="Inbox" active />
+        <NavIcon icon={MessageSquare} label="Chat" />
+        <NavIcon icon={FileText} label="Files" />
 
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-              <Input
-                placeholder="Search emails..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-9"
-              />
-            </div>
+        {/* Spacer */}
+        <div className="flex-1" />
 
-            {/* Priority filter tabs */}
-            <div className="flex gap-1">
-              {filterTabs.map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setPriorityFilter(tab.key)}
-                  className={`flex-1 text-xs py-1 px-2 rounded font-medium transition-colors ${
-                    priorityFilter === tab.key
-                      ? 'bg-blue-600 text-white'
-                      : 'text-muted-foreground hover:bg-muted'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+        {/* AI toggle button at bottom */}
+        <button onClick={() => setAiPanelOpen(!aiPanelOpen)}
+          className={`w-10 h-10 rounded-xl flex items-center justify-center transition-colors ${aiPanelOpen ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white hover:bg-gray-800'}`}
+          title="AI Assistant">
+          <Bot className="w-5 h-5" />
+        </button>
+
+        {/* User avatar */}
+        <div className="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center mt-2 text-sm">
+          <span role="img" aria-label="user">&#128100;</span>
+        </div>
+      </div>
+
+      {/* Email List Panel - 320px */}
+      <div className="w-80 border-r border-gray-200 bg-white flex flex-col">
+        {/* Header with title + compose button */}
+        <div className="px-4 py-3 border-b border-gray-200">
+          <div className="flex items-center justify-between mb-3">
+            <h1 className="text-lg font-bold text-gray-900">MailMate</h1>
+            <Button size="sm" variant="outline" onClick={() => setComposeOpen(true)} className="h-8 gap-1">
+              <PenSquare className="w-3.5 h-3.5" /> Compose
+            </Button>
           </div>
 
-          <div className="flex-1 overflow-hidden">
-            <InboxList
-              threads={displayedThreads}
-              selectedId={selectedThreadId}
-              onSelectThread={handleSelectThread}
-              searchQuery={searchQuery}
+          {/* Search */}
+          <div className="relative mb-3">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Input
+              placeholder="Search emails..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-9 h-9 bg-gray-50 border-gray-200"
             />
           </div>
+
+          {/* Category tabs */}
+          <div className="flex gap-1 mb-2">
+            {categoryTabs.map(tab => (
+              <button key={tab.key} onClick={() => setCategoryFilter(tab.key)}
+                className={`text-xs py-1 px-2.5 rounded-full font-medium transition-colors ${
+                  categoryFilter === tab.key ? 'bg-blue-600 text-white' : 'text-gray-500 hover:bg-gray-100'
+                }`}>
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Priority filter row */}
+          <div className="flex gap-1">
+            {priorityTabs.map(tab => (
+              <button key={tab.key} onClick={() => setPriorityFilter(tab.key)}
+                className={`text-xs py-1 px-2 rounded font-medium transition-colors flex items-center gap-1 ${
+                  priorityFilter === tab.key ? 'bg-gray-900 text-white' : 'text-gray-500 hover:bg-gray-100'
+                }`}>
+                {tab.dot && <span className={`w-1.5 h-1.5 rounded-full ${tab.dot}`} />}
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          {selectedThread ? (
-            <>
-              <div className="flex-1 overflow-y-auto">
-                <ThreadDetail
-                  thread={selectedThread}
-                  analysis={currentAnalysis?.data ?? null}
-                  loading={currentAnalysis?.loading ?? false}
-                  error={currentAnalysis?.error ?? null}
-                  onAnalyze={() => handleAnalyze(selectedThread.id)}
-                />
-              </div>
-              {currentActions.length > 0 && (
-                <div className="border-t border-border overflow-y-auto max-h-96">
-                  <ActionCards
-                    actions={currentActions}
-                    onApprove={handleApprove}
-                    onDiscard={handleDiscard}
-                    onRegenerate={handleRegenerate}
-                    regeneratingId={regeneratingId}
-                  />
-                </div>
-              )}
-            </>
-          ) : (
-            <div className="flex-1 flex items-center justify-center">
-              <div className="text-center text-muted-foreground">
-                <Mail className="w-12 h-12 mx-auto mb-4 opacity-30" />
-                <p>Select an email to view details</p>
-              </div>
+        {/* Stats bar */}
+        <div className="px-4 py-2 border-b border-gray-100 bg-gray-50/50 flex items-center gap-3 text-xs text-gray-500">
+          {analysisCounts.urgent > 0 && <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" /> {analysisCounts.urgent} Urgent</span>}
+          {analysisCounts.action > 0 && <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500" /> {analysisCounts.action} Action</span>}
+          {analysisCounts.fyi > 0 && <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500" /> {analysisCounts.fyi} FYI</span>}
+          {analysisCounts.urgent === 0 && analysisCounts.action === 0 && analysisCounts.fyi === 0 && <span>Select emails to analyze</span>}
+        </div>
+
+        {/* Thread list - scrollable */}
+        <div className="flex-1 overflow-y-auto">
+          {displayedThreads.length === 0 ? (
+            <div className="p-6 text-center text-gray-500">
+              <p className="text-sm">No threads found</p>
             </div>
+          ) : (
+            displayedThreads.map(thread => (
+              <ThreadListItem
+                key={thread.id}
+                thread={thread}
+                selected={selectedThreadId === thread.id}
+                analysis={analyses[thread.id]?.data}
+                onClick={() => handleSelectThread(thread.id)}
+              />
+            ))
           )}
         </div>
       </div>
 
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col overflow-hidden bg-white">
+        {selectedThread ? (
+          <>
+            {/* Email header */}
+            <div className="px-6 py-4 border-b border-gray-200">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="text-xl font-bold text-gray-900">{selectedThread.subject}</h2>
+                  <p className="text-sm text-gray-500 mt-1">{selectedThread.from.name} &lt;{selectedThread.from.email}&gt;</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  {currentAnalysis?.data && <PriorityBadge priority={currentAnalysis.data.priority} />}
+                </div>
+              </div>
+            </div>
+
+            {/* Scrollable content */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+              {/* AI Summary Card - loading */}
+              {currentAnalysis?.loading && (
+                <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-center gap-3">
+                  <Loader2 className="w-5 h-5 text-blue-600 animate-spin" />
+                  <span className="text-sm text-blue-700">Analyzing email thread...</span>
+                </div>
+              )}
+
+              {/* AI Summary Card - error */}
+              {currentAnalysis?.error && (
+                <div className="bg-red-50 border border-red-200 rounded-xl p-4 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5 text-red-500" />
+                    <span className="text-sm text-red-700">{currentAnalysis.error}</span>
+                  </div>
+                  <Button size="sm" variant="ghost" onClick={() => {
+                    // Reset analysis so it can be retried
+                    setAnalyses((prev) => {
+                      const next = { ...prev }
+                      delete next[selectedThread.id]
+                      return next
+                    })
+                    handleAnalyze(selectedThread.id)
+                  }}>Retry</Button>
+                </div>
+              )}
+
+              {/* AI Summary Card - data */}
+              {currentAnalysis?.data && (
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-5">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Sparkles className="w-4 h-4 text-blue-600" />
+                    <span className="text-sm font-semibold text-blue-900">AI Summary</span>
+                    <PriorityBadge priority={currentAnalysis.data.priority} small />
+                  </div>
+                  <ul className="space-y-1.5 mb-3">
+                    {currentAnalysis.data.bullets.map((bullet, i) => (
+                      <li key={i} className="text-sm text-gray-700 flex gap-2">
+                        <span className="text-blue-400 mt-0.5">&bull;</span>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  {/* Quick action chips */}
+                  <div className="flex flex-wrap gap-2 pt-2 border-t border-blue-200/50">
+                    <button className="text-xs bg-white border border-gray-200 rounded-full px-3 py-1 text-gray-600 hover:bg-gray-50 flex items-center gap-1">
+                      <CheckSquare className="w-3 h-3" /> Create Task
+                    </button>
+                    <button className="text-xs bg-white border border-gray-200 rounded-full px-3 py-1 text-gray-600 hover:bg-gray-50 flex items-center gap-1">
+                      <Calendar className="w-3 h-3" /> Schedule Meeting
+                    </button>
+                    <button onClick={() => setAiPanelOpen(true)} className="text-xs bg-white border border-gray-200 rounded-full px-3 py-1 text-gray-600 hover:bg-gray-50 flex items-center gap-1">
+                      <Bot className="w-3 h-3" /> Ask AI
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Email messages */}
+              {selectedThread.emails.map((email) => (
+                <div key={email.id} className="border border-gray-200 rounded-xl p-5 bg-white hover:shadow-sm transition-shadow">
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center text-sm">
+                        {email.from.name === 'You' ? '\u{1F464}' : (selectedThread.from.avatar || email.from.name[0])}
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900 text-sm">{email.from.name}</p>
+                        <p className="text-xs text-gray-500">{email.from.email}</p>
+                      </div>
+                    </div>
+                    <span className="text-xs text-gray-400">{new Date(email.timestamp).toLocaleString()}</span>
+                  </div>
+                  <div className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed pl-12">
+                    {email.body}
+                  </div>
+                  {/* Attachments */}
+                  {email.attachments && email.attachments.length > 0 && (
+                    <div className="mt-3 pl-12 flex flex-wrap gap-2">
+                      {email.attachments.map((att, i) => (
+                        <div key={i} className="flex items-center gap-2 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-xs">
+                          <Paperclip className="w-3.5 h-3.5 text-gray-400" />
+                          <span className="text-gray-700 font-medium">{att.name}</span>
+                          <span className="text-gray-400">{att.size}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Action Cards at bottom */}
+            {currentActions.length > 0 && (
+              <div className="border-t border-gray-200 max-h-80 overflow-y-auto">
+                <ActionCards
+                  actions={currentActions}
+                  onApprove={handleApprove}
+                  onDiscard={handleDiscard}
+                  onRegenerate={handleRegenerate}
+                  regeneratingId={regeneratingId}
+                />
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="flex-1 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <Mail className="w-8 h-8 text-gray-300" />
+              </div>
+              <p className="text-gray-500 font-medium">Select an email to get started</p>
+              <p className="text-sm text-gray-400 mt-1">AI analysis will begin automatically</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* AI Assistant Panel - slides in from right */}
+      {aiPanelOpen && (
+        <div className="w-96 border-l border-gray-200 bg-white flex flex-col">
+          {/* AI Panel header */}
+          <div className="px-4 py-3 border-b border-gray-200 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Bot className="w-5 h-5 text-blue-600" />
+              <span className="font-semibold text-gray-900">AI Assistant</span>
+            </div>
+            <button onClick={() => setAiPanelOpen(false)} className="text-gray-400 hover:text-gray-600">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Quick action buttons */}
+          <div className="px-4 py-3 border-b border-gray-100 flex flex-wrap gap-1.5">
+            {[
+              { label: 'Summarize', msg: 'Summarize this email thread concisely' },
+              { label: 'Draft Reply', msg: 'Draft a professional reply to this email' },
+              { label: 'Extract Tasks', msg: 'What are the action items and deadlines in this thread?' },
+              { label: 'Key Dates', msg: 'What are the important dates and deadlines mentioned?' },
+            ].map(action => (
+              <button key={action.label}
+                onClick={() => { handleSendChat(action.msg) }}
+                className="text-xs bg-gray-50 border border-gray-200 rounded-full px-3 py-1.5 text-gray-600 hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700 transition-colors">
+                {action.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Chat messages */}
+          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3" id="chat-messages">
+            {chatMessages.length === 0 && (
+              <div className="text-center text-gray-400 text-sm py-8">
+                <Bot className="w-8 h-8 mx-auto mb-2 opacity-40" />
+                <p>Ask me anything about this email</p>
+              </div>
+            )}
+            {chatMessages.map(msg => (
+              <div key={msg.id} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[85%] rounded-xl px-3.5 py-2.5 text-sm ${
+                  msg.role === 'user'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-800'
+                }`}>
+                  <p className="whitespace-pre-wrap">{msg.content}</p>
+                </div>
+              </div>
+            ))}
+            {chatLoading && (
+              <div className="flex justify-start">
+                <div className="bg-gray-100 rounded-xl px-4 py-3 text-sm text-gray-500 flex items-center gap-2">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  Thinking...
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Chat input */}
+          <div className="px-4 py-3 border-t border-gray-200">
+            <div className="flex gap-2">
+              <Input
+                placeholder="Ask about this email..."
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendChat() } }}
+                className="flex-1 h-9 bg-gray-50"
+              />
+              <Button size="sm" onClick={() => handleSendChat()} disabled={chatLoading || !chatInput.trim()} className="h-9 bg-blue-600 hover:bg-blue-700">
+                <Send className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Compose Modal */}
       {composeOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-background border border-border rounded-xl shadow-2xl w-full max-w-lg mx-4 flex flex-col">
+          <div className="bg-white border border-gray-200 rounded-xl shadow-2xl w-full max-w-lg mx-4 flex flex-col">
             {/* Modal header */}
-            <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-              <h2 className="font-semibold text-foreground">New Message</h2>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-200">
+              <h2 className="font-semibold text-gray-900">New Message</h2>
               <button
                 onClick={() => setComposeOpen(false)}
-                className="text-muted-foreground hover:text-foreground transition-colors"
+                className="text-gray-400 hover:text-gray-600 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -433,7 +751,7 @@ export default function InboxPage() {
             {/* Modal body */}
             <div className="p-5 space-y-3">
               <div>
-                <label className="block text-xs font-medium text-muted-foreground mb-1">To</label>
+                <label className="block text-xs font-medium text-gray-500 mb-1">To</label>
                 <Input
                   placeholder="recipient@example.com"
                   value={composeTo}
@@ -441,7 +759,7 @@ export default function InboxPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-muted-foreground mb-1">Subject</label>
+                <label className="block text-xs font-medium text-gray-500 mb-1">Subject</label>
                 <Input
                   placeholder="Email subject..."
                   value={composeSubject}
@@ -450,7 +768,7 @@ export default function InboxPage() {
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-xs font-medium text-muted-foreground">Body</label>
+                  <label className="block text-xs font-medium text-gray-500">Body</label>
                   <Button
                     size="sm"
                     variant="ghost"
@@ -472,14 +790,14 @@ export default function InboxPage() {
                   value={composeBody}
                   onChange={(e) => setComposeBody(e.target.value)}
                   placeholder="Write your message..."
-                  className="w-full px-3 py-2 border border-input rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-background text-foreground"
+                  className="w-full px-3 py-2 border border-gray-200 rounded-md text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none bg-white text-gray-900"
                   rows={8}
                 />
               </div>
             </div>
 
             {/* Modal footer */}
-            <div className="flex items-center justify-end gap-2 px-5 py-4 border-t border-border">
+            <div className="flex items-center justify-end gap-2 px-5 py-4 border-t border-gray-200">
               <Button variant="outline" size="sm" onClick={() => setComposeOpen(false)}>
                 Cancel
               </Button>
@@ -487,7 +805,6 @@ export default function InboxPage() {
                 size="sm"
                 className="bg-blue-600 hover:bg-blue-700 text-white"
                 onClick={() => {
-                  // In a real app this would send the email
                   setComposeOpen(false)
                   setComposeTo('')
                   setComposeSubject('')

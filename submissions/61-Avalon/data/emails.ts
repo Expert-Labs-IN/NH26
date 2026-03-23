@@ -12,6 +12,7 @@ export const mockThreads: Thread[] = [
     preview: 'We need to finalize the Q2 budget allocations before the board meeting next Tuesday...',
     timestamp: '2024-03-21T09:15:00Z',
     unreadCount: 3,
+    category: 'company',
     emails: [
       {
         id: 'email-1-1',
@@ -38,7 +39,10 @@ Could you please review the attached spreadsheet and confirm your team's numbers
 Best regards,
 Sarah`,
         timestamp: '2024-03-21T09:15:00Z',
-        isRead: true
+        isRead: true,
+        attachments: [
+          { name: 'Q2_Budget_Draft.xlsx', size: '2.4 MB', type: 'spreadsheet' }
+        ]
       },
       {
         id: 'email-1-2',
@@ -87,6 +91,7 @@ Sarah`,
     preview: 'We have multiple clients requesting OAuth support. This would significantly improve our adoption...',
     timestamp: '2024-03-20T16:22:00Z',
     unreadCount: 2,
+    category: 'primary',
     emails: [
       {
         id: 'email-2-1',
@@ -157,6 +162,7 @@ Mike`,
     preview: "I've incorporated most of the feedback from the first review. Please check the updated mockups...",
     timestamp: '2024-03-19T13:10:00Z',
     unreadCount: 1,
+    category: 'primary',
     emails: [
       {
         id: 'email-3-1',
@@ -184,7 +190,10 @@ Would love to get your feedback this week so we can move forward with dev handof
 Cheers,
 Lisa`,
         timestamp: '2024-03-19T13:10:00Z',
-        isRead: true
+        isRead: true,
+        attachments: [
+          { name: 'Mockups_V2.fig', size: '18.7 MB', type: 'design' }
+        ]
       },
       {
         id: 'email-3-2',
@@ -233,6 +242,7 @@ Lisa`,
     preview: 'I\'ve compiled suggestions for the Q2 team offsite. We need to finalize dates and location...',
     timestamp: '2024-03-18T11:45:00Z',
     unreadCount: 1,
+    category: 'social',
     emails: [
       {
         id: 'email-4-1',
@@ -311,6 +321,7 @@ Cheers`,
     preview: 'The proposal for the TechCorp digital transformation is ready for your review. Please...',
     timestamp: '2024-03-17T15:55:00Z',
     unreadCount: 0,
+    category: 'company',
     emails: [
       {
         id: 'email-5-1',
@@ -337,7 +348,10 @@ Let me know if you have questions!
 
 Rebecca`,
         timestamp: '2024-03-17T15:55:00Z',
-        isRead: true
+        isRead: true,
+        attachments: [
+          { name: 'TechCorp_Proposal_v3.pdf', size: '4.1 MB', type: 'pdf' }
+        ]
       },
       {
         id: 'email-5-2',
@@ -392,6 +406,7 @@ Rebecca`,
     preview: 'The March campaign report is complete. Overall performance exceeded targets by 23%...',
     timestamp: '2024-03-16T10:30:00Z',
     unreadCount: 0,
+    category: 'promotion',
     emails: [
       {
         id: 'email-6-1',
@@ -416,7 +431,10 @@ The social media strategy pivot in week 2 really paid off. Detailed analysis att
 
 James`,
         timestamp: '2024-03-16T10:30:00Z',
-        isRead: true
+        isRead: true,
+        attachments: [
+          { name: 'March_Campaign_Report.pdf', size: '1.8 MB', type: 'pdf' }
+        ]
       },
       {
         id: 'email-6-2',

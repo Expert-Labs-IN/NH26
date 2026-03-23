@@ -5,6 +5,12 @@ export interface EmailSender {
   avatar?: string
 }
 
+export interface Attachment {
+  name: string
+  size: string
+  type: string
+}
+
 export interface Email {
   id: string
   threadId: string
@@ -14,7 +20,10 @@ export interface Email {
   body: string
   timestamp: string
   isRead: boolean
+  attachments?: Attachment[]
 }
+
+export type EmailCategory = 'primary' | 'company' | 'promotion' | 'social'
 
 export interface Thread {
   id: string
@@ -24,6 +33,7 @@ export interface Thread {
   timestamp: string
   unreadCount: number
   emails: Email[]
+  category: EmailCategory
 }
 
 // Priority and Status Types
@@ -32,6 +42,8 @@ export type Priority = 'urgent' | 'action' | 'fyi'
 export interface AnalysisSummary {
   bullets: string[]
   priority: Priority
+  keyPhrases?: string[]
+  actionItems?: string[]
 }
 
 // Action Types
@@ -86,4 +98,12 @@ export interface AppState {
     type: 'success' | 'error' | 'info'
     message: string
   }
+}
+
+// AI Chat message type
+export interface AIChatMessage {
+  id: string
+  role: 'user' | 'assistant'
+  content: string
+  timestamp: string
 }
