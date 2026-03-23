@@ -1,19 +1,29 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState, useEffect, useTransition } from "react";
 import { sendReply } from "@/actions/sendReply";
 
 const TONES = ["formal", "friendly", "assertive"];
 
 export default function ReplyCard({ email, onUpdate }) {
   const [replyBody, setReplyBody] = useState(email.suggestedReply?.body || "");
-  const [replySubject] = useState(email.suggestedReply?.subject || `Re: ${email.subject}`);
+  const [replySubject, setReplySubject] = useState(email.suggestedReply?.subject || `Re: ${email.subject}`);
   const [tone, setTone] = useState("formal");
   const [customInstruction, setCustomInstruction] = useState("");
   const [isRegenerating, setIsRegenerating] = useState(false);
   const [isSending, startSending] = useTransition();
   const [sent, setSent] = useState(email.replySent);
   const [error, setError] = useState("");
+
+  // Reset ALL state when the selected email changes
+  useEffect(() => {
+    setReplyBody(email.suggestedReply?.body || "");
+    setReplySubject(email.suggestedReply?.subject || `Re: ${email.subject}`);
+    setTone("formal");
+    setCustomInstruction("");
+    setSent(email.replySent || false);
+    setError("");
+  }, [email.emailId]);
 
   // Regenerate reply via /api/emails/reply (calls FastAPI)
   async function handleRegenerate() {

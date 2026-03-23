@@ -13,7 +13,7 @@ load_dotenv()  # Must run before initialising clients
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from groq import Groq
+from openai import OpenAI
 from pydantic import BaseModel, Field
 from supermemory import Supermemory
 
@@ -119,7 +119,10 @@ class GenerateReplyResponse(BaseModel):
 
 # ── Clients ────────────────────────────────────────────────────────────────────
 
-groq_client = Groq(api_key=os.environ["GROQ_API_KEY"])
+llm_client = OpenAI(
+    base_url="https://integrate.api.nvidia.com/v1",
+    api_key=os.environ["NVIDIA_NIM_API_KEY"]
+)
 memory_client = Supermemory(api_key=os.environ["SUPERMEMORY_API_KEY"])
 
 
@@ -130,7 +133,7 @@ def sanitize_tag(user_email: str) -> str:
     """
     return user_email.replace("@", "_at_").replace(".", "_")
 
-GROQ_MODEL = "llama-3.3-70b-versatile"
+LLM_MODEL = "meta/llama-3.3-70b-instruct"
 
 SYSTEM_PROMPT = """You are an intelligent email assistant. Analyse the email provided and return ONLY a JSON object — no markdown, no preamble, no trailing text.
 
@@ -169,7 +172,7 @@ Rules:
 - Set has_meeting=true only when a specific meeting is proposed or confirmed.
 - Set has_tasks=true only when explicit action items are required from the recipient.
 - tasks array may be empty [].
-- calendar_event must be null when has_meeting is false.
+- calendar_event you should decide whether the email is worth the 
 - Use the recipient's name in the suggested_reply signature.
 - All dates must be real calendar dates inferred from context; if the year is ambiguous, use the email timestamp year.
 """
@@ -189,23 +192,23 @@ def analyze_email(
         system += f"\n\n--- User memory context ---\n{memory_context}"
 
     user_prompt = (
-        f"Recipient name: {user_name}\n"
-        f"Recipient email: {user_email}\n\n"
+        f"You are acting on behalf of this User: {user_name} <{user_email}>\n"
+        f"The email was sent BY: {email.sender_name} <{email.sender_email}>\n\n"
         f"Email ID: {email.email_id}\n"
         f"Subject: {email.subject}\n"
-        f"From: {email.sender_name} <{email.sender_email}>\n"
         f"Timestamp: {email.timestamp}\n\n"
         f"Body:\n{email.body}"
     )
 
-    response = groq_client.chat.completions.create(
-        model=GROQ_MODEL,
+    response = llm_client.chat.completions.create(
+        model=LLM_MODEL,
         messages=[
             {"role": "system", "content": system},
             {"role": "user", "content": user_prompt},
         ],
-        response_format={"type": "json_object"},
         temperature=0.2,
+        top_p=0.7,
+        max_tokens=1024,
     )
 
     data = json.loads(response.choices[0].message.content)
@@ -271,7 +274,7 @@ Return ONLY a JSON object with this exact schema — no markdown, no preamble:
 Rules:
 - Match the requested tone exactly: professional = polished but warm, friendly = casual and upbeat, formal = strict business language, concise = short and to the point.
 - If a custom_instruction is given, follow it precisely — it overrides the default intent.
-- Use the recipient's name in the sign-off.
+- Always sign off the email using the User's name.
 - If memory context is provided, use it to make the reply more personalised and contextually aware.
 """
 
@@ -307,22 +310,23 @@ def generate_reply_for_email(req: GenerateReplyRequest) -> GenerateReplyResponse
         f"\nCustom instruction: {req.custom_instruction}" if req.custom_instruction else ""
     )
     user_prompt = (
-        f"Recipient (reply sender): {req.user_name} <{req.user_email}>\n"
-        f"Original sender: {req.sender_name}\n"
-        f"Subject: {req.subject}\n"
+        f"You are acting as the User: {req.user_name} <{req.user_email}>\n"
+        f"You are writing a reply TO: {req.sender_name}\n\n"
+        f"Original Subject: {req.subject}\n"
         f"Tone: {req.tone}{instruction_line}\n\n"
         f"Original email body:\n{req.body}"
     )
 
     # 3. Call Groq
-    response = groq_client.chat.completions.create(
-        model=GROQ_MODEL,
+    response = llm_client.chat.completions.create(
+        model=LLM_MODEL,
         messages=[
             {"role": "system", "content": system},
             {"role": "user", "content": user_prompt},
         ],
-        response_format={"type": "json_object"},
         temperature=0.4,
+        top_p=0.7,
+        max_tokens=1024,
     )
     data = json.loads(response.choices[0].message.content)
     return GenerateReplyResponse(

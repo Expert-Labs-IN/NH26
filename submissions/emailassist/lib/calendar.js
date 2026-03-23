@@ -54,6 +54,8 @@ export async function createCalendarEvent(accessToken, eventData) {
         }),
   };
 
+  console.log(event);
+
   const response = await calendar.events.insert({
     calendarId: "primary",
     requestBody: event,

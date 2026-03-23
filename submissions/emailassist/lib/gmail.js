@@ -19,27 +19,64 @@ function decodeBase64(data) {
 function extractBody(payload) {
   if (!payload) return "";
 
-  // Direct body
-  if (payload.body?.data) {
+  // Skip image and attachment parts entirely
+  if (payload.mimeType?.startsWith("image/")) return "";
+  if (payload.mimeType?.startsWith("application/")) return "";
+
+  // Direct plain-text body
+  if (payload.mimeType === "text/plain" && payload.body?.data) {
     return decodeBase64(payload.body.data);
   }
 
-  // Multipart — look for text/plain first, then text/html
+  // Multipart — always prefer text/plain over HTML
   if (payload.parts) {
     const textPart = payload.parts.find((p) => p.mimeType === "text/plain");
     if (textPart?.body?.data) return decodeBase64(textPart.body.data);
 
+    // Fall back to HTML only if no plain text exists
     const htmlPart = payload.parts.find((p) => p.mimeType === "text/html");
     if (htmlPart?.body?.data) return decodeBase64(htmlPart.body.data);
 
-    // Recurse into nested parts
+    // Recurse into nested parts (skip image/attachment parts)
     for (const part of payload.parts) {
+      if (part.mimeType?.startsWith("image/")) continue;
+      if (part.mimeType?.startsWith("application/")) continue;
       const body = extractBody(part);
       if (body) return body;
     }
   }
 
   return "";
+}
+
+// Sanitize email body before sending to LLM:
+// - Strips HTML tags
+// - Removes base64 blobs and CID references (inline images)
+// - Collapses excessive whitespace
+// - Truncates to 4000 chars to stay within token limits
+function sanitizeBody(raw) {
+  if (!raw) return "";
+
+  let text = raw
+    // Remove HTML tags
+    .replace(/<[^>]+>/g, " ")
+    // Remove base64 encoded content (long runs of base64 chars)
+    .replace(/[A-Za-z0-9+/]{200,}={0,2}/g, "")
+    // Remove CID references (inline image tokens)
+    .replace(/cid:[^\s"'>]+/gi, "")
+    // Remove data URIs
+    .replace(/data:[^;]+;base64,[^\s]*/gi, "")
+    // Collapse multiple newlines/spaces
+    .replace(/[\r\n]{3,}/g, "\n\n")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
+
+  // Truncate to 4000 characters to stay well within LLM token limits
+  if (text.length > 4000) {
+    text = text.slice(0, 4000) + "\n...[truncated]";
+  }
+
+  return text;
 }
 
 // Get a header value from a Gmail message by header name
@@ -104,7 +141,8 @@ export async function fetchUnreadEmails(accessToken, maxResults = 20) {
         }
 
         const subject = getHeader(headers, "subject") || "(No Subject)";
-        const body = extractBody(payload);
+        const rawBody = extractBody(payload);
+        const body = sanitizeBody(rawBody); // Strip HTML, base64 blobs, truncate
         const timestamp = internalDate
           ? new Date(parseInt(internalDate)).toISOString()
           : new Date().toISOString();

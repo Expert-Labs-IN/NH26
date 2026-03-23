@@ -22,6 +22,7 @@ export async function POST(request) {
       body: emailBody,
       tone: tone || "formal",
       user_name: session.user.name,
+      user_email: session.user.email,
       custom_instruction: customInstruction || "",
     };
 
