@@ -1,0 +1,18 @@
+{
+  "kind": "singleType",
+  "collectionName": "company_support_contexts",
+  "info": {
+    "singularName": "company-support-context",
+    "pluralName": "company-support-contexts",
+    "displayName": "companySupportContext"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "context": {
+      "type": "text"
+    }
+  }
+}
