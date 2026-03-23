@@ -14,16 +14,191 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      ticket_comments: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          is_ai_generated: boolean | null
+          ticket_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          is_ai_generated?: boolean | null
+          ticket_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          is_ai_generated?: boolean | null
+          ticket_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ticket_comments_ticket_id_fkey"
+            columns: ["ticket_id"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tickets: {
+        Row: {
+          ai_classification: string | null
+          ai_root_cause: string | null
+          ai_sentiment: string | null
+          ai_suggested_reply: string | null
+          assigned_to: string | null
+          category: Database["public"]["Enums"]["ticket_category"] | null
+          created_at: string
+          created_by: string
+          department: Database["public"]["Enums"]["department"]
+          description: string
+          id: string
+          is_duplicate_of: string | null
+          priority: Database["public"]["Enums"]["ticket_priority"]
+          resolved_at: string | null
+          sla_deadline: string | null
+          status: Database["public"]["Enums"]["ticket_status"]
+          ticket_number: number
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          ai_classification?: string | null
+          ai_root_cause?: string | null
+          ai_sentiment?: string | null
+          ai_suggested_reply?: string | null
+          assigned_to?: string | null
+          category?: Database["public"]["Enums"]["ticket_category"] | null
+          created_at?: string
+          created_by: string
+          department?: Database["public"]["Enums"]["department"]
+          description: string
+          id?: string
+          is_duplicate_of?: string | null
+          priority?: Database["public"]["Enums"]["ticket_priority"]
+          resolved_at?: string | null
+          sla_deadline?: string | null
+          status?: Database["public"]["Enums"]["ticket_status"]
+          ticket_number?: number
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          ai_classification?: string | null
+          ai_root_cause?: string | null
+          ai_sentiment?: string | null
+          ai_suggested_reply?: string | null
+          assigned_to?: string | null
+          category?: Database["public"]["Enums"]["ticket_category"] | null
+          created_at?: string
+          created_by?: string
+          department?: Database["public"]["Enums"]["department"]
+          description?: string
+          id?: string
+          is_duplicate_of?: string | null
+          priority?: Database["public"]["Enums"]["ticket_priority"]
+          resolved_at?: string | null
+          sla_deadline?: string | null
+          status?: Database["public"]["Enums"]["ticket_status"]
+          ticket_number?: number
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tickets_is_duplicate_of_fkey"
+            columns: ["is_duplicate_of"]
+            isOneToOne: false
+            referencedRelation: "tickets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "employee"
+      department:
+        | "IT"
+        | "Finance"
+        | "HR"
+        | "Operations"
+        | "Marketing"
+        | "General"
+      ticket_category: "valid" | "spam" | "duplicate"
+      ticket_priority: "low" | "medium" | "high" | "critical"
+      ticket_status: "open" | "in_progress" | "resolved" | "closed" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +325,12 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "employee"],
+      department: ["IT", "Finance", "HR", "Operations", "Marketing", "General"],
+      ticket_category: ["valid", "spam", "duplicate"],
+      ticket_priority: ["low", "medium", "high", "critical"],
+      ticket_status: ["open", "in_progress", "resolved", "closed", "rejected"],
+    },
   },
 } as const
