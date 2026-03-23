@@ -469,5 +469,269 @@ Thanks!`,
         isRead: true
       }
     ]
+  },
+  {
+    id: 'thread-7',
+    from: {
+      name: 'Amazon',
+      email: 'order-update@amazon.com',
+      avatar: '📦'
+    },
+    subject: 'Your order has shipped! Tracking #1Z999AA10123456784',
+    preview: 'Your package is on its way! Estimated delivery: March 25...',
+    timestamp: '2024-03-22T08:00:00Z',
+    unreadCount: 1,
+    category: 'updates',
+    emails: [
+      {
+        id: 'email-7-1',
+        threadId: 'thread-7',
+        from: { name: 'Amazon', email: 'order-update@amazon.com' },
+        to: [{ name: 'You', email: 'you@gmail.com' }],
+        subject: 'Your order has shipped! Tracking #1Z999AA10123456784',
+        body: `Hello,
+
+Your order #112-7654321-9876543 has shipped!
+
+Items:
+- Apple AirPods Pro (2nd Gen) — $249.99
+- USB-C Charging Cable (2-pack) — $12.99
+
+Estimated delivery: Monday, March 25
+Carrier: UPS
+Tracking: 1Z999AA10123456784
+
+Track your package at amazon.com/orders
+
+Thank you for shopping with Amazon!`,
+        timestamp: '2024-03-22T08:00:00Z',
+        isRead: false
+      }
+    ]
+  },
+  {
+    id: 'thread-8',
+    from: {
+      name: 'David Park',
+      email: 'david.park@acmecorp.com',
+      avatar: '🧑‍💻'
+    },
+    subject: 'Code Review: Auth service refactor PR #247',
+    preview: "I've pushed the auth service refactor. Can you review when you get a chance?",
+    timestamp: '2024-03-22T11:30:00Z',
+    unreadCount: 2,
+    category: 'work',
+    emails: [
+      {
+        id: 'email-8-1',
+        threadId: 'thread-8',
+        from: { name: 'David Park', email: 'david.park@acmecorp.com' },
+        to: [{ name: 'You', email: 'you@acmecorp.com' }],
+        subject: 'Code Review: Auth service refactor PR #247',
+        body: `Hey,
+
+I've pushed the auth service refactor to PR #247. Key changes:
+
+1. Migrated from JWT to session-based auth
+2. Added rate limiting on login endpoints
+3. Implemented refresh token rotation
+4. Added audit logging for auth events
+
+The test coverage is at 94%. I've also updated the API docs.
+
+Can you review when you get a chance? Ideally before Thursday so we can ship it in the next release.
+
+Thanks!
+David`,
+        timestamp: '2024-03-22T11:30:00Z',
+        isRead: false
+      },
+      {
+        id: 'email-8-2',
+        threadId: 'thread-8',
+        from: { name: 'David Park', email: 'david.park@acmecorp.com' },
+        to: [{ name: 'You', email: 'you@acmecorp.com' }],
+        subject: 'RE: Code Review: Auth service refactor PR #247',
+        body: `Quick update — I also added CSRF protection middleware. The diff is a bit larger now but the security audit required it.
+
+Let me know if you have questions about any of the changes.
+
+David`,
+        timestamp: '2024-03-22T14:15:00Z',
+        isRead: false
+      }
+    ]
+  },
+  {
+    id: 'thread-9',
+    from: {
+      name: 'Stripe',
+      email: 'receipts@stripe.com',
+      avatar: '💳'
+    },
+    subject: 'Payment receipt from Vercel Inc.',
+    preview: 'Your payment of $20.00 to Vercel Inc. was successful...',
+    timestamp: '2024-03-21T06:00:00Z',
+    unreadCount: 1,
+    category: 'finance',
+    emails: [
+      {
+        id: 'email-9-1',
+        threadId: 'thread-9',
+        from: { name: 'Stripe', email: 'receipts@stripe.com' },
+        to: [{ name: 'You', email: 'you@gmail.com' }],
+        subject: 'Payment receipt from Vercel Inc.',
+        body: `Payment confirmation
+
+Amount: $20.00
+To: Vercel Inc.
+Date: March 21, 2024
+Card: Visa ending in 4242
+Invoice: INV-2024-0321-VCL
+
+Description: Vercel Pro Plan — Monthly subscription
+
+If you have questions about this charge, contact Vercel support at vercel.com/support.
+
+— Stripe`,
+        timestamp: '2024-03-21T06:00:00Z',
+        isRead: false,
+        attachments: [
+          { name: 'receipt_2024_0321.pdf', size: '45 KB', type: 'pdf' }
+        ]
+      }
+    ]
+  },
+  {
+    id: 'thread-10',
+    from: {
+      name: 'Priya Sharma',
+      email: 'priya.sharma@team.co',
+      avatar: '👩‍🔬'
+    },
+    subject: 'RE: Weekend hiking trip plans',
+    preview: "How about we do the Sunrise Peak trail? It's about 6 miles round trip...",
+    timestamp: '2024-03-22T19:45:00Z',
+    unreadCount: 1,
+    category: 'personal',
+    emails: [
+      {
+        id: 'email-10-1',
+        threadId: 'thread-10',
+        from: { name: 'You', email: 'you@gmail.com' },
+        to: [{ name: 'Priya Sharma', email: 'priya.sharma@team.co' }],
+        subject: 'Weekend hiking trip plans',
+        body: `Hey Priya!
+
+Are we still on for the hike this Saturday? I was thinking we could try a new trail. Let me know what works for you!
+
+Cheers`,
+        timestamp: '2024-03-22T16:00:00Z',
+        isRead: true
+      },
+      {
+        id: 'email-10-2',
+        threadId: 'thread-10',
+        from: { name: 'Priya Sharma', email: 'priya.sharma@team.co' },
+        to: [{ name: 'You', email: 'you@gmail.com' }],
+        subject: 'RE: Weekend hiking trip plans',
+        body: `Hey!
+
+Absolutely! How about we do the Sunrise Peak trail? It's about 6 miles round trip with some great views at the top.
+
+I can pick you up at 7am — we should start early before it gets too hot.
+
+Also, Raj and Nina might join us. I'll confirm with them tonight.
+
+Don't forget to bring plenty of water!
+
+— Priya`,
+        timestamp: '2024-03-22T19:45:00Z',
+        isRead: false
+      }
+    ]
+  },
+  {
+    id: 'thread-11',
+    from: {
+      name: 'GitHub',
+      email: 'notifications@github.com',
+      avatar: '🐙'
+    },
+    subject: '[acme/platform] Issue #892: Production API latency spike',
+    preview: 'New issue opened by @oncall-bot: API p99 latency exceeded 2s threshold...',
+    timestamp: '2024-03-22T22:10:00Z',
+    unreadCount: 1,
+    category: 'work',
+    emails: [
+      {
+        id: 'email-11-1',
+        threadId: 'thread-11',
+        from: { name: 'GitHub', email: 'notifications@github.com' },
+        to: [{ name: 'You', email: 'you@acmecorp.com' }],
+        subject: '[acme/platform] Issue #892: Production API latency spike',
+        body: `@oncall-bot opened this issue:
+
+**Production API latency spike detected**
+
+Severity: P1
+Started: 2024-03-22 21:45 UTC
+Affected services: /api/v2/users, /api/v2/orders
+
+Metrics:
+- p99 latency jumped from 200ms to 2.4s
+- Error rate increased to 3.2%
+- Affected region: us-east-1
+
+Potential cause: Database connection pool exhaustion after deploy v2.14.3
+
+Action items:
+1. Investigate connection pool settings
+2. Consider rolling back to v2.14.2
+3. Check if recent migration is causing lock contention
+
+cc: @you @david-park @sre-team`,
+        timestamp: '2024-03-22T22:10:00Z',
+        isRead: false
+      }
+    ]
+  },
+  {
+    id: 'thread-12',
+    from: {
+      name: 'Netflix',
+      email: 'info@mailer.netflix.com',
+      avatar: '🎬'
+    },
+    subject: 'New arrivals you might like',
+    preview: "Based on your viewing history, we think you'll enjoy these new titles...",
+    timestamp: '2024-03-20T14:00:00Z',
+    unreadCount: 0,
+    category: 'spam',
+    emails: [
+      {
+        id: 'email-12-1',
+        threadId: 'thread-12',
+        from: { name: 'Netflix', email: 'info@mailer.netflix.com' },
+        to: [{ name: 'You', email: 'you@gmail.com' }],
+        subject: 'New arrivals you might like',
+        body: `Hi there,
+
+Based on your viewing history, we think you'll enjoy these new titles:
+
+🎬 The Algorithm — A tech thriller about an AI that rewrites reality
+📺 Code & Coffee (Season 3) — Your favorite dev comedy is back
+🎬 Zero Day — Cybersecurity docuseries featuring real incidents
+
+Start watching now at netflix.com
+
+Enjoy!
+The Netflix Team
+
+To unsubscribe from these emails, visit netflix.com/email-preferences`,
+        timestamp: '2024-03-20T14:00:00Z',
+        isRead: true
+      }
+    ]
   }
 ]

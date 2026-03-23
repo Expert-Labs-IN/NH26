@@ -94,6 +94,7 @@ export interface ThreadMeta {
   archived: boolean
   trashed: boolean
   draft: string  // user's reply draft text
+  userLabels: string[]  // custom user-created labels
 }
 
 export type SidebarFolder = 'inbox' | 'starred' | 'snoozed' | 'sent' | 'drafts' | 'trash' | 'all'

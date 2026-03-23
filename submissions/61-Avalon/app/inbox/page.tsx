@@ -43,7 +43,19 @@ function loadAnalyses(): Record<string, ComprehensiveAnalysis> {
   return data
 }
 
-const defaultMeta: ThreadMeta = { read: false, starred: false, snoozedUntil: null, archived: false, trashed: false, draft: '' }
+const LS_LABELS = 'mailmate-user-labels'
+
+const defaultMeta: ThreadMeta = { read: false, starred: false, snoozedUntil: null, archived: false, trashed: false, draft: '', userLabels: [] }
+
+// Pre-populated defaults so the demo looks alive
+const initialMetas: Record<string, Partial<ThreadMeta>> = {
+  'thread-1': { starred: true },            // Budget review is important
+  'thread-2': { starred: true },            // OAuth feature request starred
+  'thread-4': { snoozedUntil: new Date(Date.now() + 172800000).toISOString() }, // Offsite planning snoozed
+  'thread-5': { read: true },               // TechCorp proposal already read
+  'thread-6': { read: true },               // Campaign report already read
+  'thread-12': { read: true },              // Netflix spam already read
+}
 
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime()
@@ -478,14 +490,25 @@ export default function InboxPage() {
   const [showCompose, setShowCompose] = useState(false)
   const [composeInitial, setComposeInitial] = useState('')
   const [activeTab, setActiveTab] = useState<'analysis' | 'emails'>('analysis')
+  const [allUserLabels, setAllUserLabels] = useState<string[]>([])
+  const [showLabelInput, setShowLabelInput] = useState(false)
+  const [newLabelText, setNewLabelText] = useState('')
 
   const selectedThread = threads.find(t => t.id === selectedId) ?? null
   const getMeta = (id: string): ThreadMeta => metas[id] ?? defaultMeta
 
-  // Load from storage
+  // Load from storage, merge initial demo metas
   useEffect(() => {
     setAnalyses(loadAnalyses())
-    setMetas(loadJson<Record<string, ThreadMeta>>(LS_META, {}))
+    const stored = loadJson<Record<string, ThreadMeta>>(LS_META, {})
+    // Merge initial demo metas only if not already stored
+    const merged = { ...stored }
+    for (const [id, partial] of Object.entries(initialMetas)) {
+      if (!merged[id]) merged[id] = { ...defaultMeta, ...partial }
+    }
+    setMetas(merged)
+    saveJson(LS_META, merged)
+    setAllUserLabels(loadJson<string[]>(LS_LABELS, ['Important', 'Follow-up', 'Receipts', 'Travel', 'Project']))
   }, [])
 
   // Persist meta changes
@@ -548,10 +571,39 @@ export default function InboxPage() {
     if (selectedId === threadId) setSelectedId(null)
   }, [updateMeta, selectedId])
 
+  const handleMarkUnread = useCallback((threadId: string) => {
+    updateMeta(threadId, { read: false })
+  }, [updateMeta])
+
   const handleUseReply = useCallback((text: string) => {
     setComposeInitial(text)
     setShowCompose(true)
   }, [])
+
+  const handleAddLabel = useCallback((threadId: string, label: string) => {
+    const current = getMeta(threadId)
+    if (!current.userLabels.includes(label)) {
+      updateMeta(threadId, { userLabels: [...current.userLabels, label] })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [metas, updateMeta])
+
+  const handleRemoveLabel = useCallback((threadId: string, label: string) => {
+    const current = getMeta(threadId)
+    updateMeta(threadId, { userLabels: current.userLabels.filter(l => l !== label) })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [metas, updateMeta])
+
+  const handleCreateLabel = useCallback((label: string) => {
+    const trimmed = label.trim()
+    if (trimmed && !allUserLabels.includes(trimmed)) {
+      const updated = [...allUserLabels, trimmed]
+      setAllUserLabels(updated)
+      saveJson(LS_LABELS, updated)
+    }
+    setNewLabelText('')
+    setShowLabelInput(false)
+  }, [allUserLabels])
 
   // Filter threads by folder + search
   const filteredThreads = threads.filter(t => {
@@ -648,6 +700,33 @@ export default function InboxPage() {
               </button>
             ))}
           </div>
+
+          {/* User labels */}
+          <div className="mt-4 px-2 flex-1 overflow-y-auto">
+            <div className="flex items-center justify-between px-3 mb-1">
+              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Labels</p>
+              <button onClick={() => setShowLabelInput(true)} className="text-gray-400 hover:text-blue-600 transition-colors" title="Create label">
+                <Tag className="w-3 h-3" />
+              </button>
+            </div>
+            {showLabelInput && (
+              <div className="px-3 mb-1 flex gap-1">
+                <input value={newLabelText} onChange={e => setNewLabelText(e.target.value)}
+                  onKeyDown={e => { if (e.key === 'Enter') handleCreateLabel(newLabelText); if (e.key === 'Escape') { setShowLabelInput(false); setNewLabelText('') } }}
+                  placeholder="Label name..."
+                  className="flex-1 text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  autoFocus />
+                <button onClick={() => handleCreateLabel(newLabelText)} className="text-xs text-blue-600 font-medium px-1">Add</button>
+              </div>
+            )}
+            {allUserLabels.map(label => (
+              <button key={label} onClick={() => { setFolder('all'); setSearch(label.toLowerCase()) }}
+                className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
+                <Tag className="w-3 h-3 text-gray-400" />
+                {label}
+              </button>
+            ))}
+          </div>
         </aside>
 
         {/* Thread list */}
@@ -696,6 +775,10 @@ export default function InboxPage() {
                   <div className="flex items-center gap-1 shrink-0 ml-3">
                     {selectedAnalysis && <PriorityBadge priority={selectedAnalysis.priority} />}
                     <SenderBadge importance={selectedAnalysis?.senderImportance ?? 'regular'} />
+                    <div className="w-px h-4 bg-gray-200 mx-1" />
+                    <button onClick={() => handleMarkUnread(selectedThread.id)} className="p-1.5 hover:bg-gray-100 rounded-md" title="Mark as unread">
+                      <Mail className={`w-4 h-4 ${!getMeta(selectedThread.id).read ? 'text-blue-500' : 'text-gray-400'}`} />
+                    </button>
                     <button onClick={() => handleStar(selectedThread.id)} className="p-1.5 hover:bg-gray-100 rounded-md" title="Star">
                       <Star className={`w-4 h-4 ${getMeta(selectedThread.id).starred ? 'fill-amber-400 text-amber-400' : 'text-gray-400'}`} />
                     </button>
@@ -708,6 +791,32 @@ export default function InboxPage() {
                     <button onClick={() => handleTrash(selectedThread.id)} className="p-1.5 hover:bg-gray-100 rounded-md" title="Trash">
                       <Trash2 className="w-4 h-4 text-gray-400" />
                     </button>
+                  </div>
+                </div>
+
+                {/* User labels on thread */}
+                <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                  {getMeta(selectedThread.id).userLabels.map(label => (
+                    <span key={label} className="inline-flex items-center gap-1 text-[11px] bg-indigo-50 text-indigo-700 rounded-full px-2 py-0.5 font-medium">
+                      <Tag className="w-2.5 h-2.5" />{label}
+                      <button onClick={() => handleRemoveLabel(selectedThread.id, label)} className="hover:text-red-500 ml-0.5"><X className="w-2.5 h-2.5" /></button>
+                    </span>
+                  ))}
+                  <div className="relative group">
+                    <button className="inline-flex items-center gap-0.5 text-[11px] text-gray-400 hover:text-blue-600 rounded-full px-2 py-0.5 border border-dashed border-gray-300 hover:border-blue-400 transition-colors">
+                      <Tag className="w-2.5 h-2.5" /> Add label
+                    </button>
+                    <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20 hidden group-hover:block min-w-[140px]">
+                      {allUserLabels.filter(l => !getMeta(selectedThread.id).userLabels.includes(l)).map(label => (
+                        <button key={label} onClick={() => handleAddLabel(selectedThread.id, label)}
+                          className="w-full text-left px-3 py-1.5 text-xs text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                          {label}
+                        </button>
+                      ))}
+                      {allUserLabels.filter(l => !getMeta(selectedThread.id).userLabels.includes(l)).length === 0 && (
+                        <p className="px-3 py-1.5 text-xs text-gray-400">All labels applied</p>
+                      )}
+                    </div>
                   </div>
                 </div>
 

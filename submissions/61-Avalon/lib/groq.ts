@@ -117,16 +117,16 @@ export async function composeDraft(subject: string, context?: string): Promise<s
 }
 
 const rewritePrompts: Record<RewriteAction, string> = {
-  'formalize': 'Rewrite the following text in a formal, professional tone. Keep the same meaning but make it sound polished and business-appropriate.',
-  'shorten': 'Rewrite the following text to be much shorter and more concise. Keep the key message but remove any unnecessary words or details.',
-  'elaborate': 'Expand the following text with more detail, context, and explanation. Make it more thorough while keeping the same core message.',
-  'fix-grammar': 'Fix all grammar, spelling, and punctuation errors in the following text. Keep the original tone and style, only correct mistakes.',
+  'formalize': 'Rewrite the following email text in a formal, professional tone. Keep the same meaning but make it polished and business-appropriate. Always include a proper greeting (e.g., "Dear [Name]," or "Hi [Name],") at the start and a professional sign-off (e.g., "Best regards," or "Kind regards,") at the end.',
+  'shorten': 'Rewrite the following email text to be much shorter and more concise. Keep the key message but remove unnecessary words. Always preserve or add a brief greeting at the start and a short sign-off at the end.',
+  'elaborate': 'Expand the following email text with more detail, context, and explanation. Make it more thorough while keeping the core message. Always include a warm greeting at the start and a professional sign-off at the end.',
+  'fix-grammar': 'Fix all grammar, spelling, and punctuation errors in the following email text. Keep the original tone and style. If a greeting or sign-off is missing, add an appropriate one.',
 }
 
 export async function rewriteText(text: string, action: RewriteAction): Promise<string> {
   const { text: result } = await generateText({
     model: groq(MODEL),
-    system: `You are an email writing assistant. ${rewritePrompts[action]} Return ONLY the rewritten text. No explanations, no quotes, no prefixes.`,
+    system: `You are an email writing assistant. ${rewritePrompts[action]} The output must be a complete email body with greeting and sign-off. Return ONLY the rewritten email text. No explanations, no quotes, no prefixes like "Here is...".`,
     prompt: text,
   })
   return result.trim()
