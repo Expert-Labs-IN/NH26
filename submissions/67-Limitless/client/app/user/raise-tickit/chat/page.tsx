@@ -20,9 +20,9 @@ export default function ChatbotPage() {
     
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [guidelines, setGuidelines] = useState<string>("");
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
-    // Fetch Departments securely via our Next.js API on load
     useEffect(() => {
         fetch("/api/departments")
             .then(res => res.json())
@@ -30,6 +30,18 @@ export default function ChatbotPage() {
                 if (res.data) setDepartments(res.data);
             })
             .catch(err => console.error("Failed to fetch departments", err));
+
+        fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/company-support-context`,{
+            headers: {
+                "Authorization": `Bearer ${process.env.NEXT_PUBLIC_STRAPI_TOKEN}`,
+            },
+        })
+            .then(res => res.json())
+            .then(res => {
+                if (res.data) setGuidelines(res.data.context || res.data?.context);
+            })
+            .catch(err => console.error("Failed to fetch guidelines", err));
+        
     }, []);
 
     console.log(departments)
@@ -131,7 +143,7 @@ export default function ChatbotPage() {
             const response = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ departmentId: selectedDepartment?.documentId,messages: newMessages, stream: true }),
+                body: JSON.stringify({ departmentId: selectedDepartment?.documentId,messages: newMessages, stream: true, guidelines }),
             });
 
             if (!response.body) throw new Error("No response body");

@@ -118,9 +118,11 @@ When escalating:
 Your goal is to resolve simple issues instantly and escalate complex issues with structured, high-quality ticket data.
 `;
 }
+
+
 export async function POST(req: Request) {
     try {
-        const { messages, departmentId, model = 'openai-fast', stream: isStream, personality, provider } = await req.json();
+        const { guidelines, messages, departmentId, model = 'openai-fast', stream: isStream, personality, provider } = await req.json();
 
         console.log("Received messages:", personality, model, provider);
 
@@ -140,7 +142,7 @@ export async function POST(req: Request) {
                 messages: [
                     {
                         role: "system",
-                        content: await getSystemPrompt(departmentId)
+                        content: await getSystemPrompt(departmentId) + "\n\n" + guidelines
                     },
                     ...messages
 
