@@ -1,0 +1,77 @@
+{
+  "kind": "collectionType",
+  "collectionName": "tickets",
+  "info": {
+    "singularName": "ticket",
+    "pluralName": "tickets",
+    "displayName": "Ticket"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "text"
+    },
+    "description": {
+      "type": "text"
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "Orders & Refunds",
+        "Delivery / Logistics",
+        "Product Issues",
+        "Subscription / Plans",
+        "Security & Fraud",
+        "KYC / Verification",
+        "App/Website Bugs",
+        "Feature Requests",
+        "Complaints / Feedback",
+        "Others"
+      ]
+    },
+    "severity": {
+      "type": "enumeration",
+      "enum": [
+        "Low",
+        "Medium",
+        "High"
+      ]
+    },
+    "aiResolved": {
+      "type": "boolean",
+      "default": false
+    },
+    "raisedBy": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "tickets"
+    },
+    "assignedTo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "assignedTickits"
+    },
+    "agentResolutionDescription": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "aiAgentChat": {
+      "type": "json"
+    },
+    "department": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::department.department"
+    }
+  }
+}
