@@ -1,17 +1,16 @@
 # Local tooling
-.claude/
 .DS_Store
 
 # Dependencies
-**/node_modules/
+node_modules/
 
 # Next.js build output
-**/.next/
-**/out/
+.next/
+out/
 
 # Production and build artifacts
-**/build/
-**/*.tsbuildinfo
+build/
+*.tsbuildinfo
 
 # Logs
 npm-debug.log*
@@ -19,8 +18,5 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# Environment files
-**/.env*
-
 # Vercel
-**/.vercel/
+.vercel/
