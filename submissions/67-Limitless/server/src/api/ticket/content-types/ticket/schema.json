@@ -61,6 +61,11 @@
     },
     "aiAgentChat": {
       "type": "json"
+    },
+    "department": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::department.department"
     }
   }
 }

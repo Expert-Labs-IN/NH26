@@ -3,25 +3,9 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL ?? "";
-
-async function strapiRegister(username: string, email: string, password: string) {
-    const res = await fetch(`${STRAPI_URL}/api/auth/local/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password }),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-        const msg =
-            data?.error?.message ||
-            data?.message?.[0]?.messages?.[0]?.message ||
-            "Registration failed.";
-        throw new Error(msg);
-    }
-    return data;
-}
+import { motion } from "framer-motion";
+import { Sparkles, Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, User } from "lucide-react";
+import { strapi } from "@/lib/sdk/sdk";
 
 function validateEmail(email: string) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -37,7 +21,6 @@ export default function RegisterPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    // Field-level validation
     const emailError = email && !validateEmail(email) ? "Enter a valid email address." : "";
     const passwordError =
         password && password.length < 6 ? "Password must be at least 6 characters." : "";
@@ -57,209 +40,214 @@ export default function RegisterPage() {
         setLoading(true);
 
         try {
-            await strapiRegister(email.trim(), email.trim(), password);
+            // Using the new Strapi SDK directly
+            await strapi.register({
+                username: username.trim() + Math.random().toString(36).substring(2, 10),
+                email: email.trim(),
+                password,
+            });
 
             // Auto sign-in after successful registration
-            const result = await signIn("credentials", {
+            const result: any = await signIn("credentials", {
                 redirect: false,
                 identifier: email.trim(),
                 password,
             });
 
             if (result?.error) {
-                // Registration succeeded, but sign-in failed — redirect to login
                 router.push("/login?registered=true");
             } else {
+
+                const update = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users`,{
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${result?.jwt}`,
+                    },
+                    body: JSON.stringify({
+                        fullName: username.trim(),
+                    }),
+                })
+
                 router.push("/");
                 router.refresh();
             }
-        } catch (err: unknown) {
-            if (err instanceof Error) {
-                setError(err.message);
-            } else {
-                setError("Something went wrong. Please try again.");
-            }
+        } catch (err: any) {
+            const msg =
+                err?.error?.message ||
+                err?.message ||
+                "Something went wrong. Please try again.";
+            setError(msg);
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <div className="auth-root">
-            <div className="auth-card">
-                {/* Brand */}
-                <div className="auth-brand">
-                    <div className="auth-brand-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                        </svg>
-                    </div>
-                    <h1 className="auth-title">Create an account</h1>
-                    <p className="auth-subtitle">Join us today — it&apos;s completely free</p>
+        <div className="min-h-screen bg-[#0a0a0a] flex flex-col justify-center py-12 sm:px-6 lg:px-8 font-sans">
+            <motion.div 
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="sm:mx-auto sm:w-full sm:max-w-md flex flex-col items-center"
+            >
+                <div className="bg-white text-black p-2.5 rounded-xl shadow-lg mb-4">
+                    <Sparkles className="w-8 h-8" />
                 </div>
+                <h2 className="text-center text-3xl font-extrabold text-white tracking-tight">
+                    Create an account
+                </h2>
+                <p className="mt-2 text-center text-sm text-slate-400">
+                    Join Sarathi today — it&apos;s completely free
+                </p>
+            </motion.div>
 
-                {/* Error Alert */}
-                {error && (
-                    <div className="auth-alert error" style={{ marginBottom: "1rem" }}>
-                        <span className="alert-icon">
-                            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                <circle cx="12" cy="12" r="10" />
-                                <line x1="12" y1="8" x2="12" y2="12" />
-                                <line x1="12" y1="16" x2="12.01" y2="16" />
-                            </svg>
-                        </span>
-                        {error}
-                    </div>
-                )}
+            <motion.div 
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.1 }}
+                className="mt-8 sm:mx-auto sm:w-full sm:max-w-md"
+            >
+                <div className="bg-[#111] py-8 px-4 shadow-2xl sm:rounded-2xl sm:px-10 border border-slate-800">
+                    {error && (
+                        <div className="mb-6 bg-red-900/30 border border-red-800/50 rounded-lg p-4 flex gap-3 text-red-400 items-start">
+                            <AlertCircle className="w-5 h-5 shrink-0" />
+                            <p className="text-sm font-medium">{error}</p>
+                        </div>
+                    )}
 
-                {/* Form */}
-                <form className="auth-form" onSubmit={handleSubmit} noValidate>
-                    {/* Username */}
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="username">
-                            Username
-                        </label>
-                        <input
-                            id="username"
-                            type="text"
-                            className="form-input"
-                            placeholder="johndoe"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            autoComplete="username"
-                            disabled={loading}
-                        />
-                        {username.length > 0 && username.trim().length < 2 && (
-                            <p className="field-error">
-                                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                                </svg>
-                                Username must be at least 2 characters.
-                            </p>
-                        )}
-                    </div>
+                    <form className="space-y-5" onSubmit={handleSubmit} noValidate>
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-300" htmlFor="username">
+                                Username
+                            </label>
+                            <div className="mt-2 relative rounded-md shadow-sm">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                                    <User className="w-5 h-5" />
+                                </div>
+                                <input
+                                    id="username"
+                                    type="text"
+                                    className="block w-full text-white bg-transparent pl-10 px-3 py-3 border border-slate-800 rounded-xl focus:ring-2 focus:ring-white focus:border-white sm:text-sm outline-none transition-all placeholder-slate-600"
+                                    placeholder="johndoe"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
+                                    autoComplete="username"
+                                    disabled={loading}
+                                />
+                            </div>
+                            {username.length > 0 && username.trim().length < 2 && (
+                                <p className="mt-1 text-xs text-red-400">Username must be at least 2 characters.</p>
+                            )}
+                        </div>
 
-                    {/* Email */}
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="email">
-                            Email address
-                        </label>
-                        <input
-                            id="email"
-                            type="email"
-                            className={`form-input${emailError ? " error-input" : ""}`}
-                            placeholder="you@example.com"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            autoComplete="email"
-                            disabled={loading}
-                        />
-                        {emailError && (
-                            <p className="field-error">
-                                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                                </svg>
-                                {emailError}
-                            </p>
-                        )}
-                    </div>
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-300" htmlFor="email">
+                                Email address
+                            </label>
+                            <div className="mt-2 relative rounded-md shadow-sm">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                                    <Mail className="w-5 h-5" />
+                                </div>
+                                <input
+                                    id="email"
+                                    type="email"
+                                    className={`block w-full text-white bg-transparent pl-10 px-3 py-3 border rounded-xl focus:ring-2 focus:ring-white focus:border-white sm:text-sm outline-none transition-all placeholder-slate-600 ${emailError ? 'border-red-500/50' : 'border-slate-800'}`}
+                                    placeholder="you@example.com"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    autoComplete="email"
+                                    disabled={loading}
+                                />
+                            </div>
+                            {emailError && <p className="mt-1 text-xs text-red-400">{emailError}</p>}
+                        </div>
 
-                    {/* Password */}
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="reg-password">
-                            Password
-                        </label>
-                        <div className="input-wrapper">
-                            <input
-                                id="reg-password"
-                                type={showPassword ? "text" : "password"}
-                                className={`form-input${passwordError ? " error-input" : ""}`}
-                                placeholder="At least 6 characters"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                autoComplete="new-password"
-                                disabled={loading}
-                            />
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-300" htmlFor="password">
+                                Password
+                            </label>
+                            <div className="mt-2 relative rounded-md shadow-sm">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                                    <Lock className="w-5 h-5" />
+                                </div>
+                                <input
+                                    id="password"
+                                    type={showPassword ? "text" : "password"}
+                                    className={`block w-full text-white bg-transparent pl-10 pr-10 px-3 py-3 border rounded-xl focus:ring-2 focus:ring-white focus:border-white sm:text-sm outline-none transition-all placeholder-slate-600 ${passwordError ? 'border-red-500/50' : 'border-slate-800'}`}
+                                    placeholder="At least 6 characters"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    autoComplete="new-password"
+                                    disabled={loading}
+                                />
+                                <button
+                                    type="button"
+                                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300 focus:outline-none"
+                                    onClick={() => setShowPassword((v) => !v)}
+                                    aria-label={showPassword ? "Hide password" : "Show password"}
+                                >
+                                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                                </button>
+                            </div>
+                            {passwordError && <p className="mt-1 text-xs text-red-400">{passwordError}</p>}
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-semibold text-slate-300" htmlFor="confirm-password">
+                                Confirm Password
+                            </label>
+                            <div className="mt-2 relative rounded-md shadow-sm">
+                                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-500">
+                                    <Lock className="w-5 h-5" />
+                                </div>
+                                <input
+                                    id="confirm-password"
+                                    type={showPassword ? "text" : "password"}
+                                    className={`block w-full text-white bg-transparent pl-10 pr-10 px-3 py-3 border rounded-xl focus:ring-2 focus:ring-white focus:border-white sm:text-sm outline-none transition-all placeholder-slate-600 ${confirmError ? 'border-red-500/50' : 'border-slate-800'}`}
+                                    placeholder="Repeat your password"
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
+                                    autoComplete="new-password"
+                                    disabled={loading}
+                                />
+                            </div>
+                            {confirmError && <p className="mt-1 text-xs text-red-400">{confirmError}</p>}
+                        </div>
+
+                        <div>
                             <button
-                                type="button"
-                                className="password-toggle"
-                                onClick={() => setShowPassword((v) => !v)}
-                                aria-label={showPassword ? "Hide password" : "Show password"}
+                                type="submit"
+                                disabled={loading || !isValid}
+                                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-bold text-black bg-white hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                             >
-                                {showPassword ? (
-                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94" />
-                                        <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" />
-                                        <line x1="1" y1="1" x2="23" y2="23" />
-                                    </svg>
+                                {loading ? (
+                                    <>
+                                        <Loader2 className="w-5 h-5 mr-2 animate-spin text-black" />
+                                        Creating account...
+                                    </>
                                 ) : (
-                                    <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                                        <circle cx="12" cy="12" r="3" />
-                                    </svg>
+                                    "Create account"
                                 )}
                             </button>
                         </div>
-                        {passwordError && (
-                            <p className="field-error">
-                                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                                </svg>
-                                {passwordError}
-                            </p>
-                        )}
+                    </form>
+
+                    <div className="mt-6">
+                        <p className="text-center text-xs text-slate-500">
+                            By registering, you agree to our{" "}
+                            <a href="#" className="font-semibold text-white hover:underline">Terms of Service</a> and{" "}
+                            <a href="#" className="font-semibold text-white hover:underline">Privacy Policy</a>.
+                        </p>
                     </div>
 
-                    {/* Confirm Password */}
-                    <div className="form-group">
-                        <label className="form-label" htmlFor="confirm-password">
-                            Confirm password
-                        </label>
-                        <input
-                            id="confirm-password"
-                            type={showPassword ? "text" : "password"}
-                            className={`form-input${confirmError ? " error-input" : ""}`}
-                            placeholder="Repeat your password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            autoComplete="new-password"
-                            disabled={loading}
-                        />
-                        {confirmError && (
-                            <p className="field-error">
-                                <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                    <circle cx="12" cy="12" r="10" /><line x1="12" y1="8" x2="12" y2="12" /><line x1="12" y1="16" x2="12.01" y2="16" />
-                                </svg>
-                                {confirmError}
-                            </p>
-                        )}
+                    <div className="mt-8 text-center text-sm text-slate-400">
+                        Already have an account?{" "}
+                        <Link href="/login" className="font-bold text-white hover:text-slate-200 transition-colors">
+                            Sign in
+                        </Link>
                     </div>
-
-                    <button
-                        id="register-submit"
-                        type="submit"
-                        className="auth-btn"
-                        disabled={loading || !isValid}
-                    >
-                        <span className="auth-btn-content">
-                            {loading && <span className="spinner" />}
-                            {loading ? "Creating account…" : "Create account"}
-                        </span>
-                    </button>
-
-                    <p className="auth-terms">
-                        By registering, you agree to our{" "}
-                        <a href="#">Terms of Service</a> and{" "}
-                        <a href="#">Privacy Policy</a>.
-                    </p>
-                </form>
-
-                {/* Footer */}
-                <p className="auth-footer">
-                    Already have an account?{" "}
-                    <Link href="/login">Sign in</Link>
-                </p>
-            </div>
+                </div>
+            </motion.div>
         </div>
     );
 }

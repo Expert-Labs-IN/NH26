@@ -2,7 +2,7 @@
 const systemPrompt = `You are a helpful assistant.`
 export async function POST(req: Request) {
     try {
-        const { messages, model, stream: isStream, personality, provider } = await req.json();
+        const { messages, model = 'openai-fast', stream: isStream, personality, provider } = await req.json();
         // const lastMessage = messages[messages.length - 1]?.content || "";
 
         console.log("Received messages:", personality, model, provider);

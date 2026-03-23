@@ -1,28 +1,37 @@
+import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
 
-export async function proxy(request: NextRequest) {
-    const token = await getToken({
-        req: request,
-        secret: process.env.NEXTAUTH_SECRET,
-    });
+export default withAuth(
+    function middleware(req) {
+        const token = req.nextauth.token;
+        const path = req.nextUrl.pathname;
+        console.log(token, 'hello')
+        if (!token) {
+            return NextResponse.redirect(new URL('/login', req.url));
+        }
 
-    const { pathname } = request.nextUrl;
+        const userType = token.userType as string;
 
-    // If the user is authenticated and tries to access auth pages, redirect to home
-    if (token && (pathname === "/login" || pathname === "/register" || pathname === "/forgot-password" || pathname === "/reset-password")) {
-        return NextResponse.redirect(new URL("/", request.url));
+        if (path.startsWith("/admin") && userType !== "admin") {
+            return NextResponse.redirect(new URL("/", req.url));
+        }
+        if (path.startsWith("/agent") && userType !== "agent") {
+            return NextResponse.redirect(new URL("/", req.url));
+        }
+        if (path.startsWith("/user") && userType !== "user") {
+            return NextResponse.redirect(new URL("/", req.url));
+        }
+    },
+    {
+        callbacks: {
+            authorized: ({ token }) => !!token,
+        },
+        pages: {
+            signIn: "/login",
+        }
     }
+);
 
-    if (!token && pathname === "/") {
-        return NextResponse.redirect(new URL("/login", request.url));
-    }
-
-    return NextResponse.next();
-}
-
-// See "Matching Paths" below to learn more
 export const config = {
-    matcher: ["/", "/login", "/register", "/forgot-password", "/reset-password"],
+    matcher: ["/admin/:path*", "/agent/:path*", "/user/:path*"],
 };
