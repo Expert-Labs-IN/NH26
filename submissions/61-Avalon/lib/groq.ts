@@ -123,10 +123,15 @@ const rewritePrompts: Record<RewriteAction, string> = {
   'fix-grammar': 'Fix all grammar, spelling, and punctuation errors in the following email text. Keep the original tone and style. If a greeting or sign-off is missing, add an appropriate one.',
 }
 
-export async function rewriteText(text: string, action: RewriteAction): Promise<string> {
+export async function rewriteText(text: string, action: RewriteAction, senderName?: string, recipientName?: string): Promise<string> {
+  const nameContext = []
+  if (recipientName) nameContext.push(`The recipient's name is "${recipientName}" — use it in the greeting (e.g., "Hi ${recipientName}," or "Dear ${recipientName},"). Do NOT use placeholder text like [Name] or [Recipient].`)
+  if (senderName) nameContext.push(`The sender's name is "${senderName}" — use it in the sign-off (e.g., "Best regards,\\n${senderName}"). Do NOT use placeholder text like [Your Name] or [Sender].`)
+  const nameInstructions = nameContext.length > 0 ? '\n\n' + nameContext.join('\n') : ''
+
   const { text: result } = await generateText({
     model: groq(MODEL),
-    system: `You are an email writing assistant. ${rewritePrompts[action]} The output must be a complete email body with greeting and sign-off. Return ONLY the rewritten email text. No explanations, no quotes, no prefixes like "Here is...".`,
+    system: `You are an email writing assistant. ${rewritePrompts[action]} The output must be a complete email body with greeting and sign-off. Return ONLY the rewritten email text. No explanations, no quotes, no prefixes like "Here is...".${nameInstructions}`,
     prompt: text,
   })
   return result.trim()
