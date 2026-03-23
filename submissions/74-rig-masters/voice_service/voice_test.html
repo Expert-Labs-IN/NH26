@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Voice Assistant</title>
+  </head>
+  <body>
+    <h2>🎤 Voice Assistant</h2>
+
+    <button onclick="startListening()">Start Speaking</button>
+
+    <p id="status"></p>
+    <p id="text"></p>
+    <pre id="output"></pre>
+
+    <script>
+      function startListening() {
+        const SpeechRecognition =
+          window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (!SpeechRecognition) {
+          alert(
+            "Your browser does not support speech recognition. Use Chrome.",
+          );
+          return;
+        }
+
+        const recognition = new SpeechRecognition();
+
+        recognition.lang = "en-US";
+        recognition.interimResults = false;
+
+        document.getElementById("status").innerText = "🎤 Listening...";
+
+        recognition.start();
+
+        recognition.onresult = async (event) => {
+          const text = event.results[0][0].transcript;
+
+          document.getElementById("status").innerText = "✅ Recognized";
+          document.getElementById("text").innerText = "You said: " + text;
+
+          try {
+            const res = await fetch("http://127.0.0.1:8000/voice", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ text }),
+            });
+
+            const data = await res.json();
+
+            document.getElementById("output").innerText = JSON.stringify(
+              data,
+              null,
+              2,
+            );
+          } catch (err) {
+            document.getElementById("output").innerText = "❌ Error: " + err;
+          }
+        };
+
+        recognition.onerror = (event) => {
+          document.getElementById("status").innerText =
+            "❌ Mic Error: " + event.error;
+        };
+      }
+    </script>
+  </body>
+</html>
