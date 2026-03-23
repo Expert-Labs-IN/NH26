@@ -1,0 +1,179 @@
+@import "tailwindcss";
+
+/* enable dark variant */
+@custom-variant dark (&:is(.dark *));
+
+/* =========================
+   THEME TOKENS (LIGHT)
+========================= */
+@theme {
+  --radius-xl: 0.75rem;
+
+  /* base */
+  --color-background: hsl(210 20% 98%);
+  --color-foreground: hsl(222 47% 11%);
+
+  /* surfaces */
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222 47% 11%);
+
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222 47% 11%);
+
+  /* 🔥 BLUE PRIMARY */
+  --color-primary: hsl(221 83% 53%);
+  --color-primary-foreground: hsl(210 40% 98%);
+
+  /* ui */
+  --color-secondary: hsl(210 40% 96%);
+  --color-secondary-foreground: hsl(222 47% 11%);
+
+  --color-muted: hsl(210 40% 96%);
+  --color-muted-foreground: hsl(215 16% 47%);
+
+  --color-accent: hsl(221 83% 94%);
+  --color-accent-foreground: hsl(221 83% 40%);
+
+  /* states */
+  --color-destructive: hsl(0 84% 60%);
+  --color-destructive-foreground: hsl(210 40% 98%);
+
+  /* borders */
+  --color-border: hsl(214 32% 91%);
+  --color-input: hsl(214 32% 91%);
+  --color-ring: hsl(221 83% 53%);
+
+  /* charts (blue palette) */
+  --color-chart-1: hsl(221 83% 53%);
+  --color-chart-2: hsl(210 70% 50%);
+  --color-chart-3: hsl(199 89% 48%);
+  --color-chart-4: hsl(215 25% 27%);
+  --color-chart-5: hsl(221 83% 65%);
+
+  /* sidebar */
+  --color-sidebar: hsl(0 0% 100%);
+  --color-sidebar-foreground: hsl(222 47% 11%);
+  --color-sidebar-border: hsl(214 32% 91%);
+  --color-sidebar-primary: hsl(221 83% 53%);
+  --color-sidebar-primary-foreground: hsl(210 40% 98%);
+  --color-sidebar-accent: hsl(210 40% 96%);
+  --color-sidebar-accent-foreground: hsl(222 47% 11%);
+}
+
+/* =========================
+   DARK THEME (IMPROVED)
+========================= */
+.dark {
+  /* base (no pure black) */
+  --color-background: hsl(222 15% 8%);
+  --color-foreground: hsl(210 20% 96%);
+
+  /* surfaces */
+  --color-card: hsl(222 15% 11%);
+  --color-card-foreground: hsl(210 20% 96%);
+
+  --color-popover: hsl(222 15% 11%);
+  --color-popover-foreground: hsl(210 20% 96%);
+
+  /* 🔥 BLUE PRIMARY */
+  --color-primary: hsl(221 83% 53%);
+  --color-primary-foreground: hsl(210 40% 98%);
+
+  /* ui layers */
+  --color-secondary: hsl(222 12% 14%);
+  --color-secondary-foreground: hsl(210 20% 96%);
+
+  --color-muted: hsl(222 12% 14%);
+  --color-muted-foreground: hsl(215 15% 65%);
+
+  --color-accent: hsl(221 50% 15%);
+  --color-accent-foreground: hsl(221 83% 70%);
+
+  /* states */
+  --color-destructive: hsl(0 70% 45%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  /* borders */
+  --color-border: hsl(222 12% 18%);
+  --color-input: hsl(222 12% 18%);
+  --color-ring: hsl(221 83% 53%);
+
+  /* sidebar */
+  --color-sidebar: hsl(222 15% 7%);
+  --color-sidebar-foreground: hsl(210 20% 96%);
+  --color-sidebar-border: hsl(222 12% 18%);
+  --color-sidebar-primary: hsl(221 83% 53%);
+  --color-sidebar-primary-foreground: hsl(210 40% 98%);
+  --color-sidebar-accent: hsl(222 12% 14%);
+  --color-sidebar-accent-foreground: hsl(210 20% 96%);
+}
+
+/* =========================
+   BASE STYLES
+========================= */
+@layer base {
+  * {
+    border-color: hsl(var(--color-border));
+    @apply transition-colors duration-200;
+  }
+
+  html,
+  body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: "Inter", "Plus Jakarta Sans", "Segoe UI", sans-serif;
+    overflow-y: auto;
+  }
+
+  #root {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+/* =========================
+   OPTIONAL UTILITIES
+========================= */
+
+/* glass effect */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* soft shadow */
+.soft-shadow {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* animations */
+@keyframes typing {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-typing {
+  animation: typing 1s infinite ease-in-out;
+}
+
+.animate-typing:nth-child(1) { animation-delay: 0s; }
+.animate-typing:nth-child(2) { animation-delay: 0.2s; }
+.animate-typing:nth-child(3) { animation-delay: 0.4s; }
+
+/* smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
