@@ -43,7 +43,7 @@ export default function ChatbotPage() {
             // Inject strictly selected department into escalation payload
             const assignedDepartmentId = selectedDepartment?.documentId || selectedDepartment?.attributes?.id || escalationData.category;
 
-            const res = await fetch("/api/tickets", {
+            const res = await fetch("/api/create-ticket", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
