@@ -1,0 +1,33 @@
+# Python environments and caches
+venv/
+.venv/
+env/
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+__pycache__/
+
+# Python artifacts
+*.py[cod]
+*.pyo
+*.pyd
+*.log
+*.tmp
+
+# Frontend and backend runtime artifacts
+docnerve/frontend/node_modules/
+docnerve/frontend/dist/
+docnerve/backend/.venv/
+docnerve/backend/uploads/
+docnerve/backend/exports/
+
+# Model weights are intentionally excluded, but keep the placeholder note
+docnerve/models/*
+!docnerve/models/
+!docnerve/models/README.md
+
+# OS and editor files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
