@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { motion } from "framer-motion";
-import { LogOut, ShieldAlert, Sparkles, User, Headset } from "lucide-react";
+import { LogOut, ShieldAlert, Sparkles, User, Headset, FileText } from "lucide-react";
 
 export function NavBar() {
   const { data: session, status } = useSession();
@@ -22,10 +22,16 @@ export function NavBar() {
         );
       case "agent":
         return (
+          <>
           <Link href="/agent" className="flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white transition-colors">
             <Headset className="w-4 h-4" />
             Agent Dashboard
           </Link>
+          <Link href="/agent/assined-tickits" className="flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white transition-colors">
+            <FileText className="w-4 h-4" />
+            Assigned Tickets
+          </Link>
+          </>
         );
       case "customer":
       case "user":
