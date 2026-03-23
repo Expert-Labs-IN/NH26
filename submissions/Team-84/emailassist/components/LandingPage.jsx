@@ -364,6 +364,189 @@ export function LandingPage({ onStart }) {
         </div>
       </section>
 
+      {/* ══ PROBLEM & SOLUTION ══ */}
+      <section id="problem" className="py-28 relative overflow-hidden bg-gray-50">
+        <div className="container mx-auto px-6 max-w-6xl">
+          <Reveal className="text-center mb-20">
+            <span className="text-xs font-bold uppercase tracking-widest mb-3 block text-gray-500">Why This Exists</span>
+            <h2 className="text-4xl md:text-5xl font-black mb-4 text-[#211B34]">Problem & Solution</h2>
+            <p className="max-w-2xl mx-auto text-lg text-gray-600">
+              Understanding the root cause and how this system addresses it comprehensively.
+            </p>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Problem */}
+            <Reveal delay="0.1s">
+              <div className="h-full rounded-lg bg-white p-8 shadow-sm">
+                <div className="inline-flex items-center gap-2 font-black text-xs uppercase tracking-widest mb-6 px-3 py-1.5 rounded-lg bg-gray-100" style={{ color: C }}>
+                  <AlertCircle className="w-4 h-4" /> The Problem
+                </div>
+                <h3 className="text-2xl font-black mb-4 text-[#211B34]">Cognitive Overload & Wasted Time</h3>
+                <p className="leading-relaxed mb-8 text-gray-600">
+                  Modern professionals spend <strong className="text-[#211B34]">2–3 hours daily</strong> managing emails—reading long threads,
+                  identifying required actions, replying, scheduling meetings, and tracking tasks.
+                  Existing solutions provide basic categorization or summarization, but{' '}
+                  <strong className="text-[#211B34]">they never take initiative or prepare executable outcomes.</strong>
+                </p>
+
+                <div className="space-y-3">
+                  {[
+                    { icon: <Brain className="w-4 h-4" />, title: 'Cognitive Overload', desc: 'Too much unstructured information to process manually every day.' },
+                    { icon: <Clock className="w-4 h-4" />, title: 'Repetitive Decisions', desc: 'Time wasted composing standard replies and scheduling routine meetings.' },
+                    { icon: <AlertCircle className="w-4 h-4" />, title: 'Missed Critical Actions', desc: 'Important tasks buried deep inside long email threads go unnoticed.' },
+                    { icon: <Filter className="w-4 h-4" />, title: 'No Intelligent Filtering', desc: 'Important emails sit alongside newsletters and promotional clutter.' },
+                  ].map((p, i) => (
+                    <div
+                      key={i}
+                      className="flex items-start gap-3 p-3 rounded-lg bg-gray-50"
+                    >
+                      <div className="mt-0.5 p-1.5 rounded-lg text-white shrink-0" style={{ background: C }}>{p.icon}</div>
+                      <div>
+                        <p className="text-sm font-bold text-[#211B34]">{p.title}</p>
+                        <p className="text-xs mt-0.5 text-gray-600">{p.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+
+            {/* Solution */}
+            <Reveal delay="0.2s">
+              <div className="h-full rounded-lg bg-white p-8 shadow-sm">
+                <div className="inline-flex items-center gap-2 font-black text-xs uppercase tracking-widest mb-6 px-3 py-1.5 rounded-lg text-white" style={{ background: C }}>
+                  <Sparkles className="w-4 h-4" /> The Solution
+                </div>
+                <h3 className="text-2xl font-black mb-4 text-[#211B34]">Action-Oriented AI Workflow</h3>
+                <p className="leading-relaxed mb-8 text-gray-600">
+                  A web-based AI-powered email assistant that transforms incoming emails into{' '}
+                  <strong className="text-[#211B34]">structured, actionable workflows</strong>—generating replies, calendar events,
+                  and tasks, then presenting them for user approval and execution.
+                </p>
+
+                <div className="relative space-y-0">
+                  {[
+                    { icon: <Mail className="w-4 h-4" />, title: 'Read & Understand', desc: 'AI parses email content, thread context, and sender intent.' },
+                    { icon: <Brain className="w-4 h-4" />, title: 'Extract & Analyze', desc: 'Identify priority, deadlines, participants, and required actions.' },
+                    { icon: <Layers className="w-4 h-4" />, title: 'Generate Action Objects', desc: 'Create reply drafts, calendar events, and task lists automatically.' },
+                    { icon: <CheckSquare className="w-4 h-4" />, title: 'User Approves & Executes', desc: 'One-click approval with full edit control before execution.' },
+                  ].map((s, i) => (
+                    <div key={i} className="flex gap-4 relative">
+                      <div className="flex flex-col items-center">
+                        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-white shrink-0 z-10" style={{ background: C }}>
+                          {s.icon}
+                        </div>
+                        {i < 3 && <div className="w-0.5 h-full mt-1 bg-gray-200" />}
+                      </div>
+                      <div className="pb-6">
+                        <p className="text-sm font-bold mb-0.5 text-[#211B34]">{s.title}</p>
+                        <p className="text-xs text-gray-600">{s.desc}</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ PIPELINE ══ */}
+      <section id="pipeline" className="py-24 bg-white relative overflow-hidden">
+        {/* Animated rings */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full animate-spin-slow pointer-events-none border border-gray-100" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] rounded-full animate-spin-slow-reverse pointer-events-none border border-gray-50" />
+
+        <div className="container mx-auto px-6 relative z-10">
+          <Reveal className="text-center mb-16">
+            <span className="text-xs font-bold uppercase tracking-widest mb-3 block text-gray-500">Core Architecture</span>
+            <h2 className="text-4xl md:text-5xl font-black mb-4 text-[#211B34]">The Unified Pipeline</h2>
+            <p className="max-w-2xl mx-auto text-lg text-gray-600">
+              Every email flows through a deterministic AI pipeline that transforms raw content into executable outcomes.
+            </p>
+          </Reveal>
+
+          {/* Pipeline nodes */}
+          <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-2 max-w-5xl mx-auto mb-16">
+            <PipelineNode icon={<Inbox className="w-6 h-6 text-white" />} label="Email In" shade="#9ca3af" delay="0.1s" />
+            <PipelineArrow delay="0.2s" />
+            <PipelineNode icon={<Filter className="w-6 h-6 text-white" />} label="Filter" shade="#6b7280" delay="0.3s" />
+            <PipelineArrow delay="0.4s" />
+            <PipelineNode icon={<Brain className="w-6 h-6 text-white" />} label="AI Analyze" shade={C} delay="0.5s" />
+            <PipelineArrow delay="0.6s" />
+            <PipelineNode icon={<Layers className="w-6 h-6 text-white" />} label="Actions" shade="#6d28d9" delay="0.7s" />
+            <PipelineArrow delay="0.8s" />
+            <PipelineNode icon={<ShieldCheck className="w-6 h-6 text-white" />} label="Approval" shade="#8b5cf6" delay="0.9s" />
+            <PipelineArrow delay="1.0s" />
+            <PipelineNode icon={<Zap className="w-6 h-6 text-white" />} label="Execute" shade="#5b21b6" delay="1.1s" />
+          </div>
+        </div>
+      </section>
+
+      {/* ══ PROCESSING STRATEGY ══ */}
+      <section id="process" className="py-28 relative overflow-hidden bg-gray-50">
+        <div className="container mx-auto px-6 max-w-6xl relative z-10">
+          <Reveal className="text-center mb-20">
+            <span className="text-xs font-bold uppercase tracking-widest mb-3 block text-gray-500">Under the Hood</span>
+            <h2 className="text-4xl md:text-5xl font-black mb-4 text-[#211B34]">Email Processing Strategy</h2>
+            <p className="max-w-2xl mx-auto text-lg text-gray-600">
+              Smart decisions about <em>which</em> emails to process and <em>how</em> to do it efficiently at scale.
+            </p>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                icon: <Filter className="w-6 h-6" style={{ color: C }} />,
+                title: 'Relevance Filtering',
+                points: [
+                  'Process only recent emails (last 24 hours)',
+                  'Focus on unread and starred messages',
+                  'Automatically skip promotions & social tabs',
+                  'Filter newsletters, auto-replies, and CC spam',
+                ],
+              },
+              {
+                icon: <Database className="w-6 h-6" style={{ color: C }} />,
+                title: 'Batch Processing',
+                points: [
+                  'Process 5–10 emails per API batch call',
+                  'Reduces LLM token usage by ~60%',
+                  'Parallel processing for faster results',
+                  'Queue management for large inboxes',
+                ],
+              },
+              {
+                icon: <RefreshCw className="w-6 h-6" style={{ color: C }} />,
+                title: 'Smart Caching',
+                points: [
+                  'Track processed email IDs in MongoDB',
+                  'Never reprocess an already-analyzed email',
+                  'Cache AI results for 24-hour sessions',
+                  'Incremental sync: fetch only new emails',
+                ],
+              },
+            ].map((s, i) => (
+              <Reveal key={i} delay={`${0.1 * i}s`}>
+                <div className="h-full rounded-lg bg-white p-7 shadow-sm">
+                  <div className="w-11 h-11 rounded-lg flex items-center justify-center mb-5 bg-gray-50">{s.icon}</div>
+                  <h3 className="text-lg font-black mb-4 text-[#211B34]">{s.title}</h3>
+                  <ul className="space-y-2.5">
+                    {s.points.map((p, pi) => (
+                      <li key={pi} className="flex items-start gap-2.5 text-sm text-gray-600">
+                        <div className="mt-2 w-1.5 h-1.5 rounded-full shrink-0" style={{ background: C }} />
+                        {p}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ══ FEATURES ══ */}
       <section id="features" className="py-28 relative overflow-hidden bg-gray-50">
         <div className="container mx-auto px-6 max-w-7xl">
