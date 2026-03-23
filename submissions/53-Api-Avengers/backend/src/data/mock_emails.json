@@ -1,0 +1,188 @@
+[
+  {
+    "id": "email_001",
+    "subject": "URGENT: Production Server Down - Immediate Action Required",
+    "sender": "alerting@infra.nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "CRITICAL ALERT: Our primary production server (prod-us-east-1) went down at 11:47 PM IST. All customer-facing services are unavailable. Error logs show a disk I/O failure on the primary DB node. The on-call engineer has been paged but we need engineering leadership involved immediately. Revenue impact is estimated at $12,000/hour. Please join the incident call NOW: https://meet.nexcorp.com/incident-042. Severity: P0.",
+    "thread": [],
+    "received_at": "2026-03-23T06:17:00Z"
+  },
+  {
+    "id": "email_002",
+    "subject": "Legal: Contract Renewal Deadline - Response Required by EOD",
+    "sender": "legal@partnerfirm.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Dear Mohit, This is a final notice regarding the SaaS Partnership Agreement (Contract #NX-2024-887). The renewal window closes today, March 23, 2026 at 5:00 PM IST. Failure to respond will result in automatic termination of the contract and potential penalties of $50,000 as per clause 12.3. Please sign the attached addendum and return it at your earliest convenience. Contact me directly at +91-98765-43210 for any urgent queries.",
+    "thread": [
+      "Mar 20 - Initial renewal notice sent with contract documents.",
+      "Mar 22 - Second reminder sent, no response received."
+    ],
+    "received_at": "2026-03-23T04:30:00Z"
+  },
+  {
+    "id": "email_003",
+    "subject": "Let's Schedule a Product Roadmap Review - March 25th Works?",
+    "sender": "priya.sharma@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hi Mohit, Hope you're doing well! I wanted to sync with you and the product team on the Q2 roadmap. Does March 25th, 2026 at 2:30 PM IST work for you? The meeting should be about 90 minutes. I've tentatively booked a room (Conf Room B, Floor 3) and will also set up a Google Meet link for remote folks. Agenda: 1) Review Q1 OKRs, 2) Prioritize Q2 features, 3) Resource allocation. Let me know if the time works!",
+    "thread": [],
+    "received_at": "2026-03-23T05:00:00Z"
+  },
+  {
+    "id": "email_004",
+    "subject": "Action Required: Approve Q1 Marketing Budget ($45,000)",
+    "sender": "anita.roy@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hi Mohit, The Q1 marketing budget proposal is ready for your approval. Total request: $45,000 breakdown: Digital Ads $20,000, Event Sponsorship $15,000, Content Creation $10,000. The finance team needs your sign-off by March 24th to process payments before the quarter closes. I've attached the full budget breakdown spreadsheet. Please reply with 'Approved' or any modification requests. Thanks, Anita.",
+    "thread": [
+      "Mar 18 - Budget proposal drafted and circulated to department heads.",
+      "Mar 21 - Finance requested final approval from leadership."
+    ],
+    "received_at": "2026-03-23T03:15:00Z"
+  },
+  {
+    "id": "email_005",
+    "subject": "Task Assignment: API Documentation Overhaul - Sprint 14",
+    "sender": "rahul.mehta@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hi Mohit, As discussed in today's standup, here are your assigned tasks for Sprint 14: 1) Rewrite REST API docs for /auth and /triage endpoints (due March 27), 2) Add OpenAPI 3.0 schema examples for all response models (due March 28), 3) Review and merge 3 open documentation PRs (due March 25), 4) Set up Swagger UI auto-deployment via GitHub Actions (due March 30). Please track progress in Jira board NX-Sprint-14. Ping me if you have blockers. Best, Rahul (Engineering Manager).",
+    "thread": [],
+    "received_at": "2026-03-23T02:00:00Z"
+  },
+  {
+    "id": "email_006",
+    "subject": "Kickoff Call: NexMail x CloudBase Integration - April 2nd, 10 AM",
+    "sender": "david.kim@cloudbase.io",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hello Mohit, Great connecting at TechConf last week! As agreed, let's kick off the NexMail-CloudBase integration project. I've scheduled a kickoff call for April 2nd, 2026 at 10:00 AM PST (11:30 PM IST). Meeting link: https://zoom.us/j/92847165. Attendees from our side: David Kim (CTO), Sara Lee (Lead Architect). Please bring your API specs and security requirements doc. Calendar invite is attached.",
+    "thread": [],
+    "received_at": "2026-03-22T18:00:00Z"
+  },
+  {
+    "id": "email_007",
+    "subject": "Invoice #INV-2026-0412 Due - Approve for Payment",
+    "sender": "billing@awscloud.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Dear NexCorp Team, Your AWS invoice for March 2026 is ready. Invoice Number: INV-2026-0412. Amount Due: $8,342.17. Due Date: March 31, 2026. Services: EC2 ($4,100), RDS ($2,800), S3 ($1,442.17). Please log in to your AWS Billing Console to review and approve payment. If you have any billing disputes, contact aws-billing@amazon.com. Auto-payment will be attempted on due date if no action is taken.",
+    "thread": [],
+    "received_at": "2026-03-22T12:00:00Z"
+  },
+  {
+    "id": "email_008",
+    "subject": "FYI: Q1 2026 Engineering Team Performance Report",
+    "sender": "hr@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hi Team, Please find attached the Q1 2026 Engineering Performance Summary. Highlights: Overall team velocity increased by 18% compared to Q4 2025. Sprint completion rate: 94%. Bug resolution time improved from 4.2 days to 2.8 days. Employee satisfaction score: 8.2/10. Top performers: Rahul Mehta, Priya Sharma, Anika Gupta. Full report attached as PDF. No action required — this is for your records and awareness. The Q2 goals will be shared at the all-hands on March 30. Best, HR Team.",
+    "thread": [],
+    "received_at": "2026-03-22T09:00:00Z"
+  },
+  {
+    "id": "email_009",
+    "subject": "NexMail Weekly Digest: AI Industry News & Updates",
+    "sender": "newsletter@techdaily.io",
+    "recipient": "mohit@nexcorp.com",
+    "body": "This Week in AI & Tech 🚀 1. Google releases Gemini 3 Ultra with 2M context window. 2. OpenAI announces GPT-5 with real-time voice and video. 3. Meta's LLaMA 4 goes open-source under Apache 2.0. 4. GitHub Copilot now supports 40+ languages. 5. Anthropic raises $3B Series D at $20B valuation. 6. EU AI Act compliance deadline extended to Q3 2026. Tech Tip of the Week: Use structured outputs with Pydantic to ensure your AI never returns broken JSON. Subscribe for more at techdaily.io. Unsubscribe here.",
+    "thread": [],
+    "received_at": "2026-03-22T06:30:00Z"
+  },
+  {
+    "id": "email_010",
+    "subject": "Office Closed: Holi Holiday - March 24th, 2026",
+    "sender": "admin@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hi All, Just a friendly reminder that the NexCorp office will be closed on Monday, March 24th, 2026 in observance of Holi. Regular office hours resume on Tuesday, March 25th. For any urgent production issues during the holiday, please use the on-call escalation channel on Slack (#incident-response). All scheduled meetings on the 24th will be automatically rescheduled. Wishing everyone a colorful and happy Holi! 🎨 — Admin Team",
+    "thread": [],
+    "received_at": "2026-03-21T18:00:00Z"
+  },
+  {
+    "id": "email_011",
+    "subject": "Lunch & Learn: Introduction to Agentic AI (April 5th)",
+    "sender": "learning@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hi team, We're hosting a Lunch & Learn session on 'Building with Agentic AI' next Thursday, April 5th at 12:30 PM in the Main Cafeteria (and via Google Meet). Pizza will be provided for those attending in person! Please RSVP by Tuesday so we get an accurate headcount. Attached is the preliminary deck.",
+    "thread": [],
+    "received_at": "2026-03-21T10:00:00Z"
+  },
+  {
+    "id": "email_012",
+    "subject": "Status Update: Database Migration to v12",
+    "sender": "ops@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hi Mohit, Just an FYI that the scheduled PostgreSQL migration to v12 completed successfully at 3:00 AM last night. There was a brief 4-minute downtime which we anticipated. All clusters are healthy and replication lag is 0. No action required on your end.",
+    "thread": ["Mar 19 - Notice of Database Migration Schedule"],
+    "received_at": "2026-03-21T07:15:00Z"
+  },
+  {
+    "id": "email_013",
+    "subject": "Client Escalation: Enterprise Org Mapping Sync Failed",
+    "sender": "support@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hi Mohit, We have a severe escalation from MegaCorp (our largest enterprise client). Their org mapping sync has failed 5 times in the last 12 hours. They cannot onboard 500 new users today as planned. I need someone from the backend team to look into the logs immediately. Priority: High.",
+    "thread": [],
+    "received_at": "2026-03-20T16:45:00Z"
+  },
+  {
+    "id": "email_014",
+    "subject": "Feedback on your design doc: Messaging Queue Strategy",
+    "sender": "alex.chen@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hey Mohit, I read through your RFC for the new messaging queue architecture. Great work overall. I left a few comments on page 3 regarding the Redis fallback strategy—I think we might run into memory issues during a huge spike. Let's briefly chat about it before you finalize it.",
+    "thread": [],
+    "received_at": "2026-03-20T14:30:00Z"
+  },
+  {
+    "id": "email_015",
+    "subject": "Action Required: Complete Security Compliance Training",
+    "sender": "compliance@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Dear Employee, Our system shows you have not completed the Annual Data Privacy & Security Training. This is a mandatory requirement for all staff. Please log in to the learning portal and complete the 45-minute module by Friday, March 27th. Accounts without completion will face temporary suspension.",
+    "thread": [],
+    "received_at": "2026-03-20T09:00:00Z"
+  },
+  {
+    "id": "email_016",
+    "subject": "Re: Dinner on Thursday?",
+    "sender": "sara.lee@gmail.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hey Mohit! It was so great catching up last week. I'm actually going to be in your area this Thursday evening. Do you want to grab dinner around 7 PM? There's that new Italian place downtown I've been wanting to try. Let me know if you're free!",
+    "thread": ["Mar 15 - Catching up at TechConf"],
+    "received_at": "2026-03-19T19:20:00Z"
+  },
+  {
+    "id": "email_017",
+    "subject": "Github Actions failure in next-gen-ui repository",
+    "sender": "notifications@github.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Run failed on master branch for workflow: CI Build & Test. 2 jobs failed across 3 environments: node 18/ubuntu, node 20/ubuntu. The error appears to be in the 'jest --coverage' step (segmentation fault). Click here to view the full workflow logs.",
+    "thread": [],
+    "received_at": "2026-03-19T13:05:00Z"
+  },
+  {
+    "id": "email_018",
+    "subject": "Welcome to the new NexCorp Leadership Channel",
+    "sender": "communications@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hi Mohit, Congrats on your recent promotion! You've been added to the internal leadership communications list. Moving forward, you will receive weekly updates on executive strategy, board meeting summaries, and early access to structural changes before they are announced company-wide. Welcome aboard!",
+    "thread": [],
+    "received_at": "2026-03-19T08:30:00Z"
+  },
+  {
+    "id": "email_019",
+    "subject": "Interview Loop: Senior Backend Engineer (Candidate: John Doe)",
+    "sender": "recruiting@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Hi Mohit, We've scheduled you for a 60-minute technical interview with John Doe for the Senior Backend Engineer role. Date: March 26th, 11:00 AM IST. Focus area: System Design & API Architecture. Please remember to submit your feedback scorecard within 24 hours of the interview.",
+    "thread": [],
+    "received_at": "2026-03-18T15:10:00Z"
+  },
+  {
+    "id": "email_020",
+    "subject": "Urgent Maintenance: Office Internet Connectivity",
+    "sender": "it-support@nexcorp.com",
+    "recipient": "mohit@nexcorp.com",
+    "body": "Heads up for everyone working from the main office tomorrow (Tuesday). The ISP will be performing urgent line maintenance between 12:00 PM and 1:00 PM. Expect intermittent connection drops during this window. If you have critical client calls, we advise using your mobile hotspot.",
+    "thread": [],
+    "received_at": "2026-03-18T10:45:00Z"
+  }
+]
