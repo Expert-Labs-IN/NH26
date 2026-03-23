@@ -951,7 +951,7 @@ function MeetingsSection({
 
   if (meetings.length === 0) return null
   return (
-    <Card className="border-gray-200 shadow-sm">
+    <Card className="overflow-hidden border-gray-200 shadow-sm">
       <CardHeader className="border-b border-gray-100 pb-4">
         <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
           <Calendar className="w-4 h-4 text-emerald-600" />
@@ -1030,13 +1030,19 @@ function TasksSection({ tasks }: { tasks: ComprehensiveAnalysis['tasks'] }) {
   if (tasks.length === 0) return null
   const color: Record<string, string> = { high: 'text-red-600 bg-red-50', medium: 'text-amber-600 bg-amber-50', low: 'text-gray-500 bg-gray-50' }
   return (
-    <div>
-      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-        <ListChecks className="w-3.5 h-3.5 text-rose-500" /> Extracted Tasks
-      </p>
-      <div className="space-y-2">
+    <Card className="overflow-hidden border-gray-200 shadow-sm">
+      <CardHeader className="border-b border-gray-100 pb-4">
+        <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
+          <ListChecks className="w-4 h-4 text-rose-500" />
+          Extracted tasks
+        </CardTitle>
+        <CardDescription className="text-gray-500">
+          Action items detected in this conversation.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3 p-5">
         {tasks.map((t, i) => (
-          <div key={i} className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm">
+          <div key={i} className="flex items-center gap-3 rounded-2xl border border-gray-200 bg-gray-50/70 px-4 py-3">
             <div className="w-5 h-5 rounded-lg border-2 border-gray-300 shrink-0" />
             <div className="flex-1 min-w-0">
               <p className="text-sm text-gray-800 font-medium">{t.title}</p>
@@ -1045,30 +1051,36 @@ function TasksSection({ tasks }: { tasks: ComprehensiveAnalysis['tasks'] }) {
             <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${color[t.priority] ?? 'text-gray-500 bg-gray-50'}`}>{t.priority}</span>
           </div>
         ))}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 
 function DeadlinesSection({ deadlines }: { deadlines: ComprehensiveAnalysis['deadlines'] }) {
   if (deadlines.length === 0) return null
   return (
-    <div>
-      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-        <AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> Deadlines
-      </p>
-      <div className="space-y-2">
+    <Card className="overflow-hidden border-gray-200 shadow-sm">
+      <CardHeader className="border-b border-gray-100 pb-4">
+        <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
+          <AlertTriangle className="w-4 h-4 text-amber-500" />
+          Deadlines
+        </CardTitle>
+        <CardDescription className="text-gray-500">
+          Time-sensitive dates mentioned in this thread.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3 p-5">
         {deadlines.map((d, i) => (
-          <div key={i} className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium shadow-sm ${
-            d.urgent ? 'bg-red-50 border border-red-200 text-red-800' : 'bg-white border border-gray-200 text-gray-700'
+          <div key={i} className={`flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-medium ${
+            d.urgent ? 'bg-red-50 border border-red-200 text-red-800' : 'border border-gray-200 bg-gray-50/70 text-gray-700'
           }`}>
             {d.urgent && <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />}
             <span className="flex-1">{d.description}</span>
             <span className="text-xs text-gray-500 shrink-0 font-semibold">{d.date}</span>
           </div>
         ))}
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -1081,21 +1093,29 @@ function KeyInfoSection({ keyInfo }: { keyInfo: ComprehensiveAnalysis['keyInfo']
   ].filter(s => s.items.length > 0)
   if (sections.length === 0) return null
   return (
-    <div>
-      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
-        <Sparkles className="w-3.5 h-3.5 text-indigo-500" /> Key Information
-      </p>
-      <div className="grid grid-cols-2 gap-3">
-        {sections.map(s => (
-          <div key={s.label} className="bg-white border border-gray-200 rounded-xl p-3.5 shadow-sm">
-            <p className={`text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 mb-2 ${s.color}`}>
-              <s.icon className="w-3 h-3" />{s.label}
-            </p>
-            {s.items.map((item, i) => <p key={i} className="text-xs text-gray-700 truncate font-medium">{item}</p>)}
-          </div>
-        ))}
-      </div>
-    </div>
+    <Card className="overflow-hidden border-gray-200 shadow-sm">
+      <CardHeader className="border-b border-gray-100 pb-4">
+        <CardTitle className="flex items-center gap-2 text-lg text-gray-900">
+          <Sparkles className="w-4 h-4 text-indigo-500" />
+          Key information
+        </CardTitle>
+        <CardDescription className="text-gray-500">
+          Important details extracted from the conversation.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="p-5">
+        <div className="grid grid-cols-2 gap-3">
+          {sections.map(s => (
+            <div key={s.label} className="rounded-2xl border border-gray-200 bg-gray-50/70 p-4">
+              <p className={`text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 mb-2 ${s.color}`}>
+                <s.icon className="w-3 h-3" />{s.label}
+              </p>
+              {s.items.map((item, i) => <p key={i} className="text-xs text-gray-700 truncate font-medium">{item}</p>)}
+            </div>
+          ))}
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -1205,14 +1225,14 @@ function ComposePanel({ thread, initialText, meta, onUpdateDraft, onClose, isAut
 
   return (
     <div className="border-t border-gray-200 bg-white">
-      <div className="flex items-center justify-between px-5 py-2.5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-slate-50">
+      <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-slate-50">
         <span className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
           <CornerUpLeft className="w-3.5 h-3.5 text-blue-500" /> Replying to {recipientName || thread.from.name}
         </span>
-        <button onClick={onClose} className="p-1 hover:bg-gray-200 rounded-lg transition-colors"><X className="w-3.5 h-3.5 text-gray-400" /></button>
+        <button onClick={onClose} className="p-1.5 hover:bg-gray-200 rounded-lg transition-colors"><X className="w-3.5 h-3.5 text-gray-400" /></button>
       </div>
 
-      <div className="p-4">
+      <div className="p-5 space-y-3">
         <textarea
           ref={textareaRef}
           value={text}
@@ -1222,7 +1242,7 @@ function ComposePanel({ thread, initialText, meta, onUpdateDraft, onClose, isAut
           className="w-full text-sm text-gray-800 border border-gray-200 rounded-xl p-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-300 transition-all"
         />
 
-        <div className="flex items-center gap-2 mt-3 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
           <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mr-1">AI Tools</span>
           {aiTools.map(t => (
             <button key={t.action} onClick={() => handleRewrite(t.action)}
@@ -1234,7 +1254,7 @@ function ComposePanel({ thread, initialText, meta, onUpdateDraft, onClose, isAut
           ))}
         </div>
 
-        <div className="flex items-center justify-between mt-4">
+        <div className="flex items-center justify-between">
           <p className="text-[11px] text-gray-400 font-medium">{text.length > 0 ? `${text.split(/\s+/).filter(Boolean).length} words` : ''}</p>
           <Button size="sm" onClick={handleSend} disabled={!text.trim() || sent || sending}
             className={`rounded-xl px-5 ${sent ? 'bg-green-600 hover:bg-green-600' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'}`}>
@@ -1429,7 +1449,7 @@ function AIChatPanel({ thread, isGmail }: { thread: Thread | null; isGmail?: boo
         )}
         <div ref={endRef} />
       </div>
-      <div className="border-t border-gray-100 p-3 flex gap-2">
+      <div className="border-t border-gray-100 p-4 flex gap-2">
         <Input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()}
           placeholder="Ask about this email..." className="text-sm rounded-xl" />
         <Button size="sm" onClick={send} disabled={loading || !input.trim()}
@@ -2455,7 +2475,7 @@ export default function InboxPage() {
                 </div>
 
                 {/* Tabs — Emails first (default), then Analysis */}
-                <div className="flex gap-1 mt-4">
+                <div className="flex gap-2 mt-4">
                   <button onClick={() => setActiveTab('emails')}
                     className={`inline-flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl transition-all ${
                       activeTab === 'emails'
@@ -2478,7 +2498,7 @@ export default function InboxPage() {
               {/* Tab content */}
               <div className="flex-1 overflow-y-auto">
                 {activeTab === 'emails' ? (
-                  <div className="p-6 space-y-4 max-w-3xl">
+                  <div className="p-6 space-y-5 max-w-3xl">
                     {selectedThread.emails.length === 0 && (
                       <Empty className="rounded-[1.5rem] border border-dashed border-gray-200 bg-gray-50/70">
                         <EmptyHeader>
@@ -2530,7 +2550,7 @@ export default function InboxPage() {
                     )}
                   </div>
                 ) : (
-                  <div className="p-6 space-y-6 max-w-3xl">
+                  <div className="p-6 space-y-5 max-w-3xl">
                     {isLoadingSelected ? (
                       <div className="py-20 text-center">
                         <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl flex items-center justify-center mx-auto mb-4">
@@ -2545,15 +2565,13 @@ export default function InboxPage() {
                         <FollowUpSection needed={selectedAnalysis.followUpNeeded} suggestion={selectedAnalysis.followUpSuggestion} />
                         <SmartRepliesSection thread={selectedThread} analysis={selectedAnalysis} onUseReply={handleUseReply} />
                         <DraftReplySection draft={selectedAnalysis.draftReply} />
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                          <MeetingsSection
-                            meetings={calendarMeetings}
-                            isAuthenticated={isAuthenticated}
-                            onCalendarAdded={fetchCalendarEvents}
-                            onOpenCalendar={() => handleFolderChange('calendar')}
-                          />
-                          <TasksSection tasks={selectedAnalysis.tasks} />
-                        </div>
+                        <MeetingsSection
+                          meetings={calendarMeetings}
+                          isAuthenticated={isAuthenticated}
+                          onCalendarAdded={fetchCalendarEvents}
+                          onOpenCalendar={() => handleFolderChange('calendar')}
+                        />
+                        <TasksSection tasks={selectedAnalysis.tasks} />
                         <DeadlinesSection deadlines={selectedAnalysis.deadlines} />
                         <KeyInfoSection keyInfo={selectedAnalysis.keyInfo} />
 
