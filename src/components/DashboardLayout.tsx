@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 interface Props { children: ReactNode }
 
 export default function DashboardLayout({ children }: Props) {
-  const { role, profile, signOut } = useAuth();
+  const { role, profile, user, signOut } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
