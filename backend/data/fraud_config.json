@@ -1,0 +1,97 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-03-23T15:20:17.004Z",
+  "levels": {
+    "mediumMin": 26,
+    "highMin": 51,
+    "criticalMin": 76
+  },
+  "rules": {
+    "highAmount": {
+      "enabled": true,
+      "threshold": 5000,
+      "points": 30
+    },
+    "roundNumber": {
+      "enabled": true,
+      "points": 15,
+      "minAmount": 100,
+      "largeAmount": 1000,
+      "normalStep": 100,
+      "largeStep": 500
+    },
+    "weekend": {
+      "enabled": true,
+      "points": 10
+    },
+    "lateNight": {
+      "enabled": true,
+      "startHour": 0,
+      "endHour": 5,
+      "points": 10
+    },
+    "duplicateDescription": {
+      "enabled": true,
+      "points": 25
+    },
+    "categoryMismatch": {
+      "enabled": true,
+      "categories": [
+        "Food",
+        "Supplies"
+      ],
+      "threshold": 500,
+      "points": 20
+    },
+    "rapidSubmission": {
+      "enabled": true,
+      "count": 3,
+      "hours": 24,
+      "points": 20
+    },
+    "amountSpike": {
+      "enabled": true,
+      "multiplier": 3,
+      "points": 25
+    },
+    "thresholdGaming": {
+      "enabled": true,
+      "min": 95,
+      "max": 99.99,
+      "points": 15
+    },
+    "missingReceiptText": {
+      "enabled": true,
+      "minAmount": 300,
+      "points": 15
+    },
+    "receiptAmountMismatch": {
+      "enabled": true,
+      "tolerance": 5,
+      "points": 30
+    },
+    "receiptDetailsMismatch": {
+      "enabled": true,
+      "minAmount": 250,
+      "minDescriptionWords": 3,
+      "minOverlap": 0.2,
+      "points": 20
+    },
+    "categoryReceiptMismatch": {
+      "enabled": true,
+      "points": 18
+    },
+    "suspiciousKeywords": {
+      "enabled": true,
+      "keywords": [
+        "cash",
+        "gift card",
+        "personal",
+        "reimburse me",
+        "crypto",
+        "bitcoin"
+      ],
+      "points": 12
+    }
+  }
+}

@@ -1,0 +1,5309 @@
+{
+  "metadata": {
+    "createdAt": "2026-03-23T15:19:41.955Z",
+    "lastUpdated": "2026-03-23T15:35:24.299Z",
+    "totalRecords": 129,
+    "version": "1.0.0"
+  },
+  "users": [
+    {
+      "id": "69c10fe546616a06374baf1c",
+      "name": "John Doe",
+      "email": "john@company.com",
+      "role": "employee",
+      "department": "Marketing",
+      "createdAt": "2026-03-23T10:03:17.478Z",
+      "isActive": true
+    },
+    {
+      "id": "69c10fe546616a06374baf20",
+      "name": "Finance Admin",
+      "email": "finance@company.com",
+      "role": "finance",
+      "department": "Finance",
+      "createdAt": "2026-03-23T10:03:17.479Z",
+      "isActive": true
+    },
+    {
+      "id": "69c10fe546616a06374baf1d",
+      "name": "Jane Smith",
+      "email": "jane@company.com",
+      "role": "employee",
+      "department": "IT",
+      "createdAt": "2026-03-23T10:03:17.479Z",
+      "isActive": true
+    },
+    {
+      "id": "69c10fe546616a06374baf1f",
+      "name": "Mike Manager",
+      "email": "mike.manager@company.com",
+      "role": "manager",
+      "department": "IT",
+      "createdAt": "2026-03-23T10:03:17.479Z",
+      "isActive": true
+    },
+    {
+      "id": "69c10fe546616a06374baf1e",
+      "name": "Sarah Manager",
+      "email": "sarah.manager@company.com",
+      "role": "manager",
+      "department": "Marketing",
+      "createdAt": "2026-03-23T10:03:17.479Z",
+      "isActive": true
+    }
+  ],
+  "expenses": [
+    {
+      "expenseId": "69c10fe546616a06374baf2d",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1500,
+      "category": "Travel",
+      "description": "Conference travel and accommodation",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-23T10:03:17.805Z",
+      "updatedAt": "2026-03-23T10:06:18.834Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1500",
+          "timestamp": "2026-03-20T10:03:17.796Z",
+          "_id": "69c10fe546616a06374baf2e"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - important conference",
+          "timestamp": "2026-03-21T10:03:17.796Z",
+          "_id": "69c10fe546616a06374baf2f"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted for conference",
+          "timestamp": "2026-03-23T10:06:18.833Z",
+          "_id": "69c1109af203d460f372d99e"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c10fe546616a06374baf33",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 750,
+      "category": "Supplies",
+      "description": "Office supplies for team",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-03-23T10:03:17.805Z",
+      "updatedAt": "2026-03-23T10:09:34.743Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $750",
+          "timestamp": "2026-03-23T10:03:17.796Z",
+          "_id": "69c10fe546616a06374baf34"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved",
+          "timestamp": "2026-03-23T10:09:34.742Z",
+          "_id": "69c1115ef203d460f372d9ff"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c10fe546616a06374baf27",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 50,
+      "category": "Food",
+      "description": "Team lunch meeting",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 0,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-23T10:03:17.804Z",
+      "updatedAt": "2026-03-23T10:03:17.804Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $50",
+          "timestamp": "2026-03-22T10:03:17.796Z",
+          "_id": "69c10fe546616a06374baf28"
+        },
+        {
+          "status": "Auto-Approved",
+          "actionBy": "System",
+          "remark": "Amount less than $100 - automatically approved",
+          "timestamp": "2026-03-22T10:03:17.796Z",
+          "_id": "69c10fe546616a06374baf29"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c10fe546616a06374baf2a",
+      "employeeId": "69c10fe546616a06374baf1d",
+      "employeeName": "Jane Smith",
+      "employeeEmail": "jane@company.com",
+      "department": "IT",
+      "amount": 500,
+      "category": "Software",
+      "description": "Annual software license renewal",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1f",
+      "managerName": "Mike Manager",
+      "financeName": null,
+      "createdAt": "2026-03-23T10:03:17.805Z",
+      "updatedAt": "2026-03-23T10:03:17.805Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Jane Smith",
+          "remark": "Expense submitted for $500",
+          "timestamp": "2026-03-21T10:03:17.796Z",
+          "_id": "69c10fe546616a06374baf2b"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Mike Manager",
+          "remark": "Approved - valid business expense",
+          "timestamp": "2026-03-22T10:03:17.796Z",
+          "_id": "69c10fe546616a06374baf2c"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c10fe546616a06374baf30",
+      "employeeId": "69c10fe546616a06374baf1d",
+      "employeeName": "Jane Smith",
+      "employeeEmail": "jane@company.com",
+      "department": "IT",
+      "amount": 2500,
+      "category": "Software",
+      "description": "New laptop for developer",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1f",
+      "managerName": "Mike Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-23T10:03:17.805Z",
+      "updatedAt": "2026-03-23T11:01:55.323Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Jane Smith",
+          "remark": "Expense submitted for $2500",
+          "timestamp": "2026-03-19T10:03:17.796Z",
+          "_id": "69c10fe546616a06374baf31"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Mike Manager",
+          "remark": "Needed for new hire",
+          "timestamp": "2026-03-20T10:03:17.796Z",
+          "_id": "69c10fe546616a06374baf32"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-23T11:01:55.322Z",
+          "_id": "69c11da3f203d460f372dc04"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c11066f203d460f372d904",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 200,
+      "category": "Travel",
+      "description": "Test expense for approval workflow",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-03-23T10:05:26.012Z",
+      "updatedAt": "2026-03-23T10:05:32.916Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $200",
+          "timestamp": "2026-03-23T10:05:26.006Z",
+          "_id": "69c11066f203d460f372d905"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved for business travel",
+          "timestamp": "2026-03-23T10:05:32.878Z",
+          "_id": "69c1106cf203d460f372d90b"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c1107ff203d460f372d91d",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 50,
+      "category": "Food",
+      "description": "Test auto-approval under $100",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 0,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-23T10:05:51.720Z",
+      "updatedAt": "2026-03-23T10:05:51.720Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $50",
+          "timestamp": "2026-03-23T10:05:51.719Z",
+          "_id": "69c1107ff203d460f372d91e"
+        },
+        {
+          "status": "Auto-Approved",
+          "actionBy": "System",
+          "remark": "Amount less than $100 - automatically approved",
+          "timestamp": "2026-03-23T10:05:51.719Z",
+          "_id": "69c1107ff203d460f372d91f"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c11d82f203d460f372db8a",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1500,
+      "category": "Food",
+      "description": "Food",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-23T11:01:22.981Z",
+      "updatedAt": "2026-03-23T11:01:49.295Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1500",
+          "timestamp": "2026-03-23T11:01:22.977Z",
+          "_id": "69c11d82f203d460f372db8b"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved",
+          "timestamp": "2026-03-23T11:01:35.277Z",
+          "_id": "69c11d8ff203d460f372dba5"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-23T11:01:49.293Z",
+          "_id": "69c11d9df203d460f372dbe4"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c1250af203d460f372dd7e",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 660,
+      "category": "Travel",
+      "description": "please approve",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-03-23T11:33:30.477Z",
+      "updatedAt": "2026-03-23T11:35:11.066Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $660",
+          "timestamp": "2026-03-23T11:33:30.475Z",
+          "_id": "69c1250af203d460f372dd7f"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved",
+          "timestamp": "2026-03-23T11:35:11.065Z",
+          "_id": "69c1256ff203d460f372ddc8"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad50a",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 4176,
+      "category": "Other",
+      "description": "Holiday party",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2025-12-31T18:30:00.000Z",
+      "updatedAt": "2025-12-31T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $4176",
+          "timestamp": "2025-12-31T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad50b"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad50c",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3852,
+      "category": "Supplies",
+      "description": "Cleaning supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-20T18:30:00.000Z",
+      "updatedAt": "2026-01-20T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3852",
+          "timestamp": "2026-01-20T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad50d"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad50e"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad50f"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad510",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 776,
+      "category": "Software",
+      "description": "Antivirus software",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-05T18:30:00.000Z",
+      "updatedAt": "2026-01-05T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $776",
+          "timestamp": "2026-01-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad511"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-01-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad512"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad513",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1066,
+      "category": "Travel",
+      "description": "Branch office visit",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-26T18:30:00.000Z",
+      "updatedAt": "2026-01-26T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1066",
+          "timestamp": "2026-01-26T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad514"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-27T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad515"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-28T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad516"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad517",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 986,
+      "category": "Other",
+      "description": "Keyboard and mouse",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-01-30T18:30:00.000Z",
+      "updatedAt": "2026-01-30T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $986",
+          "timestamp": "2026-01-30T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad518"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-31T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad519"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad51a",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2451,
+      "category": "Supplies",
+      "description": "Folders and binders",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-01T18:30:00.000Z",
+      "updatedAt": "2026-01-01T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2451",
+          "timestamp": "2026-01-01T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad51b"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-02T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad51c"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-03T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad51d"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad51e",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4491,
+      "category": "Supplies",
+      "description": "Paper ream",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2025-12-31T18:30:00.000Z",
+      "updatedAt": "2025-12-31T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4491",
+          "timestamp": "2025-12-31T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad51f"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-01-01T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad520"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad521",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3676,
+      "category": "Software",
+      "description": "Software license renewal",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-10T18:30:00.000Z",
+      "updatedAt": "2026-01-10T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3676",
+          "timestamp": "2026-01-10T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad522"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-11T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad523"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-12T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad524"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad525",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1481,
+      "category": "Food",
+      "description": "Team lunch meeting",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2025-12-31T18:30:00.000Z",
+      "updatedAt": "2025-12-31T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1481",
+          "timestamp": "2025-12-31T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad526"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-01-01T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad527"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad528",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 830,
+      "category": "Supplies",
+      "description": "Break room supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-28T18:30:00.000Z",
+      "updatedAt": "2026-01-28T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $830",
+          "timestamp": "2026-01-28T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad529"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-29T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad52a"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad52b",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 928,
+      "category": "Food",
+      "description": "Team lunch meeting",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-30T18:30:00.000Z",
+      "updatedAt": "2026-01-30T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $928",
+          "timestamp": "2026-01-30T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad52c"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-31T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad52d"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad52e",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 4287,
+      "category": "Supplies",
+      "description": "Break room supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-18T18:30:00.000Z",
+      "updatedAt": "2026-01-18T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $4287",
+          "timestamp": "2026-01-18T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad52f"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-01-19T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad530"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad531",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 397,
+      "category": "Food",
+      "description": "Office catering",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-01-01T18:30:00.000Z",
+      "updatedAt": "2026-01-01T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $397",
+          "timestamp": "2026-01-01T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad532"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-01-02T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad533"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad534",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 3194,
+      "category": "Travel",
+      "description": "Flight booking",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-11T18:30:00.000Z",
+      "updatedAt": "2026-01-11T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $3194",
+          "timestamp": "2026-01-11T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad535"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-12T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad536"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-13T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad537"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad538",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4020,
+      "category": "Food",
+      "description": "Client dinner",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-01-21T18:30:00.000Z",
+      "updatedAt": "2026-01-21T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4020",
+          "timestamp": "2026-01-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad539"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-01-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad53a"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad53b",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3069,
+      "category": "Other",
+      "description": "Keyboard and mouse",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-01-28T18:30:00.000Z",
+      "updatedAt": "2026-01-28T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3069",
+          "timestamp": "2026-01-28T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad53c"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-01-29T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad53d"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad53e",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1954,
+      "category": "Supplies",
+      "description": "Cleaning supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-01-24T18:30:00.000Z",
+      "updatedAt": "2026-01-24T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1954",
+          "timestamp": "2026-01-24T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad53f"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-01-25T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad540"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad541",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 3443,
+      "category": "Travel",
+      "description": "Conference travel",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-22T18:30:00.000Z",
+      "updatedAt": "2026-01-22T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $3443",
+          "timestamp": "2026-01-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad542"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-01-23T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad543"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad544",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2506,
+      "category": "Other",
+      "description": "Holiday party",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-27T18:30:00.000Z",
+      "updatedAt": "2026-01-27T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2506",
+          "timestamp": "2026-01-27T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad545"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-28T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad546"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-29T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad547"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad548",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1095,
+      "category": "Software",
+      "description": "Tool upgrade",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-01-02T18:30:00.000Z",
+      "updatedAt": "2026-01-02T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1095",
+          "timestamp": "2026-01-02T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad549"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-01-03T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad54a"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad54b",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3506,
+      "category": "Food",
+      "description": "Celebration dinner",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-30T18:30:00.000Z",
+      "updatedAt": "2026-01-30T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3506",
+          "timestamp": "2026-01-30T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad54c"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-31T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad54d"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-01T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad54e"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad54f",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1170,
+      "category": "Travel",
+      "description": "Client meeting travel",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-12T18:30:00.000Z",
+      "updatedAt": "2026-01-12T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1170",
+          "timestamp": "2026-01-12T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad550"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-13T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad551"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-14T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad552"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad553",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1489,
+      "category": "Software",
+      "description": "New software purchase",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-29T18:30:00.000Z",
+      "updatedAt": "2026-01-29T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1489",
+          "timestamp": "2026-01-29T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad554"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-30T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad555"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-31T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad556"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad557",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2573,
+      "category": "Software",
+      "description": "New software purchase",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-25T18:30:00.000Z",
+      "updatedAt": "2026-01-25T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2573",
+          "timestamp": "2026-01-25T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad558"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-26T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad559"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-27T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad55a"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad55b",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3591,
+      "category": "Software",
+      "description": "Cloud service",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-04T18:30:00.000Z",
+      "updatedAt": "2026-01-04T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3591",
+          "timestamp": "2026-01-04T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad55c"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad55d"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad55e"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad55f",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1894,
+      "category": "Software",
+      "description": "Development tools",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-22T18:30:00.000Z",
+      "updatedAt": "2026-01-22T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1894",
+          "timestamp": "2026-01-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad560"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-23T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad561"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-24T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad562"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad563",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1625,
+      "category": "Food",
+      "description": "Pizza party",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-17T18:30:00.000Z",
+      "updatedAt": "2026-01-17T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1625",
+          "timestamp": "2026-01-17T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad564"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-18T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad565"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-19T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad566"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad567",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 2474,
+      "category": "Supplies",
+      "description": "Cleaning supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-02T18:30:00.000Z",
+      "updatedAt": "2026-01-02T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $2474",
+          "timestamp": "2026-01-02T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad568"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-03T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad569"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-04T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad56a"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad56b",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 2012,
+      "category": "Travel",
+      "description": "Business trip",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-07T18:30:00.000Z",
+      "updatedAt": "2026-01-07T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $2012",
+          "timestamp": "2026-01-07T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad56c"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-08T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad56d"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-09T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad56e"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad56f",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3056,
+      "category": "Supplies",
+      "description": "Whiteboard markers",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-10T18:30:00.000Z",
+      "updatedAt": "2026-01-10T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3056",
+          "timestamp": "2026-01-10T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad570"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-11T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad571"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-12T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad572"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad573",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 2547,
+      "category": "Other",
+      "description": "Marketing materials",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-15T18:30:00.000Z",
+      "updatedAt": "2026-01-15T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $2547",
+          "timestamp": "2026-01-15T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad574"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-16T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad575"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-17T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad576"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad577",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1362,
+      "category": "Travel",
+      "description": "Taxi/Transport",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-01-01T18:30:00.000Z",
+      "updatedAt": "2026-01-01T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1362",
+          "timestamp": "2026-01-01T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad578"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-01-02T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad579"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad57a",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2560,
+      "category": "Software",
+      "description": "Software license renewal",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-06T18:30:00.000Z",
+      "updatedAt": "2026-01-06T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2560",
+          "timestamp": "2026-01-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad57b"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-01-07T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad57c"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad57d",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1608,
+      "category": "Supplies",
+      "description": "Paper ream",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-04T18:30:00.000Z",
+      "updatedAt": "2026-01-04T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1608",
+          "timestamp": "2026-01-04T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad57e"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-01-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad57f"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad580",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 176,
+      "category": "Travel",
+      "description": "Flight booking",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-07T18:30:00.000Z",
+      "updatedAt": "2026-01-07T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $176",
+          "timestamp": "2026-01-07T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad581"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-08T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad582"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad583",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 162,
+      "category": "Travel",
+      "description": "Client meeting travel",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-23T18:30:00.000Z",
+      "updatedAt": "2026-01-23T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $162",
+          "timestamp": "2026-01-23T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad584"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-24T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad585"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad586",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2661,
+      "category": "Software",
+      "description": "Tool upgrade",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-09T18:30:00.000Z",
+      "updatedAt": "2026-01-09T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2661",
+          "timestamp": "2026-01-09T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad587"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-01-10T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad588"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad589",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1326,
+      "category": "Software",
+      "description": "New software purchase",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-01-20T18:30:00.000Z",
+      "updatedAt": "2026-01-20T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1326",
+          "timestamp": "2026-01-20T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad58a"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-01-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad58b"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad58c",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 4337,
+      "category": "Food",
+      "description": "Pizza party",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-15T18:30:00.000Z",
+      "updatedAt": "2026-01-15T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $4337",
+          "timestamp": "2026-01-15T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad58d"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-16T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad58e"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-17T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad58f"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad590",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1983,
+      "category": "Software",
+      "description": "Cloud service",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-17T18:30:00.000Z",
+      "updatedAt": "2026-01-17T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1983",
+          "timestamp": "2026-01-17T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad591"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-18T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad592"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-19T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad593"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad594",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 4006,
+      "category": "Supplies",
+      "description": "Stationery",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-01-29T18:30:00.000Z",
+      "updatedAt": "2026-01-29T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $4006",
+          "timestamp": "2026-01-29T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad595"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-01-30T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad596"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad597",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4024,
+      "category": "Travel",
+      "description": "Branch office visit",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-02T18:30:00.000Z",
+      "updatedAt": "2026-01-02T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4024",
+          "timestamp": "2026-01-02T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad598"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-01-03T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad599"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-01-04T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad59a"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad59b",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4432,
+      "category": "Food",
+      "description": "Snacks for meeting",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-01-21T18:30:00.000Z",
+      "updatedAt": "2026-01-21T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4432",
+          "timestamp": "2026-01-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad59c"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-01-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad59d"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad59e",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 129,
+      "category": "Food",
+      "description": "Celebration dinner",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-19T18:30:00.000Z",
+      "updatedAt": "2026-02-19T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $129",
+          "timestamp": "2026-02-19T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad59f"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-20T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5a0"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5a1",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 279,
+      "category": "Supplies",
+      "description": "Office supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-02-26T18:30:00.000Z",
+      "updatedAt": "2026-02-26T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $279",
+          "timestamp": "2026-02-26T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5a2"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-02-27T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5a3"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5a4",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2612,
+      "category": "Other",
+      "description": "Online course",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-02-12T18:30:00.000Z",
+      "updatedAt": "2026-02-12T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2612",
+          "timestamp": "2026-02-12T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5a5"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-02-13T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5a6"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5a7",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4082,
+      "category": "Other",
+      "description": "Keyboard and mouse",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-05T18:30:00.000Z",
+      "updatedAt": "2026-02-05T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4082",
+          "timestamp": "2026-02-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5a8"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5a9"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-07T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5aa"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5ab",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4292,
+      "category": "Travel",
+      "description": "Flight booking",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-17T18:30:00.000Z",
+      "updatedAt": "2026-02-17T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4292",
+          "timestamp": "2026-02-17T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5ac"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5ad",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 2721,
+      "category": "Food",
+      "description": "Celebration dinner",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-05T18:30:00.000Z",
+      "updatedAt": "2026-02-05T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $2721",
+          "timestamp": "2026-02-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5ae"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-02-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5af"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5b0",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1330,
+      "category": "Supplies",
+      "description": "Paper ream",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-02-22T18:30:00.000Z",
+      "updatedAt": "2026-02-22T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1330",
+          "timestamp": "2026-02-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5b1"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-02-23T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5b2"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5b3",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3320,
+      "category": "Software",
+      "description": "Software license renewal",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-09T18:30:00.000Z",
+      "updatedAt": "2026-02-09T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3320",
+          "timestamp": "2026-02-09T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5b4"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-10T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5b5"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-11T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5b6"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5b7",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4386,
+      "category": "Food",
+      "description": "Client dinner",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-05T18:30:00.000Z",
+      "updatedAt": "2026-02-05T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4386",
+          "timestamp": "2026-02-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5b8"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5b9"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-07T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5ba"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5bb",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 83,
+      "category": "Software",
+      "description": "Software license renewal",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 0,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-18T18:30:00.000Z",
+      "updatedAt": "2026-02-18T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $83",
+          "timestamp": "2026-02-18T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5bc"
+        },
+        {
+          "status": "Auto-Approved",
+          "actionBy": "System",
+          "remark": "Amount less than $100 - automatically approved",
+          "timestamp": "2026-02-18T19:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5bd"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5be",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 544,
+      "category": "Software",
+      "description": "New software purchase",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-02-15T18:30:00.000Z",
+      "updatedAt": "2026-02-15T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $544",
+          "timestamp": "2026-02-15T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5bf"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-16T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5c0"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5c1",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 2344,
+      "category": "Supplies",
+      "description": "Office supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-02T18:30:00.000Z",
+      "updatedAt": "2026-02-02T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $2344",
+          "timestamp": "2026-02-02T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5c2"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5c3",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 730,
+      "category": "Other",
+      "description": "New laptop",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-16T18:30:00.000Z",
+      "updatedAt": "2026-02-16T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $730",
+          "timestamp": "2026-02-16T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5c4"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-02-17T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5c5"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5c6",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1969,
+      "category": "Other",
+      "description": "Online course",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-25T18:30:00.000Z",
+      "updatedAt": "2026-02-25T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1969",
+          "timestamp": "2026-02-25T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5c7"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-02-26T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5c8"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5c9",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 3432,
+      "category": "Supplies",
+      "description": "Folders and binders",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-02-21T18:30:00.000Z",
+      "updatedAt": "2026-02-21T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $3432",
+          "timestamp": "2026-02-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5ca"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-02-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5cb"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5cc",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 389,
+      "category": "Food",
+      "description": "Celebration dinner",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-15T18:30:00.000Z",
+      "updatedAt": "2026-02-15T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $389",
+          "timestamp": "2026-02-15T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5cd"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5ce",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3521,
+      "category": "Software",
+      "description": "Cloud service",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-04T18:30:00.000Z",
+      "updatedAt": "2026-02-04T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3521",
+          "timestamp": "2026-02-04T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5cf"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5d0",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 2889,
+      "category": "Food",
+      "description": "Business breakfast",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-24T18:30:00.000Z",
+      "updatedAt": "2026-02-24T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $2889",
+          "timestamp": "2026-02-24T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5d1"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-25T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5d2"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-26T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5d3"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5d4",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 641,
+      "category": "Supplies",
+      "description": "Stationery",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-23T18:30:00.000Z",
+      "updatedAt": "2026-02-23T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $641",
+          "timestamp": "2026-02-23T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5d5"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5d6",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 647,
+      "category": "Travel",
+      "description": "Hotel stay",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-26T18:30:00.000Z",
+      "updatedAt": "2026-02-26T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $647",
+          "timestamp": "2026-02-26T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5d7"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-02-27T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5d8"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5d9",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 488,
+      "category": "Other",
+      "description": "Keyboard and mouse",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-27T18:30:00.000Z",
+      "updatedAt": "2026-02-27T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $488",
+          "timestamp": "2026-02-27T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5da"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-28T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5db"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5dc",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2194,
+      "category": "Other",
+      "description": "Headphones",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-15T18:30:00.000Z",
+      "updatedAt": "2026-02-15T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2194",
+          "timestamp": "2026-02-15T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5dd"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-16T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5de"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-17T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5df"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5e0",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1610,
+      "category": "Supplies",
+      "description": "Break room supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-19T18:30:00.000Z",
+      "updatedAt": "2026-02-19T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1610",
+          "timestamp": "2026-02-19T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5e1"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-02-20T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5e2"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5e3",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2152,
+      "category": "Supplies",
+      "description": "Office supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-17T18:30:00.000Z",
+      "updatedAt": "2026-02-17T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2152",
+          "timestamp": "2026-02-17T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5e4"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-18T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5e5"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-19T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5e6"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5e7",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 474,
+      "category": "Supplies",
+      "description": "Break room supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-02-06T18:30:00.000Z",
+      "updatedAt": "2026-02-06T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $474",
+          "timestamp": "2026-02-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5e8"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-07T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5e9"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5ea",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 546,
+      "category": "Supplies",
+      "description": "Paper ream",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-02-22T18:30:00.000Z",
+      "updatedAt": "2026-02-22T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $546",
+          "timestamp": "2026-02-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5eb"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-23T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5ec"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5ed",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1430,
+      "category": "Food",
+      "description": "Office catering",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-06T18:30:00.000Z",
+      "updatedAt": "2026-02-06T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1430",
+          "timestamp": "2026-02-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5ee"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-02-07T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5ef"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5f0",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 292,
+      "category": "Supplies",
+      "description": "Folders and binders",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-05T18:30:00.000Z",
+      "updatedAt": "2026-02-05T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $292",
+          "timestamp": "2026-02-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5f1"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-02-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5f2"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5f3",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1919,
+      "category": "Software",
+      "description": "Software license renewal",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-02-04T18:30:00.000Z",
+      "updatedAt": "2026-02-04T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1919",
+          "timestamp": "2026-02-04T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5f4"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-02-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5f5"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5f6",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1548,
+      "category": "Other",
+      "description": "Holiday party",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-04T18:30:00.000Z",
+      "updatedAt": "2026-02-04T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1548",
+          "timestamp": "2026-02-04T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5f7"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5f8"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5f9"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5fa",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1206,
+      "category": "Travel",
+      "description": "Hotel stay",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-10T18:30:00.000Z",
+      "updatedAt": "2026-02-10T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1206",
+          "timestamp": "2026-02-10T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5fb"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-11T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5fc"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-12T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5fd"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad5fe",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4124,
+      "category": "Supplies",
+      "description": "Break room supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-18T18:30:00.000Z",
+      "updatedAt": "2026-02-18T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4124",
+          "timestamp": "2026-02-18T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad5ff"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-19T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad600"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-20T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad601"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad602",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1505,
+      "category": "Other",
+      "description": "Marketing materials",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-02-08T18:30:00.000Z",
+      "updatedAt": "2026-02-08T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1505",
+          "timestamp": "2026-02-08T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad603"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-02-09T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad604"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad605",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3030,
+      "category": "Other",
+      "description": "Webcam",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-09T18:30:00.000Z",
+      "updatedAt": "2026-02-09T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3030",
+          "timestamp": "2026-02-09T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad606"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-10T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad607"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-11T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad608"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad609",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4519,
+      "category": "Travel",
+      "description": "Flight booking",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-01-31T18:30:00.000Z",
+      "updatedAt": "2026-01-31T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4519",
+          "timestamp": "2026-01-31T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad60a"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-01T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad60b"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-02T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad60c"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad60d",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3287,
+      "category": "Other",
+      "description": "New laptop",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-13T18:30:00.000Z",
+      "updatedAt": "2026-02-13T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3287",
+          "timestamp": "2026-02-13T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad60e"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-02-14T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad60f"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad610",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2233,
+      "category": "Food",
+      "description": "Pizza party",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-02-04T18:30:00.000Z",
+      "updatedAt": "2026-02-04T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2233",
+          "timestamp": "2026-02-04T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad611"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-02-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad612"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad613",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 3982,
+      "category": "Supplies",
+      "description": "Paper ream",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-02-22T18:30:00.000Z",
+      "updatedAt": "2026-02-22T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $3982",
+          "timestamp": "2026-02-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad614"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-02-23T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad615"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-02-24T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad616"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad617",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 245,
+      "category": "Software",
+      "description": "New software purchase",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-14T18:30:00.000Z",
+      "updatedAt": "2026-03-14T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $245",
+          "timestamp": "2026-03-14T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad618"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-03-15T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad619"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad61a",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4482,
+      "category": "Travel",
+      "description": "Conference travel",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-12T18:30:00.000Z",
+      "updatedAt": "2026-03-12T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4482",
+          "timestamp": "2026-03-12T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad61b"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-03-13T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad61c"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad61d",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3617,
+      "category": "Other",
+      "description": "Certification exam",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-08T18:30:00.000Z",
+      "updatedAt": "2026-03-08T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3617",
+          "timestamp": "2026-03-08T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad61e"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad61f",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1315,
+      "category": "Software",
+      "description": "Cloud service",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-29T18:30:00.000Z",
+      "updatedAt": "2026-03-23T15:35:07.199Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1315",
+          "timestamp": "2026-03-29T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad620"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-03-30T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad621"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-23T15:35:07.169Z",
+          "_id": "69c15dabde35a0acffae4c23"
+        }
+      ],
+      "financeId": "69c10fe546616a06374baf20",
+      "financeRemark": null
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad622",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 516,
+      "category": "Food",
+      "description": "Pizza party",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-24T18:30:00.000Z",
+      "updatedAt": "2026-03-24T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $516",
+          "timestamp": "2026-03-24T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad623"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-25T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad624"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad625",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 3863,
+      "category": "Software",
+      "description": "Tool upgrade",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-20T18:30:00.000Z",
+      "updatedAt": "2026-03-20T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $3863",
+          "timestamp": "2026-03-20T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad626"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad627"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad628"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad629",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1451,
+      "category": "Travel",
+      "description": "Client meeting travel",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-21T18:30:00.000Z",
+      "updatedAt": "2026-03-21T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1451",
+          "timestamp": "2026-03-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad62a"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad62b"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-23T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad62c"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad62d",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 743,
+      "category": "Software",
+      "description": "Software license renewal",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-11T18:30:00.000Z",
+      "updatedAt": "2026-03-11T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $743",
+          "timestamp": "2026-03-11T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad62e"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad62f",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 184,
+      "category": "Travel",
+      "description": "Taxi/Transport",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-24T18:30:00.000Z",
+      "updatedAt": "2026-03-24T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $184",
+          "timestamp": "2026-03-24T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad630"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad631",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4302,
+      "category": "Travel",
+      "description": "Flight booking",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-11T18:30:00.000Z",
+      "updatedAt": "2026-03-11T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4302",
+          "timestamp": "2026-03-11T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad632"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-03-12T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad633"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad634",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4268,
+      "category": "Software",
+      "description": "Software license renewal",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-08T18:30:00.000Z",
+      "updatedAt": "2026-03-08T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4268",
+          "timestamp": "2026-03-08T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad635"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad636",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 932,
+      "category": "Food",
+      "description": "Pizza party",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-26T18:30:00.000Z",
+      "updatedAt": "2026-03-26T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $932",
+          "timestamp": "2026-03-26T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad637"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-03-27T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad638"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad639",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1720,
+      "category": "Food",
+      "description": "Business breakfast",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-03-04T18:30:00.000Z",
+      "updatedAt": "2026-03-04T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1720",
+          "timestamp": "2026-03-04T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad63a"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-03-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad63b"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad63c",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1052,
+      "category": "Food",
+      "description": "Workshop refreshments",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-11T18:30:00.000Z",
+      "updatedAt": "2026-03-11T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1052",
+          "timestamp": "2026-03-11T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad63d"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-03-12T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad63e"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad63f",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 3183,
+      "category": "Supplies",
+      "description": "Cleaning supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-21T18:30:00.000Z",
+      "updatedAt": "2026-03-23T15:35:24.298Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $3183",
+          "timestamp": "2026-03-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad640"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-03-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad641"
+        },
+        {
+          "status": "Rejected by Finance",
+          "actionBy": "Finance Admin",
+          "remark": "reject",
+          "timestamp": "2026-03-23T15:35:24.276Z",
+          "_id": "69c15dbcde35a0acffae4d87"
+        }
+      ],
+      "financeId": "69c10fe546616a06374baf20",
+      "financeRemark": "reject"
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad642",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 3388,
+      "category": "Supplies",
+      "description": "Printer supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-03-04T18:30:00.000Z",
+      "updatedAt": "2026-03-04T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $3388",
+          "timestamp": "2026-03-04T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad643"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-03-05T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad644"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad645",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1518,
+      "category": "Food",
+      "description": "Workshop refreshments",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-24T18:30:00.000Z",
+      "updatedAt": "2026-03-24T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1518",
+          "timestamp": "2026-03-24T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad646"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad647",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2439,
+      "category": "Travel",
+      "description": "Branch office visit",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-03-14T18:30:00.000Z",
+      "updatedAt": "2026-03-14T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2439",
+          "timestamp": "2026-03-14T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad648"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-03-15T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad649"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad64a",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 97,
+      "category": "Software",
+      "description": "Design software",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 0,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-26T18:30:00.000Z",
+      "updatedAt": "2026-03-26T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $97",
+          "timestamp": "2026-03-26T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad64b"
+        },
+        {
+          "status": "Auto-Approved",
+          "actionBy": "System",
+          "remark": "Amount less than $100 - automatically approved",
+          "timestamp": "2026-03-26T19:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad64c"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad64d",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 4079,
+      "category": "Other",
+      "description": "Headphones",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-01T18:30:00.000Z",
+      "updatedAt": "2026-03-01T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $4079",
+          "timestamp": "2026-03-01T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad64e"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-02T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad64f"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-03T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad650"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad651",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 3216,
+      "category": "Travel",
+      "description": "Client meeting travel",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-17T18:30:00.000Z",
+      "updatedAt": "2026-03-17T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $3216",
+          "timestamp": "2026-03-17T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad652"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-18T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad653"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-19T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad654"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad655",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3566,
+      "category": "Supplies",
+      "description": "Whiteboard markers",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-22T18:30:00.000Z",
+      "updatedAt": "2026-03-22T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3566",
+          "timestamp": "2026-03-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad656"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-23T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad657"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-24T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad658"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad659",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 514,
+      "category": "Software",
+      "description": "Cloud service",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-21T18:30:00.000Z",
+      "updatedAt": "2026-03-21T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $514",
+          "timestamp": "2026-03-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad65a"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad65b",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1853,
+      "category": "Software",
+      "description": "Cloud service",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": "Sarah Manager",
+      "financeName": null,
+      "createdAt": "2026-03-21T18:30:00.000Z",
+      "updatedAt": "2026-03-23T15:33:49.308Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1853",
+          "timestamp": "2026-03-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad65c"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "due to high amount",
+          "timestamp": "2026-03-23T15:33:49.278Z",
+          "_id": "69c15d5dde35a0acffae4a35"
+        }
+      ],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerRemark": "due to high amount"
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad65d",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3052,
+      "category": "Travel",
+      "description": "Client meeting travel",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-07T18:30:00.000Z",
+      "updatedAt": "2026-03-07T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3052",
+          "timestamp": "2026-03-07T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad65e"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-03-08T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad65f"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad660",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 2845,
+      "category": "Software",
+      "description": "New software purchase",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-06T18:30:00.000Z",
+      "updatedAt": "2026-03-06T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $2845",
+          "timestamp": "2026-03-06T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad661"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-07T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad662"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-08T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad663"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad664",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3490,
+      "category": "Software",
+      "description": "Cloud service",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Manager",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-15T18:30:00.000Z",
+      "updatedAt": "2026-03-15T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3490",
+          "timestamp": "2026-03-15T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad665"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad666",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 843,
+      "category": "Supplies",
+      "description": "Paper ream",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-13T18:30:00.000Z",
+      "updatedAt": "2026-03-13T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $843",
+          "timestamp": "2026-03-13T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad667"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-14T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad668"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad669",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 4471,
+      "category": "Food",
+      "description": "Office catering",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-19T18:30:00.000Z",
+      "updatedAt": "2026-03-19T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $4471",
+          "timestamp": "2026-03-19T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad66a"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-03-20T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad66b"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad66c",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 3267,
+      "category": "Travel",
+      "description": "Conference travel",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-25T18:30:00.000Z",
+      "updatedAt": "2026-03-25T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $3267",
+          "timestamp": "2026-03-25T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad66d"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-26T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad66e"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-27T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad66f"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad670",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 927,
+      "category": "Other",
+      "description": "Holiday party",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-27T18:30:00.000Z",
+      "updatedAt": "2026-03-27T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $927",
+          "timestamp": "2026-03-27T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad671"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-28T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad672"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad673",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 1253,
+      "category": "Other",
+      "description": "Marketing materials",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-01T18:30:00.000Z",
+      "updatedAt": "2026-03-01T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $1253",
+          "timestamp": "2026-03-01T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad674"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-03-02T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad675"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad676",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2203,
+      "category": "Supplies",
+      "description": "Break room supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-20T18:30:00.000Z",
+      "updatedAt": "2026-03-20T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2203",
+          "timestamp": "2026-03-20T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad677"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad678"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad679"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad67a",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 2055,
+      "category": "Food",
+      "description": "Celebration dinner",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-20T18:30:00.000Z",
+      "updatedAt": "2026-03-20T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $2055",
+          "timestamp": "2026-03-20T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad67b"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-21T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad67c"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-22T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad67d"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad67e",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 2458,
+      "category": "Food",
+      "description": "Business breakfast",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Rejected",
+      "currentLevel": 1,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-03-10T18:30:00.000Z",
+      "updatedAt": "2026-03-10T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $2458",
+          "timestamp": "2026-03-10T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad67f"
+        },
+        {
+          "status": "Rejected by Manager",
+          "actionBy": "Manager",
+          "remark": "Rejected - insufficient documentation",
+          "timestamp": "2026-03-11T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad680"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad681",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 3339,
+      "category": "Other",
+      "description": "Certification exam",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeId": "69c10fe546616a06374baf20",
+      "financeName": "Finance Admin",
+      "createdAt": "2026-03-16T18:30:00.000Z",
+      "updatedAt": "2026-03-16T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $3339",
+          "timestamp": "2026-03-16T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad682"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - valid expense",
+          "timestamp": "2026-03-17T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad683"
+        },
+        {
+          "status": "Fully Approved",
+          "actionBy": "Finance Admin",
+          "remark": "Final approval granted",
+          "timestamp": "2026-03-18T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad684"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c14727eec05f42bbbad685",
+      "employeeId": "69c10fe546616a06374baf20",
+      "employeeName": "Finance Admin",
+      "employeeEmail": "finance@company.com",
+      "department": "Finance",
+      "amount": 562,
+      "category": "Software",
+      "description": "Design software",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Pending Finance",
+      "currentLevel": 2,
+      "fraudScore": 0,
+      "fraudLevel": "low",
+      "fraudFlags": [],
+      "managerName": null,
+      "financeName": null,
+      "createdAt": "2026-02-28T18:30:00.000Z",
+      "updatedAt": "2026-02-28T18:30:00.000Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "Finance Admin",
+          "remark": "Expense submitted for $562",
+          "timestamp": "2026-02-28T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad686"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Manager",
+          "remark": "Approved - exceeds approval limit",
+          "timestamp": "2026-03-01T18:30:00.000Z",
+          "_id": "69c14727eec05f42bbbad687"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c15cf7de35a0acffae480b",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 50,
+      "category": "Supplies",
+      "description": "for supplies",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 0,
+      "fraudScore": 20,
+      "fraudLevel": "low",
+      "fraudFlags": [
+        "Rapid submissions (3+ in 24h)"
+      ],
+      "createdAt": "2026-03-23T15:32:07.044Z",
+      "updatedAt": "2026-03-23T15:32:07.054Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $50",
+          "timestamp": "2026-03-23T15:32:07.022Z",
+          "_id": "69c15cf7de35a0acffae480c"
+        },
+        {
+          "status": "Auto-Approved",
+          "actionBy": "System",
+          "remark": "Amount less than $100 - automatically approved",
+          "timestamp": "2026-03-23T15:32:07.022Z",
+          "_id": "69c15cf7de35a0acffae480d"
+        }
+      ]
+    },
+    {
+      "expenseId": "69c15d18de35a0acffae4896",
+      "employeeId": "69c10fe546616a06374baf1c",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "amount": 1000,
+      "category": "Travel",
+      "description": "traveling from bilaspur to raipur",
+      "ocrText": "",
+      "receiptImage": null,
+      "status": "Fully Approved",
+      "currentLevel": 1,
+      "fraudScore": 50,
+      "fraudLevel": "medium",
+      "fraudFlags": [
+        "Suspiciously round amount",
+        "Rapid submissions (3+ in 24h)",
+        "Missing OCR receipt text for amount >= $300"
+      ],
+      "createdAt": "2026-03-23T15:32:40.309Z",
+      "updatedAt": "2026-03-23T15:33:34.960Z",
+      "timeline": [
+        {
+          "status": "Submitted",
+          "actionBy": "John Doe",
+          "remark": "Expense submitted for $1000",
+          "timestamp": "2026-03-23T15:32:40.307Z",
+          "_id": "69c15d18de35a0acffae4897"
+        },
+        {
+          "status": "Fraud Alert",
+          "actionBy": "System",
+          "remark": "Fraud risk: MEDIUM (50% risk score) - Suspiciously round amount; Rapid submissions (3+ in 24h); Missing OCR receipt text for amount >= $300",
+          "timestamp": "2026-03-23T15:32:40.307Z",
+          "_id": "69c15d18de35a0acffae4898"
+        },
+        {
+          "status": "Approved by Manager",
+          "actionBy": "Sarah Manager",
+          "remark": "Approved",
+          "timestamp": "2026-03-23T15:33:34.941Z",
+          "_id": "69c15d4ede35a0acffae49aa"
+        }
+      ],
+      "managerId": "69c10fe546616a06374baf1e",
+      "managerName": "Sarah Manager",
+      "managerRemark": null
+    }
+  ],
+  "approvals": [
+    {
+      "approvalId": "apr_1774280014943_i07zdu4hp",
+      "expenseId": "69c15d18de35a0acffae4896",
+      "level": 1,
+      "approvedBy": "69c10fe546616a06374baf1e",
+      "approverName": "Sarah Manager",
+      "approverEmail": "sarah.manager@company.com",
+      "approverRole": "manager",
+      "amount": 1000,
+      "category": "Travel",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "remark": "Approved",
+      "timestamp": "2026-03-23T15:33:34.943Z",
+      "previousStatus": "Pending Manager",
+      "newStatus": "Fully Approved"
+    },
+    {
+      "approvalId": "apr_1774280107171_kt52ac1kw",
+      "expenseId": "69c14727eec05f42bbbad61f",
+      "level": 2,
+      "approvedBy": "69c10fe546616a06374baf20",
+      "approverName": "Finance Admin",
+      "approverEmail": "finance@company.com",
+      "approverRole": "finance",
+      "amount": 1315,
+      "category": "Software",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "remark": "Final approval granted",
+      "timestamp": "2026-03-23T15:35:07.171Z",
+      "previousStatus": "Pending Finance",
+      "newStatus": "Fully Approved"
+    }
+  ],
+  "rejections": [
+    {
+      "rejectionId": "rej_1774280029280_6qwhnpx7v",
+      "expenseId": "69c14727eec05f42bbbad65b",
+      "level": 1,
+      "rejectedBy": "69c10fe546616a06374baf1e",
+      "rejecterName": "Sarah Manager",
+      "rejecterEmail": "sarah.manager@company.com",
+      "rejecterRole": "manager",
+      "amount": 1853,
+      "category": "Software",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "remark": "due to high amount",
+      "timestamp": "2026-03-23T15:33:49.280Z",
+      "previousStatus": "Pending Manager",
+      "newStatus": "Rejected"
+    },
+    {
+      "rejectionId": "rej_1774280124279_a5szwd7nr",
+      "expenseId": "69c14727eec05f42bbbad63f",
+      "level": 2,
+      "rejectedBy": "69c10fe546616a06374baf20",
+      "rejecterName": "Finance Admin",
+      "rejecterEmail": "finance@company.com",
+      "rejecterRole": "finance",
+      "amount": 3183,
+      "category": "Supplies",
+      "employeeName": "John Doe",
+      "employeeEmail": "john@company.com",
+      "department": "Marketing",
+      "remark": "reject",
+      "timestamp": "2026-03-23T15:35:24.279Z",
+      "previousStatus": "Pending Finance",
+      "newStatus": "Rejected"
+    }
+  ],
+  "statistics": {
+    "totalExpenses": 129,
+    "totalApproved": 68,
+    "totalRejected": 21,
+    "totalPending": 0,
+    "totalAmount": 272199,
+    "approvedAmount": 138096,
+    "rejectedAmount": 52417,
+    "byCategory": {
+      "Travel": {
+        "count": 25,
+        "amount": 53026
+      },
+      "Supplies": {
+        "count": 29,
+        "amount": 64198
+      },
+      "Food": {
+        "count": 26,
+        "amount": 51225
+      },
+      "Software": {
+        "count": 29,
+        "amount": 55806
+      },
+      "Other": {
+        "count": 20,
+        "amount": 47944
+      }
+    },
+    "byDepartment": {
+      "Marketing": {
+        "count": 58,
+        "amount": 110352
+      },
+      "IT": {
+        "count": 2,
+        "amount": 3000
+      },
+      "Finance": {
+        "count": 69,
+        "amount": 158847
+      }
+    },
+    "byStatus": {
+      "Fully Approved": 71,
+      "Pending Manager": 13,
+      "Pending Finance": 26,
+      "Rejected": 23
+    }
+  }
+}

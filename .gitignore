@@ -1,0 +1,50 @@
+# Node.js
+node_modules/
+.env
+.env.*
+dist/
+build/
+coverage/
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+.history/
+
+# Dependency directories
+backend/node_modules/
+frontend/node_modules/
+
+# Build outputs
+frontend/dist/
+frontend/build/
+
+# Misc
+*.local
+*.cache
+*.tmp
+*.swp
+
+# Uploads and generated data
+backend/uploads/
+backend/data/*.json
+!backend/data/expense_dataset.json
+!backend/data/fraud_config.json
+
+# Submissions
+submissions/
+
+# Tailwind and Vite cache
+frontend/.vite/
+frontend/.cache/
+
+# Ignore asset cache
+assets/*.cache
