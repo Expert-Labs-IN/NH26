@@ -1,6 +1,6 @@
 import { generateText } from 'ai'
 import { createGroq } from '@ai-sdk/groq'
-import { Thread, ComprehensiveAnalysis } from '@/types'
+import { Thread, ComprehensiveAnalysis, RewriteAction } from '@/types'
 
 const groq = createGroq({
   apiKey: process.env.GROQ_API_KEY,
@@ -114,6 +114,22 @@ export async function composeDraft(subject: string, context?: string): Promise<s
     prompt: `Write an email about: ${subject}${context ? `\n\nContext: ${context}` : ''}`,
   })
   return text.trim()
+}
+
+const rewritePrompts: Record<RewriteAction, string> = {
+  'formalize': 'Rewrite the following text in a formal, professional tone. Keep the same meaning but make it sound polished and business-appropriate.',
+  'shorten': 'Rewrite the following text to be much shorter and more concise. Keep the key message but remove any unnecessary words or details.',
+  'elaborate': 'Expand the following text with more detail, context, and explanation. Make it more thorough while keeping the same core message.',
+  'fix-grammar': 'Fix all grammar, spelling, and punctuation errors in the following text. Keep the original tone and style, only correct mistakes.',
+}
+
+export async function rewriteText(text: string, action: RewriteAction): Promise<string> {
+  const { text: result } = await generateText({
+    model: groq(MODEL),
+    system: `You are an email writing assistant. ${rewritePrompts[action]} Return ONLY the rewritten text. No explanations, no quotes, no prefixes.`,
+    prompt: text,
+  })
+  return result.trim()
 }
 
 export async function chatAboutThread(message: string, thread: Thread | null): Promise<string> {

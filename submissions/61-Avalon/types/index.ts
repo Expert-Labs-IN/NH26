@@ -83,6 +83,21 @@ export interface ComprehensiveAnalysis {
   senderImportance: 'vip' | 'regular' | 'unknown'
 }
 
+// --- Thread State (user actions) ---
+
+export type RewriteAction = 'formalize' | 'shorten' | 'elaborate' | 'fix-grammar'
+
+export interface ThreadMeta {
+  read: boolean
+  starred: boolean
+  snoozedUntil: string | null  // ISO date string or null
+  archived: boolean
+  trashed: boolean
+  draft: string  // user's reply draft text
+}
+
+export type SidebarFolder = 'inbox' | 'starred' | 'snoozed' | 'sent' | 'drafts' | 'trash' | 'all'
+
 // --- UI State Types ---
 
 export interface ThreadAnalysisState {
