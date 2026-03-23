@@ -1,0 +1,17 @@
+{
+  "name": "worksync",
+  "version": "1.0.0",
+  "description": "- `/client` - Next.js React frontend with folders for app/, components/, hooks/, services/, types/, and lib/.\r - /server - Express backend with folders for routes/, controllers/, middlewares/, services/, utils/, and config/.\r - /ai - LLM config folder with prompts/ (system prompt .txt files), schemas/ (JSON output schemas for triage, entity extraction), and ollama-config.js.\r - /supabase - Contains migrations/ folder with .sql files (employees, tickets, departments, chat_logs) and seed.sql for dummy data.\r - .env.example - Example environment variables configuration for backend/frontend parameters.\r - README.md - Documentation and instructions.\r - .gitignore - Ignored files for git version control.\r - docker-compose.yml - Docker Compose file to orchestrate local Ollama.",
+  "main": "seed.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.99.3",
+    "dotenv": "^17.3.1"
+  }
+}
