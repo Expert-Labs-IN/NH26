@@ -20,6 +20,8 @@ export const metadata: Metadata = {
 import { Providers } from "@/lib/providers/Providers";
 import { NavBar } from "@/components/NavBar";
 
+import { Toaster } from "react-hot-toast";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,6 +33,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
+          <Toaster position="top-center" reverseOrder={false} />
           <NavBar />
           {children}
         </Providers>

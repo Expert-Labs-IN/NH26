@@ -10,6 +10,7 @@ import { useState, useEffect, use } from "react";
 import { useStrapi } from "@/lib/sdk/useStrapi";
 import { strapi } from "@/lib/sdk/sdk";
 import Link from "next/link";
+import { toast } from "react-hot-toast";
 
 export default function AgentTicketDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id: ticketId } = use(params);
@@ -48,10 +49,10 @@ export default function AgentTicketDetailsPage({ params }: { params: Promise<{ i
                 aiResolved: isResolved || ticket?.aiResolved
             });
             mutate();
-            alert("Ticket updated successfully!");
+            toast.success("Ticket updated successfully!");
         } catch (error) {
             console.error("Error updating ticket:", error);
-            alert("Failed to update ticket.");
+            toast.error("Failed to update ticket.");
         } finally {
             setUpdating(false);
         }

@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { useStrapi } from "@/lib/sdk/useStrapi";
 import { strapi } from "@/lib/sdk/sdk";
 import Link from "next/link";
+import { toast } from "react-hot-toast";
 
 export default function AgentAssignedTicketsPage() {
     const { data: session } = useSession();
@@ -48,9 +49,10 @@ export default function AgentAssignedTicketsPage() {
                 aiResolved: true
             });
             mutate(); // Re-fetch the data
+            toast.success("Ticket resolved successfully!");
         } catch (error) {
             console.error("Error resolving ticket:", error);
-            alert("Failed to resolve ticket. Please try again.");
+            toast.error("Failed to resolve ticket. Please try again.");
         } finally {
             setUpdatingTicket(null);
         }
