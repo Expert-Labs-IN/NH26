@@ -501,8 +501,8 @@ export default function ChatbotPage() {
                                     {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5 ml-0.5" />}
                                 </button>
                             </form>
-                            <p className="text-center text-xs text-slate-500 mt-3 font-medium">
-                                Sarathi AI may make mistakes. We automatically flag unresolvable issues for human review.
+                            {/* <p className="text-center text-xs text-slate-500 mt-3 font-medium">
+                                Sarathi AI may make mistakes. We automatically flag unresolvable issues for human review. */}
                             {/* <p className="text-center text-[10px] text-slate-600 mt-6 font-black uppercase tracking-[0.2em]">
                                 Sarathi Autonomous Support Engine • v2.0
                             </p> */}

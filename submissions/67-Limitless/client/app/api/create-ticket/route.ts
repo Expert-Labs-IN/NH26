@@ -27,7 +27,7 @@ export async function POST(req: Request) {
         });
 
         if (!agents || agents.length === 0) {
-            return NextResponse.json({ error: "No agents found" }, { status: 404 });
+            return NextResponse.json({ error: "No agents found for selected problem criteria." }, { status: 404 });
         }
 
         let assignedAgentId = null;

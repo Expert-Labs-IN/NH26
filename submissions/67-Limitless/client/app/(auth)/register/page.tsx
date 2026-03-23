@@ -232,13 +232,13 @@ export default function RegisterPage() {
                         </div>
                     </form>
 
-                    <div className="mt-6">
+                    {/* <div className="mt-6">
                         <p className="text-center text-xs text-slate-500">
                             By registering, you agree to our{" "}
                             <a href="#" className="font-semibold text-white hover:underline">Terms of Service</a> and{" "}
                             <a href="#" className="font-semibold text-white hover:underline">Privacy Policy</a>.
                         </p>
-                    </div>
+                    </div> */}
 
                     <div className="mt-8 text-center text-sm text-slate-400">
                         Already have an account?{" "}
