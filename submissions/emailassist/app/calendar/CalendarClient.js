@@ -104,14 +104,14 @@ export default function CalendarClient({ events, userName }) {
     day === today.getDate() && viewMonth === today.getMonth() && viewYear === today.getFullYear();
 
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div className="min-h-screen bg-[#211B34] text-white">
       <Navbar />
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl font-bold text-white">Calendar</h1>
-          <p className="text-gray-400 text-sm mt-1">
+          <p className="text-white/60 text-sm mt-1">
             {events.length === 0
               ? "No meeting events found. Process emails to extract meetings."
               : `${events.length} meeting${events.length !== 1 ? "s" : ""} extracted from emails`}
@@ -121,23 +121,23 @@ export default function CalendarClient({ events, userName }) {
         <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
           {/* --- LEFT: Calendar Grid (2/3 width) --- */}
           <div className="xl:col-span-2">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
+            <div className="bg-white rounded-xl overflow-hidden">
               {/* Month navigation */}
-              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
+              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
                 <button
                   onClick={prevMonth}
-                  className="p-2 rounded-lg hover:bg-gray-800 transition-colors text-gray-400 hover:text-white"
+                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-600 hover:text-[#211B34]"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
-                <h2 className="text-lg font-semibold">
+                <h2 className="text-lg font-semibold text-[#211B34]">
                   {MONTH_NAMES[viewMonth]} {viewYear}
                 </h2>
                 <button
                   onClick={nextMonth}
-                  className="p-2 rounded-lg hover:bg-gray-800 transition-colors text-gray-400 hover:text-white"
+                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-600 hover:text-[#211B34]"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -146,7 +146,7 @@ export default function CalendarClient({ events, userName }) {
               </div>
 
               {/* Day headers */}
-              <div className="grid grid-cols-7 border-b border-gray-800">
+              <div className="grid grid-cols-7 border-b border-gray-200">
                 {DAY_NAMES.map((d) => (
                   <div key={d} className="text-center text-xs font-medium text-gray-500 py-3">
                     {d}
@@ -163,8 +163,8 @@ export default function CalendarClient({ events, userName }) {
                   return (
                     <div
                       key={idx}
-                      className={`min-h-[90px] border-b border-r border-gray-800/50 p-1.5 ${
-                        !day ? "bg-gray-900/30" : "hover:bg-gray-800/30 transition-colors"
+                      className={`min-h-[90px] border-b border-r border-gray-200 p-1.5 ${
+                        !day ? "bg-gray-50" : "hover:bg-gray-50 transition-colors"
                       }`}
                     >
                       {day && (
@@ -172,8 +172,8 @@ export default function CalendarClient({ events, userName }) {
                           <span
                             className={`text-xs font-medium inline-flex items-center justify-center w-6 h-6 rounded-full ${
                               isToday(day)
-                                ? "bg-blue-600 text-white"
-                                : "text-gray-400"
+                                ? "bg-[#7C3AED] text-white"
+                                : "text-gray-600"
                             }`}
                           >
                             {day}
@@ -208,9 +208,9 @@ export default function CalendarClient({ events, userName }) {
 
           {/* --- RIGHT: Upcoming Events Sidebar (1/3 width) --- */}
           <div className="space-y-4">
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
-              <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
-                <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-white rounded-xl p-4">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                <svg className="w-4 h-4 text-[#7C3AED]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -225,20 +225,20 @@ export default function CalendarClient({ events, userName }) {
                     <button
                       key={e.id}
                       onClick={() => setSelectedEvent(e)}
-                      className="w-full text-left p-3 rounded-lg bg-gray-800/60 hover:bg-gray-800 transition-colors border border-gray-700/50 hover:border-gray-600"
+                      className="w-full text-left p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition-colors border border-gray-200"
                     >
                       <div className="flex items-start gap-2.5">
                         <span className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${PILL_COLORS[i % PILL_COLORS.length]}`} />
                         <div className="min-w-0">
-                          <p className="text-sm font-medium text-white truncate">{e.title}</p>
-                          <p className="text-xs text-gray-400 mt-0.5">
+                          <p className="text-sm font-medium text-[#211B34] truncate">{e.title}</p>
+                          <p className="text-xs text-gray-600 mt-0.5">
                             {formatDate(e.date)}{e.time ? ` · ${e.time}` : ""}
                           </p>
                           <p className="text-xs text-gray-500 truncate mt-0.5">
                             From: {e.sourceSubject}
                           </p>
                           <span className={`inline-flex items-center gap-1 text-xs mt-1 ${
-                            addedIds.has(e.id) ? "text-emerald-400" : "text-yellow-500"
+                            addedIds.has(e.id) ? "text-emerald-600" : "text-yellow-600"
                           }`}>
                             {addedIds.has(e.id) ? "✓ In Google Calendar" : "⏳ Not added yet"}
                           </span>
@@ -251,24 +251,24 @@ export default function CalendarClient({ events, userName }) {
             </div>
 
             {/* Stats card */}
-            <div className="bg-gray-900 border border-gray-800 rounded-xl p-4">
-              <h3 className="text-sm font-semibold text-gray-300 mb-3">Overview</h3>
+            <div className="bg-white rounded-xl p-4">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Overview</h3>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Total meetings</span>
-                  <span className="text-white font-medium">{events.length}</span>
+                  <span className="text-gray-600">Total meetings</span>
+                  <span className="text-[#211B34] font-medium">{events.length}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Added to Google Cal</span>
-                  <span className="text-emerald-400 font-medium">{addedIds.size}</span>
+                  <span className="text-gray-600">Added to Google Cal</span>
+                  <span className="text-emerald-600 font-medium">{addedIds.size}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Pending</span>
-                  <span className="text-yellow-500 font-medium">{events.length - addedIds.size}</span>
+                  <span className="text-gray-600">Pending</span>
+                  <span className="text-yellow-600 font-medium">{events.length - addedIds.size}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-gray-400">Upcoming (30d)</span>
-                  <span className="text-blue-400 font-medium">{upcomingEvents.length}</span>
+                  <span className="text-gray-600">Upcoming (30d)</span>
+                  <span className="text-[#7C3AED] font-medium">{upcomingEvents.length}</span>
                 </div>
               </div>
             </div>
@@ -282,19 +282,19 @@ export default function CalendarClient({ events, userName }) {
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4"
           onClick={(e) => { if (e.target === e.currentTarget) setSelectedEvent(null); }}
         >
-          <div className="bg-gray-900 border border-gray-700 rounded-2xl w-full max-w-md shadow-2xl">
+          <div className="bg-white rounded-2xl w-full max-w-md">
             {/* Modal header */}
-            <div className="flex items-start justify-between p-5 border-b border-gray-800">
+            <div className="flex items-start justify-between p-5 border-b border-gray-200">
               <div>
-                <h2 className="text-lg font-bold text-white leading-tight">{selectedEvent.title}</h2>
-                <p className="text-sm text-gray-400 mt-1">
+                <h2 className="text-lg font-bold text-[#211B34] leading-tight">{selectedEvent.title}</h2>
+                <p className="text-sm text-gray-600 mt-1">
                   {formatDate(selectedEvent.date)}
                   {selectedEvent.time && <span> · {selectedEvent.time}</span>}
                 </p>
               </div>
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="text-gray-500 hover:text-white transition-colors ml-4 flex-shrink-0"
+                className="text-gray-500 hover:text-[#211B34] transition-colors ml-4 flex-shrink-0"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -310,7 +310,7 @@ export default function CalendarClient({ events, userName }) {
                   <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Participants</p>
                   <div className="flex flex-wrap gap-2">
                     {selectedEvent.participants.map((p, i) => (
-                      <span key={i} className="text-xs bg-gray-800 text-gray-300 px-2.5 py-1 rounded-full border border-gray-700">
+                      <span key={i} className="text-xs bg-gray-100 text-gray-700 px-2.5 py-1 rounded-full border border-gray-200">
                         {p}
                       </span>
                     ))}
@@ -322,22 +322,22 @@ export default function CalendarClient({ events, userName }) {
               {selectedEvent.description && (
                 <div>
                   <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Description</p>
-                  <p className="text-sm text-gray-300 leading-relaxed">{selectedEvent.description}</p>
+                  <p className="text-sm text-gray-700 leading-relaxed">{selectedEvent.description}</p>
                 </div>
               )}
 
               {/* Source email */}
               <div>
                 <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-1">Source Email</p>
-                <p className="text-sm text-gray-300 italic">{'"'}{selectedEvent.sourceSubject}{'"'}</p>
+                <p className="text-sm text-gray-700 italic">{'"'}{selectedEvent.sourceSubject}{'"'}</p>
                 <p className="text-xs text-gray-500 mt-0.5">from {selectedEvent.sourceSender}</p>
               </div>
 
               {/* Status */}
               <div className={`flex items-center gap-2 text-sm px-3 py-2 rounded-lg ${
                 addedIds.has(selectedEvent.id)
-                  ? "bg-emerald-900/30 text-emerald-400 border border-emerald-800/50"
-                  : "bg-yellow-900/20 text-yellow-500 border border-yellow-800/30"
+                  ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                  : "bg-yellow-50 text-yellow-700 border border-yellow-200"
               }`}>
                 {addedIds.has(selectedEvent.id) ? (
                   <>
@@ -364,7 +364,7 @@ export default function CalendarClient({ events, userName }) {
                 <button
                   onClick={() => handleAddToCalendar(selectedEvent)}
                   disabled={addingId === selectedEvent.id}
-                  className="flex-1 bg-blue-600 hover:bg-blue-500 disabled:bg-blue-800 disabled:cursor-not-allowed text-white text-sm font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 bg-[#7C3AED] hover:bg-[#7C3AED]/90 disabled:bg-[#7C3AED]/50 disabled:cursor-not-allowed text-white text-sm font-medium py-2.5 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
                   {addingId === selectedEvent.id ? (
                     <>
@@ -387,7 +387,7 @@ export default function CalendarClient({ events, userName }) {
               )}
               <button
                 onClick={() => setSelectedEvent(null)}
-                className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-medium py-2.5 rounded-lg transition-colors"
+                className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium py-2.5 rounded-lg transition-colors"
               >
                 Close
               </button>

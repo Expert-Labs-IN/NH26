@@ -6,13 +6,14 @@ import ReplyCard from "./ReplyCard";
 import CalendarCard from "./CalendarCard";
 import TaskCard from "./TaskCard";
 import AutopilotPanel from "./AutopilotPanel";
+import { Bot, FileText, Reply, Calendar, ListChecks, MailOpen, Cpu } from "lucide-react";
 
 const TABS = [
-  { id: "summary",   label: "Summary" },
-  { id: "reply",     label: "Reply" },
-  { id: "calendar",  label: "Calendar" },
-  { id: "tasks",     label: "Tasks" },
-  { id: "autopilot", label: "Autopilot" },
+  { id: "summary",   label: "Summary",   icon: FileText },
+  { id: "reply",     label: "Reply",     icon: Reply },
+  { id: "calendar",  label: "Calendar",  icon: Calendar },
+  { id: "tasks",     label: "Tasks",     icon: ListChecks },
+  { id: "autopilot", label: "Autopilot", icon: Cpu },
 ];
 
 export default function ActionPanel({ email, onUpdate, autopilotEnabled, onAutopilotChange }) {
@@ -23,12 +24,13 @@ export default function ActionPanel({ email, onUpdate, autopilotEnabled, onAutop
     !email && activeTab !== "autopilot" ? "autopilot" : activeTab;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-white text-[#211B34]">
       {/* ── Tab bar ──────────────────────────────────────────────────────── */}
-      <nav className="flex items-center border-b border-gray-800 px-3 pt-1 shrink-0 overflow-x-auto">
+      <nav className="flex items-center px-10 pt-6 gap-2 shrink-0 overflow-x-auto">
         {TABS.map((tab) => {
           const isActive = effectiveTab === tab.id;
           const isAutopilot = tab.id === "autopilot";
+          const Icon = tab.icon;
 
           // Disable email-specific tabs when no email is selected
           const isDisabled = !email && !isAutopilot;
@@ -42,34 +44,30 @@ export default function ActionPanel({ email, onUpdate, autopilotEnabled, onAutop
               key={tab.id}
               onClick={() => !isDisabled && setActiveTab(tab.id)}
               disabled={isDisabled}
-              className={`relative flex items-center gap-1.5 px-3 py-2.5 text-xs font-medium whitespace-nowrap transition-colors border-b-2 -mb-px ${
+              className={`relative flex items-center gap-2.5 px-6 py-3 text-sm font-bold whitespace-nowrap transition-all rounded-lg ${
                 isActive
-                  ? "text-white border-blue-500"
+                  ? "text-[#7C3AED] bg-white"
                   : isDisabled
-                  ? "text-gray-700 border-transparent cursor-not-allowed"
-                  : "text-gray-500 hover:text-gray-300 border-transparent hover:border-gray-700"
+                  ? "text-gray-200 cursor-not-allowed"
+                  : "text-gray-400 hover:text-[#7C3AED] hover:bg-gray-50"
               }`}
             >
-              {isAutopilot && (
-                <>
-                  <span className="text-sm">🤖</span>
-                  {autopilotEnabled && (
-                    <span className="absolute top-1.5 right-1 w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                  )}
-                </>
-              )}
+              <Icon className={`w-4 h-4 ${isActive ? "scale-110" : "scale-100"} transition-transform`} />
               {tab.label}
+              {isAutopilot && autopilotEnabled && (
+                <span className="absolute top-3 right-3 w-2 h-2 bg-[#7C3AED] rounded-full animate-pulse" />
+              )}
             </button>
           );
         })}
       </nav>
 
       {/* ── Tab content ──────────────────────────────────────────────────── */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-10 custom-scrollbar">
         {effectiveTab === "autopilot" ? (
           <AutopilotPanel onSettingsChange={onAutopilotChange} />
         ) : !email ? null : (
-          <div className="space-y-4">
+          <div className="max-w-4xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             {effectiveTab === "summary" && <SummaryCard email={email} />}
             {effectiveTab === "reply" && (
               <ReplyCard email={email} onUpdate={onUpdate} />
@@ -87,23 +85,14 @@ export default function ActionPanel({ email, onUpdate, autopilotEnabled, onAutop
 
         {/* Fallback when no email is selected and not on autopilot tab */}
         {!email && effectiveTab !== "autopilot" && (
-          <div className="flex flex-col items-center justify-center h-full text-center py-20 px-6">
-            <div className="w-14 h-14 rounded-full bg-gray-800 flex items-center justify-center mb-4">
-              <svg
-                className="w-7 h-7 text-gray-600"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"
-                />
-              </svg>
+          <div className="flex flex-col items-center justify-center h-full text-center py-20 px-10">
+            <div className="w-20 h-20 rounded-lg bg-gray-50 flex items-center justify-center mb-8">
+              <MailOpen className="w-10 h-10 text-gray-200" />
             </div>
-            <p className="text-gray-500 text-sm">Select an email to view actions</p>
+            <p className="text-[#211B34] font-bold text-xl mb-3">Select an email</p>
+            <p className="text-gray-400 text-sm max-w-xs leading-relaxed">
+              Pick a conversation from your inbox to see AI summaries and smart actions.
+            </p>
           </div>
         )}
       </div>

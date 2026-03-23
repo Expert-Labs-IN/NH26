@@ -1,7 +1,6 @@
-"use client";
-
 import { useState, useTransition } from "react";
 import { createCalendarEvent } from "@/actions/createCalendarEvent";
+import { Calendar, CheckCircle2, Video, Users, Clock, AlertTriangle } from "lucide-react";
 
 export default function CalendarCard({ email, onUpdate }) {
   const [eventData, setEventData] = useState({
@@ -33,98 +32,118 @@ export default function CalendarCard({ email, onUpdate }) {
     });
   }
 
+  const inputClasses = "w-full bg-gray-50 rounded-lg px-5 py-4 text-base text-[#211B34] font-bold focus:outline-none focus:ring-2 focus:ring-[#211B34]/5 focus:bg-white transition-all placeholder:text-[#211B34]/20";
+  const labelClasses = "text-[10px] uppercase tracking-widest font-black text-[#211B34]/30 mb-2 ml-1";
+
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-      <div className="flex items-center gap-2 mb-4">
-        <svg className="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        <h3 className="text-sm font-semibold text-gray-400 uppercase tracking-wide">Calendar Event</h3>
+    <div className="bg-white rounded-xl p-8">
+      <div className="flex items-center gap-3 mb-8">
+        <div className="w-10 h-10 rounded-lg bg-[#7C3AED]/10 flex items-center justify-center text-[#7C3AED]">
+          <Calendar className="w-6 h-6" />
+        </div>
+        <div>
+          <h3 className="text-sm font-black text-[#211B34]/30 uppercase tracking-[0.2em]">Schedule</h3>
+          <p className="text-[#211B34] font-bold text-lg">Calendar Event</p>
+        </div>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-6">
         {/* Event title */}
-        <div>
-          <label className="text-xs text-gray-500 mb-1 block">Event Title</label>
+        <div className="group">
+          <label className={labelClasses}>Event Title</label>
           <input
             type="text"
             value={eventData.title}
             onChange={(e) => handleChange("title", e.target.value)}
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-blue-500 transition-colors"
+            className={inputClasses}
+            placeholder="What's the goal?"
           />
         </div>
 
         {/* Date + Time */}
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="text-xs text-gray-500 mb-1 block">Date</label>
-            <input
-              type="date"
-              value={eventData.date}
-              onChange={(e) => handleChange("date", e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-blue-500 transition-colors"
-            />
+        <div className="grid grid-cols-2 gap-6">
+          <div className="group">
+            <label className={labelClasses}>Date</label>
+            <div className="relative">
+              <Calendar className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#211B34]/40" />
+              <input
+                type="date"
+                value={eventData.date}
+                onChange={(e) => handleChange("date", e.target.value)}
+                className={`${inputClasses} pl-12`}
+              />
+            </div>
           </div>
-          <div>
-            <label className="text-xs text-gray-500 mb-1 block">Time</label>
-            <input
-              type="time"
-              value={eventData.time}
-              onChange={(e) => handleChange("time", e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-200 focus:outline-none focus:border-blue-500 transition-colors"
-            />
+          <div className="group">
+            <label className={labelClasses}>Time</label>
+            <div className="relative">
+              <Clock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#211B34]/40" />
+              <input
+                type="time"
+                value={eventData.time}
+                onChange={(e) => handleChange("time", e.target.value)}
+                className={`${inputClasses} pl-12`}
+              />
+            </div>
           </div>
         </div>
 
         {/* Description */}
-        <div>
-          <label className="text-xs text-gray-500 mb-1 block">Description</label>
-          <textarea
-            value={eventData.description}
-            onChange={(e) => handleChange("description", e.target.value)}
-            rows={2}
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-200 resize-none focus:outline-none focus:border-blue-500 transition-colors"
-          />
+        <div className="group">
+          <label className={labelClasses}>Details</label>
+          <div className="relative">
+            <Video className="absolute left-5 top-5 w-4 h-4 text-[#211B34]/40" />
+            <textarea
+              value={eventData.description}
+              onChange={(e) => handleChange("description", e.target.value)}
+              rows={3}
+              className={`${inputClasses} pl-12 resize-none`}
+              placeholder="Add some context..."
+            />
+          </div>
         </div>
 
         {/* Participants */}
         {eventData.participants.length > 0 && (
-          <div>
-            <label className="text-xs text-gray-500 mb-1 block">Participants</label>
-            <div className="flex flex-wrap gap-1.5">
+          <div className="pt-2 animate-in fade-in slide-in-from-top-2 duration-500">
+            <label className={labelClasses}>Participants</label>
+            <div className="flex flex-wrap gap-2 mt-2">
               {eventData.participants.map((p) => (
-                <span key={p} className="text-xs bg-gray-800 border border-gray-700 text-gray-400 px-2 py-0.5 rounded-full">
+                <div key={p} className="flex items-center gap-2 text-xs bg-[#7C3AED]/10 text-[#7C3AED] px-4 py-2 rounded-lg font-bold">
+                  <Users className="w-3.5 h-3.5" />
                   {p}
-                </span>
+                </div>
               ))}
             </div>
           </div>
         )}
       </div>
 
-      {error && <p className="text-red-400 text-xs mt-3">{error}</p>}
+      {error && (
+        <div className="flex items-center gap-2 p-4 mt-8 bg-red-50 text-red-600 rounded-lg text-sm font-bold animate-shake">
+          <AlertTriangle className="w-4 h-4" />
+          {error}
+        </div>
+      )}
 
       <button
         onClick={handleCreateEvent}
         disabled={isPending || created || !eventData.date}
-        className={`mt-4 flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-colors ${
+        className={`mt-10 w-full flex items-center justify-center gap-3 py-4 rounded-lg text-base font-black transition-all duration-300 active:scale-[0.98] ${
           created
-            ? "bg-green-600/20 text-green-400 border border-green-600/30 cursor-default"
-            : "bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-50"
+            ? "bg-green-50 text-green-600 cursor-default"
+            : "bg-[#7C3AED] hover:bg-[#6D28D9] text-white disabled:opacity-50"
         }`}
       >
         {created ? (
           <>
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-            Event Created
+            <CheckCircle2 className="w-5 h-5" />
+            EVENT CREATED
           </>
         ) : isPending ? (
-          "Creating…"
+          "CREATING..."
         ) : (
-          "Create Event"
+          "ADD TO CALENDAR"
         )}
       </button>
     </div>

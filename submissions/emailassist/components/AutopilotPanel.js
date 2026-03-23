@@ -2,6 +2,22 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import { nanoid } from "nanoid";
+import { 
+  Bot, 
+  Mail, 
+  Calendar, 
+  CheckCircle2, 
+  ListChecks, 
+  SkipForward, 
+  XCircle, 
+  Plus, 
+  Trash2, 
+  RefreshCcw,
+  Clock,
+  Zap,
+  ShieldAlert,
+  ChevronRight
+} from "lucide-react";
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 
@@ -18,84 +34,83 @@ function timeAgo(isoString) {
 
 function StatusIcon({ status }) {
   if (status === "success")
-    return <span className="text-green-400 text-base leading-none">✓</span>;
+    return <CheckCircle2 className="w-4 h-4 text-green-500" />;
   if (status === "skipped")
-    return <span className="text-gray-500 text-base leading-none">⏭</span>;
-  return <span className="text-red-400 text-base leading-none">✕</span>;
+    return <SkipForward className="w-4 h-4 text-gray-400" />;
+  return <XCircle className="w-4 h-4 text-red-500" />;
 }
 
-function ActionBadge({ label, color }) {
+function ActionBadge({ label, color, icon: Icon }) {
   const colors = {
-    green: "bg-green-500/15 text-green-400 border-green-500/25",
-    blue: "bg-blue-500/15 text-blue-400 border-blue-500/25",
-    purple: "bg-purple-500/15 text-purple-400 border-purple-500/25",
-    gray: "bg-gray-700/50 text-gray-500 border-gray-600/50",
+    green: "bg-green-50 text-green-700",
+    blue: "bg-blue-50 text-blue-700",
+    purple: "bg-purple-50 text-purple-700",
+    gray: "bg-gray-50 text-gray-500",
   };
   return (
     <span
-      className={`inline-flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded border ${colors[color] || colors.gray}`}
+      className={`inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-wider px-3 py-1 rounded-full ${colors[color] || colors.gray}`}
     >
+      <Icon className="w-3 h-3" />
       {label}
     </span>
   );
 }
 
 function LogEntry({ log }) {
-  const borderColor =
-    log.status === "success"
-      ? "border-green-500/40"
-      : log.status === "skipped"
-      ? "border-gray-700"
-      : "border-red-500/40";
-
   const bgColor =
     log.status === "success"
-      ? "bg-green-500/5"
+      ? "bg-green-50/30"
       : log.status === "skipped"
-      ? "bg-transparent"
-      : "bg-red-500/5";
+      ? "bg-white"
+      : "bg-red-50/30";
 
   return (
     <div
-      className={`border-l-2 ${borderColor} ${bgColor} pl-3 pr-2 py-2.5 rounded-r-lg`}
+      className={`${bgColor} p-5 rounded-xl transition-all`}
     >
       {/* Top row — icon + sender + time */}
-      <div className="flex items-center gap-2 mb-1">
+      <div className="flex items-center gap-3 mb-2">
         <StatusIcon status={log.status} />
-        <span className="text-sm font-semibold text-white truncate flex-1">
+        <span className="text-sm font-black text-[#211B34] truncate flex-1">
           {log.senderName || "Unknown Sender"}
         </span>
-        <span className="text-[10px] text-gray-600 shrink-0 tabular-nums">
+        <span className="text-[10px] font-bold text-[#211B34]/30 shrink-0 uppercase tracking-widest flex items-center gap-1">
+          <Clock className="w-3 h-3" />
           {timeAgo(log.processedAt)}
         </span>
       </div>
 
       {/* Subject */}
-      <p className="text-xs text-gray-400 truncate mb-1.5 ml-5">
+      <p className="text-xs font-bold text-[#211B34]/50 truncate mb-4 ml-7">
         {log.emailSubject || "(No Subject)"}
       </p>
 
       {/* Action badges */}
       {log.status === "success" && (
-        <div className="flex flex-wrap gap-1 ml-5 mb-1.5">
-          {log.replySent && <ActionBadge label="✉ Replied" color="green" />}
-          {log.eventCreated && <ActionBadge label="📅 Event" color="blue" />}
-          {log.tasksApproved && <ActionBadge label="✓ Tasks" color="purple" />}
+        <div className="flex flex-wrap gap-2 ml-7 mb-4">
+          {log.replySent && <ActionBadge label="Replied" color="green" icon={Mail} />}
+          {log.eventCreated && <ActionBadge label="Event" color="blue" icon={Calendar} />}
+          {log.tasksApproved && <ActionBadge label="Tasks" color="purple" icon={ListChecks} />}
         </div>
       )}
 
       {/* AI reasoning */}
-      <p className="text-[11px] text-gray-500 ml-5 italic leading-relaxed">
-        {log.status === "error"
-          ? `Error: ${log.errorMessage}`
-          : log.reasoning}
-      </p>
+      <div className="flex gap-2 ml-7 p-3 bg-white/50 rounded-lg text-[#211B34]/60 italic leading-relaxed">
+        <Zap className="w-3.5 h-3.5 text-yellow-500 shrink-0 mt-0.5" />
+        <p className="text-[11px] font-medium leading-relaxed">
+          {log.status === "error"
+            ? `Error: ${log.errorMessage}`
+            : log.reasoning}
+        </p>
+      </div>
 
       {/* Matched rule */}
       {log.matchedRuleText && log.status !== "error" && (
-        <p className="text-[10px] text-blue-500/70 ml-5 mt-1">
+        <div className="flex items-center gap-1.5 ml-7 mt-3 text-[10px] font-black text-blue-500/50 uppercase tracking-widest">
+          <ShieldAlert className="w-3 h-3" />
           Rule: {'"'}{log.matchedRuleText}{'"'}
-        </p>
+        </div>
       )}
     </div>
   );
@@ -200,32 +215,32 @@ export default function AutopilotPanel({ onSettingsChange }) {
 
   if (isLoadingPrefs) {
     return (
-      <div className="flex items-center justify-center h-32">
-        <div className="w-5 h-5 border-t-2 border-blue-400 rounded-full animate-spin" />
+      <div className="flex items-center justify-center p-20">
+        <div className="w-10 h-10 border-4 border-t-[#211B34] border-[#211B34]/10 rounded-full animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8 pb-10">
       {/* ── Toggle Card ─────────────────────────────────────────────────── */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20">
-              <span className="text-base">🤖</span>
+      <div className="bg-white rounded-xl p-8">
+        <div className="flex items-center justify-between gap-6">
+          <div className="flex items-center gap-6">
+            <div className={`relative flex items-center justify-center w-16 h-16 rounded-lg transition-all duration-500 scale-100 active:scale-95 ${enabled ? "bg-[#7C3AED] text-white" : "bg-gray-50 text-gray-300"}`}>
+              <Bot className={`w-8 h-8 ${enabled ? "animate-pulse" : ""}`} />
               {enabled && (
-                <span className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-4 border-white animate-pulse" />
               )}
             </div>
             <div>
-              <h3 className="text-sm font-semibold text-white">
+              <h3 className="text-2xl font-black text-[#211B34] tracking-tight mb-1">
                 Autopilot Mode
               </h3>
-              <p className="text-[11px] text-gray-500">
+              <p className="text-sm font-bold text-[#211B34]/30 max-w-xs leading-relaxed">
                 {enabled
-                  ? "AI is acting on emails automatically"
-                  : "AI will only suggest — you take action"}
+                  ? "AI is actively optimizing your workflow in real-time."
+                  : "AI is currently in suggestion mode only."}
               </p>
             </div>
           </div>
@@ -234,135 +249,130 @@ export default function AutopilotPanel({ onSettingsChange }) {
           <button
             onClick={handleToggle}
             disabled={isSaving}
-            className={`relative w-11 h-6 rounded-full transition-colors duration-200 disabled:opacity-60 focus:outline-none ${
-              enabled ? "bg-blue-600" : "bg-gray-700"
+            className={`relative w-16 h-9 rounded-full transition-all duration-300 disabled:opacity-50 focus:outline-none ${
+              enabled ? "bg-[#7C3AED]" : "bg-gray-200"
             }`}
             aria-label={enabled ? "Disable autopilot" : "Enable autopilot"}
           >
-            <span
-              className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 ${
-                enabled ? "translate-x-5" : "translate-x-0"
+            <div
+              className={`absolute top-1 left-1 w-7 h-7 bg-white rounded-full transition-all duration-500 flex items-center justify-center ${
+                enabled ? "translate-x-7" : "translate-x-0"
               }`}
-            />
+            >
+              {isSaving ? (
+                <div className="w-4 h-4 border-2 border-[#7C3AED]/20 border-t-[#7C3AED] rounded-full animate-spin" />
+              ) : (
+                <Zap className={`w-3.5 h-3.5 ${enabled ? "text-[#7C3AED]" : "text-gray-300"}`} />
+              )}
+            </div>
           </button>
         </div>
 
         {saveError && (
-          <p className="text-red-400 text-xs mt-3">{saveError}</p>
+          <div className="flex items-center gap-2 p-4 mt-6 bg-red-50 text-red-600 rounded-lg text-xs font-bold">
+            <ShieldAlert className="w-4 h-4" />
+            {saveError}
+          </div>
         )}
       </div>
 
       {/* ── Rules Editor ────────────────────────────────────────────────── */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
-            Your Rules
-          </h3>
+      <div className="bg-white rounded-xl p-8">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h3 className="text-sm font-black text-[#211B34]/30 uppercase tracking-[0.2em] mb-1">
+              Refinement Rules
+            </h3>
+            <p className="text-[#211B34] font-bold text-lg">Define AI logic</p>
+          </div>
           <button
             onClick={handleAddRule}
-            className="flex items-center gap-1 text-xs text-blue-400 hover:text-blue-300 transition-colors"
+            className="flex items-center gap-2.5 px-6 py-3 bg-[#7C3AED] text-white rounded-lg text-xs font-black transition-all active:scale-95"
           >
-            <svg
-              className="w-3.5 h-3.5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 4v16m8-8H4"
-              />
-            </svg>
-            Add Rule
+            <Plus className="w-4 h-4" />
+            ADD RULE
           </button>
         </div>
 
         {rules.length === 0 ? (
-          <div className="text-center py-5">
-            <p className="text-xs text-gray-500 mb-1">No rules yet.</p>
-            <p className="text-[11px] text-gray-600">
-              Without rules, autopilot only replies to{" "}
-              <span className="text-red-400">urgent</span> emails.
+          <div className="text-center py-12 bg-gray-50/50 rounded-xl">
+            <ShieldAlert className="w-10 h-10 text-gray-200 mx-auto mb-4" />
+            <p className="text-sm font-bold text-[#211B34]/40">No custom rules established yet.</p>
+            <p className="text-[11px] font-bold text-red-400 mt-2 uppercase tracking-widest">
+              Fallback: Responding to urgent emails only
             </p>
           </div>
         ) : (
-          <ul className="space-y-2">
+          <div className="space-y-3">
             {rules.map((rule) => (
-              <li key={rule.id} className="flex items-center gap-2">
-                <span className="text-gray-600 text-xs shrink-0">→</span>
-                <input
-                  type="text"
-                  value={rule.text}
-                  onChange={(e) => handleRuleChange(rule.id, e.target.value)}
-                  onBlur={handleRuleBlur}
-                  placeholder='e.g. "Reply to my professor formally"'
-                  className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-200 placeholder-gray-600 focus:outline-none focus:border-blue-500 transition-colors"
-                />
+              <div key={rule.id} className="flex items-center gap-4 group">
+                <div className="flex-1 relative">
+                  <ChevronRight className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#211B34]/30" />
+                  <input
+                    type="text"
+                    value={rule.text}
+                    onChange={(e) => handleRuleChange(rule.id, e.target.value)}
+                    onBlur={handleRuleBlur}
+                    placeholder='e.g. "Draft formal invites for all faculty members"'
+                    className="w-full bg-gray-50/50 rounded-lg pl-14 pr-6 py-4 text-sm text-[#211B34] font-bold placeholder:text-[#211B34]/20 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/10 focus:bg-white transition-all"
+                  />
+                </div>
                 <button
                   onClick={() => handleDeleteRule(rule.id)}
-                  className="text-gray-600 hover:text-red-400 transition-colors shrink-0 p-1"
+                  className="w-12 h-12 flex items-center justify-center text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all group-hover:opacity-100 opacity-0 md:opacity-100"
                   aria-label="Delete rule"
                 >
-                  <svg
-                    className="w-3.5 h-3.5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                  <Trash2 className="w-5 h-5" />
                 </button>
-              </li>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
 
-        <div className="mt-3 pt-3 border-t border-gray-800">
-          <p className="text-[10px] text-gray-600 leading-relaxed">
-            Rules use natural language. The AI matches them against sender, subject, and content.
-            Changes save automatically when you leave an input.
+        <div className="mt-8 pt-6 flex gap-3">
+          <Info className="w-4 h-4 text-[#211B34]/20 shrink-0 mt-0.5" />
+          <p className="text-[11px] font-bold text-[#211B34]/30 leading-relaxed uppercase tracking-wider">
+            Rules use natural language processing. The AI dynamically adapts its behavior based on sender identity, subject context, and email sentiment.
           </p>
         </div>
       </div>
 
       {/* ── Action Log ──────────────────────────────────────────────────── */}
-      <div className="bg-gray-900 border border-gray-800 rounded-xl p-5">
-        <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wide">
-            Action Log
-          </h3>
-          <div className="flex items-center gap-2">
-            {enabled && (
-              <span className="flex items-center gap-1 text-[10px] text-green-400">
-                <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" />
-                Live
-              </span>
-            )}
-            <button
-              onClick={fetchLogs}
-              className="text-[10px] text-gray-500 hover:text-gray-300 transition-colors"
-            >
-              Refresh
-            </button>
+      <div className="bg-white rounded-xl p-8">
+        <div className="flex items-center justify-between mb-8">
+          <div>
+            <h3 className="text-sm font-black text-[#211B34]/30 uppercase tracking-[0.2em] mb-1">
+              Operations Log
+            </h3>
+            <div className="flex items-center gap-3">
+              <p className="text-[#211B34] font-bold text-lg">System Activity</p>
+              {enabled && (
+                <div className="flex items-center gap-1.5 bg-[#7C3AED]/10 text-[#7C3AED] px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                  <span className="w-1.5 h-1.5 bg-[#7C3AED] rounded-full animate-pulse" />
+                  Live Sync
+                </div>
+              )}
+            </div>
           </div>
+          <button
+            onClick={fetchLogs}
+            className="flex items-center gap-2 px-5 py-2.5 text-[#211B34]/50 hover:text-[#7C3AED] hover:bg-[#7C3AED]/5 rounded-lg transition-all text-xs font-black uppercase tracking-widest"
+          >
+            <RefreshCcw className="w-4 h-4" />
+            REFRESH
+          </button>
         </div>
 
         {logs.length === 0 ? (
-          <div className="text-center py-8">
-            <p className="text-xs text-gray-500 mb-1">No actions taken yet.</p>
-            <p className="text-[11px] text-gray-600">
-              Enable Autopilot and click Refresh on the inbox.
+          <div className="text-center py-12 rounded-xl">
+            <RefreshCcw className="w-10 h-10 text-gray-200 mx-auto mb-4" />
+            <p className="text-sm font-bold text-[#211B34]/30 mb-1">Queue is currently empty.</p>
+            <p className="text-[11px] font-bold text-[#211B34]/20 uppercase tracking-widest">
+              Enable Autopilot to begin autonomous processing.
             </p>
           </div>
         ) : (
-          <div className="space-y-2 max-h-96 overflow-y-auto pr-1">
+          <div className="space-y-4 max-h-[40rem] overflow-y-auto pr-2 custom-scrollbar">
             {logs.map((log) => (
               <LogEntry key={log._id || log.emailId} log={log} />
             ))}
@@ -372,3 +382,6 @@ export default function AutopilotPanel({ onSettingsChange }) {
     </div>
   );
 }
+
+// Missing Lucide import Info for the description section
+import { Info } from "lucide-react";

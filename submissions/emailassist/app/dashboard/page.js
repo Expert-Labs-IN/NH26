@@ -23,6 +23,10 @@ export default async function DashboardPage() {
   const emails = emailDocs.map((doc) => ({
     ...doc,
     _id: doc._id.toString(),
+    tasks: doc.tasks?.map((task) => ({
+      ...task,
+      _id: task._id?.toString(),
+    })),
   }));
 
   return (

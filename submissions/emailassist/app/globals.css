@@ -2,11 +2,12 @@
 
 /* Dark theme base */
 :root {
-  --background: #030712;
-  --foreground: #f9fafb;
+  --background: #211B34;
+  --foreground: #ffffff;
+  --accent-purple: #7C3AED;
 }
 
-html, body {
+html, body {  
   height: 100%;
 }
 

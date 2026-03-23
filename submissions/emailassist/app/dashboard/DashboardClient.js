@@ -3,6 +3,7 @@
 import { useState, useEffect, useTransition } from "react";
 import EmailList from "@/components/EmailList";
 import ActionPanel from "@/components/ActionPanel";
+import { RefreshCw, AlertCircle, Zap } from "lucide-react";
 
 export default function DashboardClient({ initialEmails }) {
   const [emails, setEmails] = useState(initialEmails);
@@ -62,80 +63,75 @@ export default function DashboardClient({ initialEmails }) {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full bg-[#211B34]">
       {/* FastAPI warning banner */}
       {fastApiDown && (
-        <div className="bg-yellow-500/10 border-b border-yellow-500/30 text-yellow-400 text-xs text-center py-2 px-4">
-          ⚠ AI service (FastAPI) is not reachable. Email processing may be unavailable.
+        <div className="bg-red-500/10 text-red-200 text-xs text-center py-3 px-6 font-medium flex items-center justify-center gap-2">
+          <AlertCircle className="w-4 h-4" />
+          AI service (FastAPI) is not reachable. Email processing may be unavailable.
         </div>
       )}
 
       <div className="flex flex-1 overflow-hidden">
         {/* ── Left Panel: Email List ── */}
-        <aside className="w-80 flex-shrink-0 border-r border-gray-800 flex flex-col">
+        <aside className="w-96 flex-shrink-0 flex flex-col pt-4">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800 gap-2">
-            <h2 className="text-sm font-semibold text-white shrink-0">
+          <div className="flex items-center justify-between px-6 py-4 gap-4">
+            <h2 className="text-lg font-bold text-white tracking-tight">
               Inbox{" "}
-              <span className="text-gray-500 font-normal">({emails.length})</span>
+              <span className="text-white/40 font-medium text-sm ml-1">({emails.length})</span>
             </h2>
 
-            {/* Fetch count dropdown */}
-            <select
-              value={maxResults}
-              onChange={(e) => setMaxResults(Number(e.target.value))}
-              disabled={isRefreshing}
-              className="text-xs bg-gray-800 border border-gray-700 text-gray-300 rounded-lg px-2 py-1.5 focus:outline-none focus:border-blue-500 disabled:opacity-50 cursor-pointer"
-              title="Number of emails to fetch"
-            >
-              <option value={5}>5 emails</option>
-              <option value={10}>10 emails</option>
-              <option value={20}>20 emails</option>
-              <option value={30}>30 emails</option>
-              <option value={50}>50 emails</option>
-            </select>
-
-            <button
-              onClick={handleRefresh}
-              disabled={isRefreshing}
-              className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white border border-gray-700 hover:border-gray-600 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 shrink-0"
-            >
-              <svg
-                className={`w-3 h-3 ${isRefreshing ? "animate-spin" : ""}`}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <div className="flex items-center gap-3">
+              {/* Fetch count dropdown */}
+              <select
+                value={maxResults}
+                onChange={(e) => setMaxResults(Number(e.target.value))}
+                disabled={isRefreshing}
+                className="text-xs bg-white/5 text-white rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7C3AED]/40 disabled:opacity-50 cursor-pointer font-semibold transition-all"
+                title="Number of emails to fetch"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                {[5, 10, 20, 30, 50].map(v => (
+                  <option key={v} value={v} className="bg-[#211B34]">{v}</option>
+                ))}
+              </select>
+
+              <button
+                onClick={handleRefresh}
+                disabled={isRefreshing}
+                className="group flex items-center gap-2 text-xs font-bold text-white bg-[#7C3AED]/10 hover:bg-[#7C3AED]/20 px-4 py-2 rounded-lg transition-all disabled:opacity-50"
+              >
+                <RefreshCw
+                  className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : "group-hover:rotate-180 transition-transform duration-500"}`}
                 />
-              </svg>
-              {isRefreshing ? "Refreshing…" : "Refresh"}
-            </button>
+                {isRefreshing ? "Refreshing…" : "Refresh"}
+              </button>
+            </div>
           </div>
 
           {/* Autopilot active indicator */}
           {autopilotEnabled && (
-            <div className="flex items-center gap-2 px-4 py-2 border-b border-gray-800 bg-blue-500/5">
-              <span className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse shrink-0" />
-              <span className="text-[11px] text-green-400">
-                Autopilot active — AI will act on new emails
+            <div className="flex items-center gap-3 mx-6 mb-4 px-4 py-3 rounded-lg bg-[#7C3AED]/10">
+              <div className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+              </div>
+              <span className="text-xs font-bold text-[#7C3AED] flex items-center gap-1.5 uppercase tracking-wider">
+                <Zap className="w-3 h-3 fill-current" />
+                Autopilot Active
               </span>
             </div>
           )}
 
           {/* Refresh message */}
           {refreshMsg && (
-            <p className="text-xs text-center text-gray-500 py-1.5 border-b border-gray-800">
+            <div className="mx-6 mb-4 px-4 py-2 rounded-lg bg-white/5 text-[11px] text-center text-white/60 font-medium">
               {refreshMsg}
-            </p>
+            </div>
           )}
 
           {/* Email list — scrollable */}
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto custom-scrollbar">
             <EmailList
               emails={emails}
               selectedId={selectedEmail?.emailId}
@@ -145,7 +141,7 @@ export default function DashboardClient({ initialEmails }) {
         </aside>
 
         {/* ── Right Panel: Tabbed Action Panel ── */}
-        <main className="flex-1 overflow-hidden bg-gray-950">
+        <main className="flex-1 overflow-hidden bg-white rounded-tl-xl">
           <ActionPanel
             email={selectedEmail}
             onUpdate={handleEmailUpdate}
