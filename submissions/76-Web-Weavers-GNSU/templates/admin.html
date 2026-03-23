@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h2 style="text-align:center;">👨‍💼 Admin Panel</h2>
+
+<table>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Issue</th>
+<th>Category</th>
+<th>Priority</th>
+<th>Status</th>
+<th>Photo</th>
+<th>Action</th>
+</tr>
+
+{% for row in data %}
+<tr>
+<td>{{ row.ticket_id }}</td>
+<td>{{ row.name }}</td>
+<td>{{ row.issue }}</td>
+<td>{{ row.category }}</td>
+<td>{{ row.priority }}</td>
+<td>{{ row.status }}</td>
+
+<td>
+<img src="{{ url_for('static', filename='photos/' + row.ticket_id + '.png') }}" width="100">
+</td>
+
+<td>
+<a href="/update/{{ row.ticket_id }}">Resolve</a>
+</td>
+</tr>
+{% endfor %}
+
+</table>
+
+</body>
+</html>

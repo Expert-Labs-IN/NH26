@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<div class="container">
+
+<h2>🔍 Track Complaint</h2>
+
+<form method="POST">
+<input type="text" name="ticket_id" placeholder="Enter Ticket ID">
+<button type="submit">Track</button>
+</form>
+
+{% if data %}
+<p>Status: {{ data.status }}</p>
+<p>Category: {{ data.category }}</p>
+<p>Priority: {{ data.priority }}</p>
+
+<img src="{{ url_for('static', filename='photos/' + data.ticket_id + '.png') }}" width="250">
+{% endif %}
+
+</div>
+</body>
+</html>

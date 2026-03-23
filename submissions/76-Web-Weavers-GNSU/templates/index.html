@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Complaint System</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+<div class="container">
+
+<h2>📢 Submit Complaint</h2>
+
+<form action="/submit" method="POST" enctype="multipart/form-data">
+
+<input type="text" name="name" placeholder="Your Name" required>
+
+<textarea name="issue" placeholder="Enter your issue" required></textarea>
+
+<h3>Upload Photo</h3>
+<input type="file" name="photo">
+
+<h3>OR Capture Photo</h3>
+<video id="video" width="300" height="200" autoplay></video>
+<button type="button" id="snap">Capture</button>
+
+<canvas id="canvas" style="display:none;"></canvas>
+<input type="hidden" name="camera_photo" id="camera_photo">
+
+<button type="submit">Submit</button>
+
+</form>
+
+<a href="/track">Track</a> | <a href="/admin">Admin</a>
+
+</div>
+
+<script>
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => document.getElementById('video').srcObject = stream);
+
+document.getElementById('snap').onclick = function(){
+    let canvas = document.getElementById('canvas');
+    canvas.width = 300;
+    canvas.height = 200;
+    canvas.getContext('2d').drawImage(video,0,0,300,200);
+    document.getElementById('camera_photo').value = canvas.toDataURL();
+    alert("Photo Captured!");
+}
+</script>
+
+</body>
+</html>

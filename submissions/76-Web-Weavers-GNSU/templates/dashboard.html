@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="container">
+<h1>📊 Dashboard</h1>
+<p>Total Tickets: {{ total }}</p>
+<p>Pending: {{ pending }}</p>
+<p>Resolved: {{ resolved }}</p>
+<a href="/admin">Go to Admin Panel</a>
+</div>
+</body>
+</html>
