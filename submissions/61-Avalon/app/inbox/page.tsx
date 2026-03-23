@@ -8,7 +8,8 @@ import {
   Copy, Check, MessageSquare, FileText, Link2, Users, DollarSign,
   Archive, Trash2, AlarmClock, PenLine,
   Wand2, Minimize2, Maximize2, CheckCheck, CornerUpLeft,
-  LogIn, LogOut, CalendarPlus, ExternalLink
+  LogIn, LogOut, CalendarPlus, ExternalLink,
+  RefreshCw, Filter, ChevronDown, ChevronRight, Plus, PenSquare
 } from 'lucide-react'
 import NextLink from 'next/link'
 import { Input } from '@/components/ui/input'
@@ -48,14 +49,13 @@ const LS_LABELS = 'mailmate-user-labels'
 
 const defaultMeta: ThreadMeta = { read: false, starred: false, snoozedUntil: null, archived: false, trashed: false, draft: '', userLabels: [] }
 
-// Pre-populated defaults so the demo looks alive
 const initialMetas: Record<string, Partial<ThreadMeta>> = {
-  'thread-1': { starred: true },            // Budget review is important
-  'thread-2': { starred: true },            // OAuth feature request starred
-  'thread-4': { snoozedUntil: new Date(Date.now() + 172800000).toISOString() }, // Offsite planning snoozed
-  'thread-5': { read: true },               // TechCorp proposal already read
-  'thread-6': { read: true },               // Campaign report already read
-  'thread-12': { read: true },              // Netflix spam already read
+  'thread-1': { starred: true },
+  'thread-2': { starred: true },
+  'thread-4': { snoozedUntil: new Date(Date.now() + 172800000).toISOString() },
+  'thread-5': { read: true },
+  'thread-6': { read: true },
+  'thread-12': { read: true },
 }
 
 function timeAgo(dateStr: string): string {
@@ -72,19 +72,19 @@ function timeAgo(dateStr: string): string {
 
 // ─── Config maps ────────────────────────────────────────────────
 
-const priorityConfig: Record<string, { label: string; cls: string }> = {
-  urgent: { label: 'Urgent', cls: 'bg-red-100 text-red-700 border-red-200' },
-  important: { label: 'Important', cls: 'bg-amber-100 text-amber-700 border-amber-200' },
-  normal: { label: 'Normal', cls: 'bg-gray-100 text-gray-600 border-gray-200' },
-  low: { label: 'Low', cls: 'bg-slate-50 text-slate-500 border-slate-200' },
+const priorityConfig: Record<string, { label: string; cls: string; dot: string }> = {
+  urgent:    { label: 'Urgent',    cls: 'bg-red-50 text-red-700 border-red-200/80 ring-1 ring-red-100',       dot: 'bg-red-500' },
+  important: { label: 'Important', cls: 'bg-amber-50 text-amber-700 border-amber-200/80 ring-1 ring-amber-100', dot: 'bg-amber-500' },
+  normal:    { label: 'Normal',    cls: 'bg-gray-50 text-gray-600 border-gray-200/80',                         dot: 'bg-gray-400' },
+  low:       { label: 'Low',       cls: 'bg-slate-50 text-slate-500 border-slate-200/80',                      dot: 'bg-slate-300' },
 }
 
-const categoryConfig: Record<string, { label: string; cls: string }> = {
-  work: { label: 'Work', cls: 'bg-blue-50 text-blue-700' },
-  personal: { label: 'Personal', cls: 'bg-purple-50 text-purple-700' },
-  finance: { label: 'Finance', cls: 'bg-emerald-50 text-emerald-700' },
-  updates: { label: 'Updates', cls: 'bg-cyan-50 text-cyan-700' },
-  spam: { label: 'Spam', cls: 'bg-gray-100 text-gray-500' },
+const categoryConfig: Record<string, { label: string; cls: string; dot: string }> = {
+  work:     { label: 'Work',     cls: 'bg-blue-50 text-blue-700',    dot: 'bg-blue-500' },
+  personal: { label: 'Personal', cls: 'bg-purple-50 text-purple-700', dot: 'bg-purple-500' },
+  finance:  { label: 'Finance',  cls: 'bg-emerald-50 text-emerald-700', dot: 'bg-emerald-500' },
+  updates:  { label: 'Updates',  cls: 'bg-cyan-50 text-cyan-700',    dot: 'bg-cyan-500' },
+  spam:     { label: 'Spam',     cls: 'bg-gray-100 text-gray-500',   dot: 'bg-gray-400' },
 }
 
 const sidebarItems: { folder: SidebarFolder; icon: typeof Inbox; label: string }[] = [
@@ -101,16 +101,16 @@ const sidebarItems: { folder: SidebarFolder; icon: typeof Inbox; label: string }
 
 function PriorityBadge({ priority }: { priority: string }) {
   const c = priorityConfig[priority] ?? priorityConfig.normal
-  return <span className={`inline-flex items-center border rounded-full text-[11px] font-medium px-2 py-px ${c.cls}`}>{c.label}</span>
+  return <span className={`inline-flex items-center border rounded-full text-[11px] font-semibold px-2.5 py-0.5 ${c.cls}`}>{c.label}</span>
 }
 
 function CategoryBadge({ category }: { category: string }) {
   const c = categoryConfig[category] ?? categoryConfig.work
-  return <span className={`inline-flex items-center rounded-full text-[11px] font-medium px-2 py-px ${c.cls}`}>{c.label}</span>
+  return <span className={`inline-flex items-center rounded-full text-[11px] font-semibold px-2.5 py-0.5 ${c.cls}`}>{c.label}</span>
 }
 
 function SenderBadge({ importance }: { importance: string }) {
-  if (importance === 'vip') return <span className="inline-flex items-center gap-0.5 text-[11px] font-medium text-amber-600"><Star className="w-3 h-3 fill-amber-500" /> VIP</span>
+  if (importance === 'vip') return <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full"><Star className="w-3 h-3 fill-amber-500" /> VIP</span>
   return null
 }
 
@@ -125,40 +125,52 @@ function ThreadListItem({ thread, selected, analysis, meta, onSelect, onStar }: 
 
   return (
     <button onClick={onSelect}
-      className={`w-full text-left px-3 py-2.5 transition-colors border-l-2 group ${
-        selected ? 'bg-blue-50/70 border-l-blue-600' : 'border-l-transparent hover:bg-gray-50'
+      className={`w-full text-left px-4 py-3 transition-all border-l-[3px] group ${
+        selected
+          ? 'bg-gradient-to-r from-blue-50/80 to-indigo-50/40 border-l-blue-600'
+          : 'border-l-transparent hover:bg-gray-50/80'
       }`}>
-      <div className="flex items-start gap-2.5">
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs shrink-0 mt-0.5 ${
-          isUnread ? 'bg-blue-100 text-blue-700 font-bold' : 'bg-gray-100 text-gray-500'
+      <div className="flex items-start gap-3">
+        <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-xs shrink-0 mt-0.5 font-semibold transition-colors ${
+          isUnread
+            ? 'bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-sm shadow-blue-500/20'
+            : 'bg-gray-100 text-gray-500'
         }`}>
           {thread.from.avatar || thread.from.name.charAt(0).toUpperCase()}
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-1">
-            <span className={`text-sm truncate ${isUnread ? 'font-semibold text-gray-900' : 'text-gray-600'}`}>
+            <span className={`text-sm truncate ${isUnread ? 'font-bold text-gray-900' : 'font-medium text-gray-600'}`}>
               {thread.from.name}
             </span>
-            <div className="flex items-center gap-1 shrink-0">
+            <div className="flex items-center gap-1.5 shrink-0">
               <button onClick={e => { e.stopPropagation(); onStar() }}
                 className="opacity-0 group-hover:opacity-100 transition-opacity p-0.5">
                 <Star className={`w-3.5 h-3.5 ${meta.starred ? 'fill-amber-400 text-amber-400' : 'text-gray-300 hover:text-amber-400'}`} />
               </button>
-              <span className="text-[11px] text-gray-400">{timeAgo(thread.timestamp)}</span>
+              <span className="text-[11px] text-gray-400 font-medium">{timeAgo(thread.timestamp)}</span>
             </div>
           </div>
-          <div className="flex items-center gap-1.5 mt-px">
+          <div className="flex items-center gap-1.5 mt-0.5">
             {analysis && <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dotColor[analysis.priority] ?? 'bg-gray-300'}`} />}
-            <p className={`text-sm truncate ${isUnread ? 'font-medium text-gray-900' : 'text-gray-700'}`}>
+            <p className={`text-[13px] truncate ${isUnread ? 'font-semibold text-gray-900' : 'text-gray-700'}`}>
               {thread.subject}
             </p>
           </div>
           <p className="text-xs text-gray-400 truncate mt-0.5">{thread.preview}</p>
-          <div className="flex items-center gap-1.5 mt-1">
+          <div className="flex items-center gap-1.5 mt-1.5">
             {meta.starred && <Star className="w-3 h-3 fill-amber-400 text-amber-400" />}
             {analysis && <CategoryBadge category={analysis.category} />}
-            {analysis?.followUpNeeded && <span className="text-[11px] text-orange-600 font-medium flex items-center gap-0.5"><Clock className="w-3 h-3" />Follow-up</span>}
-            {meta.snoozedUntil && <span className="text-[11px] text-purple-600 flex items-center gap-0.5"><AlarmClock className="w-3 h-3" />Snoozed</span>}
+            {analysis?.followUpNeeded && (
+              <span className="text-[10px] text-orange-600 font-semibold flex items-center gap-0.5 bg-orange-50 px-1.5 py-0.5 rounded-full">
+                <Clock className="w-2.5 h-2.5" />Follow-up
+              </span>
+            )}
+            {meta.snoozedUntil && (
+              <span className="text-[10px] text-purple-600 font-semibold flex items-center gap-0.5 bg-purple-50 px-1.5 py-0.5 rounded-full">
+                <AlarmClock className="w-2.5 h-2.5" />Snoozed
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -170,22 +182,26 @@ function ThreadListItem({ thread, selected, analysis, meta, onSelect, onStar }: 
 
 function SummarySection({ analysis }: { analysis: ComprehensiveAnalysis }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div className="flex items-center flex-wrap gap-2">
         <PriorityBadge priority={analysis.priority} />
         <CategoryBadge category={analysis.category} />
         <SenderBadge importance={analysis.senderImportance} />
         {analysis.labels.map(l => (
-          <span key={l} className="inline-flex items-center gap-0.5 text-[11px] bg-gray-100 text-gray-600 rounded px-1.5 py-px">
+          <span key={l} className="inline-flex items-center gap-1 text-[11px] bg-gray-100 text-gray-600 rounded-full px-2 py-0.5 font-medium">
             <Tag className="w-2.5 h-2.5" />{l}
           </span>
         ))}
       </div>
-      <div className="bg-gray-50 rounded-lg p-3">
-        <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">AI Summary</p>
-        <ul className="space-y-1">
+      <div className="bg-gradient-to-br from-gray-50 to-slate-50/50 rounded-2xl p-5 border border-gray-100">
+        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+          <Sparkles className="w-3.5 h-3.5 text-blue-500" /> AI Summary
+        </p>
+        <ul className="space-y-2">
           {analysis.summary.map((s, i) => (
-            <li key={i} className="text-sm text-gray-700 flex items-start gap-2"><span className="text-blue-500 mt-0.5">•</span>{s}</li>
+            <li key={i} className="text-sm text-gray-700 flex items-start gap-2.5 leading-relaxed">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 mt-2 shrink-0" />{s}
+            </li>
           ))}
         </ul>
       </div>
@@ -197,13 +213,13 @@ function SmartRepliesSection({ replies, onUseReply }: { replies: string[]; onUse
   if (replies.length === 0) return null
   return (
     <div>
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-        <MessageSquare className="w-3.5 h-3.5" /> Quick Replies
+      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <MessageSquare className="w-3.5 h-3.5 text-blue-500" /> Quick Replies
       </p>
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-2">
         {replies.map((r, i) => (
           <button key={i} onClick={() => onUseReply(r)}
-            className="text-xs bg-white border border-gray-200 rounded-full px-3 py-1.5 hover:border-blue-300 hover:bg-blue-50/50 transition-all text-gray-700">
+            className="text-xs bg-white border border-gray-200 rounded-xl px-3.5 py-2 hover:border-blue-300 hover:bg-blue-50/50 hover:shadow-sm transition-all text-gray-700 font-medium">
             {r}
           </button>
         ))}
@@ -217,13 +233,13 @@ function DraftReplySection({ draft }: { draft: string }) {
   if (!draft) return null
   return (
     <div>
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-        <FileText className="w-3.5 h-3.5" /> AI-Suggested Reply
+      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <FileText className="w-3.5 h-3.5 text-blue-500" /> AI-Suggested Reply
       </p>
-      <div className="bg-white border border-gray-200 rounded-lg p-3 relative">
-        <p className="text-sm text-gray-700 whitespace-pre-wrap pr-8">{draft}</p>
+      <div className="bg-white border border-gray-200 rounded-2xl p-4 relative shadow-sm">
+        <p className="text-sm text-gray-700 whitespace-pre-wrap pr-8 leading-relaxed">{draft}</p>
         <button onClick={() => { navigator.clipboard.writeText(draft); setCopied(true); setTimeout(() => setCopied(false), 2000) }}
-          className="absolute top-2 right-2 p-1.5 rounded-md hover:bg-gray-100">
+          className="absolute top-3 right-3 p-1.5 rounded-lg hover:bg-gray-100 transition-colors">
           {copied ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5 text-gray-400" />}
         </button>
       </div>
@@ -259,29 +275,29 @@ function MeetingsSection({ meetings, isAuthenticated }: { meetings: Comprehensiv
   if (meetings.length === 0) return null
   return (
     <div>
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-        <Calendar className="w-3.5 h-3.5" /> Detected Meetings
+      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <Calendar className="w-3.5 h-3.5 text-emerald-500" /> Detected Meetings
       </p>
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {meetings.map((m, i) => (
-          <div key={i} className="bg-white border border-gray-200 rounded-lg p-3">
+          <div key={i} className="bg-white border border-gray-200 rounded-2xl p-4 shadow-sm">
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-900">{m.title}</p>
-                <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
-                  <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{m.date}</span>
-                  {m.time && <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{m.time}</span>}
+                <p className="text-sm font-semibold text-gray-900">{m.title}</p>
+                <div className="flex items-center gap-3 mt-1.5 text-xs text-gray-500">
+                  <span className="flex items-center gap-1 font-medium"><Calendar className="w-3 h-3 text-emerald-500" />{m.date}</span>
+                  {m.time && <span className="flex items-center gap-1 font-medium"><Clock className="w-3 h-3 text-blue-500" />{m.time}</span>}
                 </div>
-                {m.attendees.length > 0 && <p className="text-xs text-gray-400 mt-1"><Users className="w-3 h-3 inline mr-1" />{m.attendees.join(', ')}</p>}
+                {m.attendees.length > 0 && <p className="text-xs text-gray-400 mt-1.5"><Users className="w-3 h-3 inline mr-1" />{m.attendees.join(', ')}</p>}
               </div>
               {isAuthenticated && (
                 <button
                   onClick={() => addToCalendar(m, i)}
                   disabled={addingIdx === i || addedIdx.has(i)}
-                  className={`shrink-0 inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-1.5 rounded-lg transition-all ${
+                  className={`shrink-0 inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-2 rounded-xl transition-all ${
                     addedIdx.has(i)
                       ? 'bg-green-50 text-green-700 border border-green-200'
-                      : 'bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100'
+                      : 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border border-blue-200 hover:shadow-sm'
                   } disabled:opacity-50`}
                 >
                   {addingIdx === i ? <Loader2 className="w-3 h-3 animate-spin" /> :
@@ -299,21 +315,21 @@ function MeetingsSection({ meetings, isAuthenticated }: { meetings: Comprehensiv
 
 function TasksSection({ tasks }: { tasks: ComprehensiveAnalysis['tasks'] }) {
   if (tasks.length === 0) return null
-  const color: Record<string, string> = { high: 'text-red-600', medium: 'text-amber-600', low: 'text-gray-500' }
+  const color: Record<string, string> = { high: 'text-red-600 bg-red-50', medium: 'text-amber-600 bg-amber-50', low: 'text-gray-500 bg-gray-50' }
   return (
     <div>
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-        <ListChecks className="w-3.5 h-3.5" /> Extracted Tasks
+      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <ListChecks className="w-3.5 h-3.5 text-rose-500" /> Extracted Tasks
       </p>
-      <div className="space-y-1.5">
+      <div className="space-y-2">
         {tasks.map((t, i) => (
-          <div key={i} className="flex items-center gap-3 bg-white border border-gray-200 rounded-lg px-3 py-2">
-            <div className="w-4 h-4 rounded border-2 border-gray-300 shrink-0" />
+          <div key={i} className="flex items-center gap-3 bg-white border border-gray-200 rounded-xl px-4 py-3 shadow-sm">
+            <div className="w-5 h-5 rounded-lg border-2 border-gray-300 shrink-0" />
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-gray-800">{t.title}</p>
-              {t.deadline && <p className="text-xs text-gray-400">Due: {t.deadline}</p>}
+              <p className="text-sm text-gray-800 font-medium">{t.title}</p>
+              {t.deadline && <p className="text-xs text-gray-400 mt-0.5">Due: {t.deadline}</p>}
             </div>
-            <span className={`text-[11px] font-medium ${color[t.priority] ?? 'text-gray-500'}`}>{t.priority}</span>
+            <span className={`text-[11px] font-bold px-2 py-0.5 rounded-full ${color[t.priority] ?? 'text-gray-500 bg-gray-50'}`}>{t.priority}</span>
           </div>
         ))}
       </div>
@@ -325,15 +341,17 @@ function DeadlinesSection({ deadlines }: { deadlines: ComprehensiveAnalysis['dea
   if (deadlines.length === 0) return null
   return (
     <div>
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-        <AlertTriangle className="w-3.5 h-3.5" /> Deadlines
+      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <AlertTriangle className="w-3.5 h-3.5 text-amber-500" /> Deadlines
       </p>
-      <div className="space-y-1.5">
+      <div className="space-y-2">
         {deadlines.map((d, i) => (
-          <div key={i} className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm ${d.urgent ? 'bg-red-50 border border-red-200 text-red-800' : 'bg-white border border-gray-200 text-gray-700'}`}>
-            {d.urgent && <AlertTriangle className="w-3.5 h-3.5 text-red-500 shrink-0" />}
+          <div key={i} className={`flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium shadow-sm ${
+            d.urgent ? 'bg-red-50 border border-red-200 text-red-800' : 'bg-white border border-gray-200 text-gray-700'
+          }`}>
+            {d.urgent && <AlertTriangle className="w-4 h-4 text-red-500 shrink-0" />}
             <span className="flex-1">{d.description}</span>
-            <span className="text-xs text-gray-500 shrink-0">{d.date}</span>
+            <span className="text-xs text-gray-500 shrink-0 font-semibold">{d.date}</span>
           </div>
         ))}
       </div>
@@ -343,22 +361,24 @@ function DeadlinesSection({ deadlines }: { deadlines: ComprehensiveAnalysis['dea
 
 function KeyInfoSection({ keyInfo }: { keyInfo: ComprehensiveAnalysis['keyInfo'] }) {
   const sections = [
-    { icon: Calendar, label: 'Dates', items: keyInfo.dates },
-    { icon: Link2, label: 'Links', items: keyInfo.links },
-    { icon: Users, label: 'Contacts', items: keyInfo.contacts },
-    { icon: DollarSign, label: 'Amounts', items: keyInfo.amounts },
+    { icon: Calendar, label: 'Dates', items: keyInfo.dates, color: 'text-blue-600' },
+    { icon: Link2, label: 'Links', items: keyInfo.links, color: 'text-emerald-600' },
+    { icon: Users, label: 'Contacts', items: keyInfo.contacts, color: 'text-purple-600' },
+    { icon: DollarSign, label: 'Amounts', items: keyInfo.amounts, color: 'text-amber-600' },
   ].filter(s => s.items.length > 0)
   if (sections.length === 0) return null
   return (
     <div>
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2 flex items-center gap-1.5">
-        <Sparkles className="w-3.5 h-3.5" /> Key Information
+      <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+        <Sparkles className="w-3.5 h-3.5 text-indigo-500" /> Key Information
       </p>
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-3">
         {sections.map(s => (
-          <div key={s.label} className="bg-white border border-gray-200 rounded-lg p-2.5">
-            <p className="text-[11px] font-medium text-gray-400 flex items-center gap-1 mb-1"><s.icon className="w-3 h-3" />{s.label}</p>
-            {s.items.map((item, i) => <p key={i} className="text-xs text-gray-700 truncate">{item}</p>)}
+          <div key={s.label} className="bg-white border border-gray-200 rounded-xl p-3.5 shadow-sm">
+            <p className={`text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 mb-2 ${s.color}`}>
+              <s.icon className="w-3 h-3" />{s.label}
+            </p>
+            {s.items.map((item, i) => <p key={i} className="text-xs text-gray-700 truncate font-medium">{item}</p>)}
           </div>
         ))}
       </div>
@@ -369,11 +389,13 @@ function KeyInfoSection({ keyInfo }: { keyInfo: ComprehensiveAnalysis['keyInfo']
 function FollowUpSection({ needed, suggestion }: { needed: boolean; suggestion: string }) {
   if (!needed) return null
   return (
-    <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 flex items-start gap-2">
-      <Clock className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
+    <div className="bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200/80 rounded-2xl p-4 flex items-start gap-3">
+      <div className="w-9 h-9 bg-orange-100 rounded-xl flex items-center justify-center shrink-0">
+        <Clock className="w-4 h-4 text-orange-600" />
+      </div>
       <div>
-        <p className="text-sm font-medium text-orange-800">Follow-up needed</p>
-        {suggestion && <p className="text-xs text-orange-600 mt-0.5">{suggestion}</p>}
+        <p className="text-sm font-bold text-orange-800">Follow-up needed</p>
+        {suggestion && <p className="text-xs text-orange-600 mt-1 leading-relaxed">{suggestion}</p>}
       </div>
     </div>
   )
@@ -381,9 +403,10 @@ function FollowUpSection({ needed, suggestion }: { needed: boolean; suggestion: 
 
 // ─── Compose panel with AI writing tools ────────────────────────
 
-function ComposePanel({ thread, initialText, meta, onUpdateDraft, onClose, isAuthenticated }: {
+function ComposePanel({ thread, initialText, meta, onUpdateDraft, onClose, isAuthenticated, senderName, recipientName }: {
   thread: Thread; initialText: string; meta: ThreadMeta
   onUpdateDraft: (text: string) => void; onClose: () => void; isAuthenticated?: boolean
+  senderName?: string; recipientName?: string
 }) {
   const [text, setText] = useState(initialText || meta.draft || '')
   const [rewriting, setRewriting] = useState<RewriteAction | null>(null)
@@ -404,20 +427,19 @@ function ComposePanel({ thread, initialText, meta, onUpdateDraft, onClose, isAut
       const res = await fetch('/api/rewrite', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text, action })
+        body: JSON.stringify({ text, action, senderName, recipientName })
       })
       const data = await res.json()
       if (data.text) setText(data.text)
     } catch { /* ignore */ }
     finally { setRewriting(null) }
-  }, [text, rewriting])
+  }, [text, rewriting, senderName, recipientName])
 
   const handleSend = async () => {
     if (sending) return
     setSending(true)
 
     if (isAuthenticated) {
-      // Send via Gmail API
       try {
         const lastEmail = thread.emails[thread.emails.length - 1]
         const to = lastEmail.from.email.includes('you@') ? thread.from.email : lastEmail.from.email
@@ -449,44 +471,156 @@ function ComposePanel({ thread, initialText, meta, onUpdateDraft, onClose, isAut
 
   return (
     <div className="border-t border-gray-200 bg-white">
-      <div className="flex items-center justify-between px-4 py-2 border-b border-gray-100 bg-gray-50">
-        <span className="text-xs font-medium text-gray-600 flex items-center gap-1.5">
-          <CornerUpLeft className="w-3.5 h-3.5" /> Replying to {thread.from.name}
+      <div className="flex items-center justify-between px-5 py-2.5 border-b border-gray-100 bg-gradient-to-r from-gray-50 to-slate-50">
+        <span className="text-xs font-semibold text-gray-600 flex items-center gap-1.5">
+          <CornerUpLeft className="w-3.5 h-3.5 text-blue-500" /> Replying to {recipientName || thread.from.name}
         </span>
-        <button onClick={onClose} className="p-1 hover:bg-gray-200 rounded"><X className="w-3.5 h-3.5 text-gray-400" /></button>
+        <button onClick={onClose} className="p-1 hover:bg-gray-200 rounded-lg transition-colors"><X className="w-3.5 h-3.5 text-gray-400" /></button>
       </div>
 
-      <div className="p-3">
+      <div className="p-4">
         <textarea
           ref={textareaRef}
           value={text}
           onChange={e => setText(e.target.value)}
           placeholder="Write your reply..."
           rows={5}
-          className="w-full text-sm text-gray-800 border border-gray-200 rounded-lg p-3 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className="w-full text-sm text-gray-800 border border-gray-200 rounded-xl p-4 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-300 transition-all"
         />
 
-        {/* AI writing tools */}
-        <div className="flex items-center gap-1.5 mt-2 flex-wrap">
-          <span className="text-[11px] text-gray-400 font-medium mr-1">AI Tools:</span>
+        <div className="flex items-center gap-2 mt-3 flex-wrap">
+          <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mr-1">AI Tools</span>
           {aiTools.map(t => (
             <button key={t.action} onClick={() => handleRewrite(t.action)}
               disabled={!text.trim() || !!rewriting}
-              className="inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-1 rounded-full border border-gray-200 text-gray-600 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+              className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-xl border border-gray-200 text-gray-600 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
               {rewriting === t.action ? <Loader2 className="w-3 h-3 animate-spin" /> : <t.icon className="w-3 h-3" />}
               {t.label}
             </button>
           ))}
         </div>
 
-        <div className="flex items-center justify-between mt-3">
-          <p className="text-[11px] text-gray-400">{text.length > 0 ? `${text.split(/\s+/).filter(Boolean).length} words` : ''}</p>
+        <div className="flex items-center justify-between mt-4">
+          <p className="text-[11px] text-gray-400 font-medium">{text.length > 0 ? `${text.split(/\s+/).filter(Boolean).length} words` : ''}</p>
           <Button size="sm" onClick={handleSend} disabled={!text.trim() || sent || sending}
-            className={sent ? 'bg-green-600 hover:bg-green-600' : ''}>
-            {sending ? <><Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" /> Sending...</> :
-             sent ? <><Check className="w-3.5 h-3.5 mr-1" /> Sent{isAuthenticated ? ' via Gmail' : ''}</> :
-             <><Send className="w-3.5 h-3.5 mr-1" /> {isAuthenticated ? 'Send via Gmail' : 'Send'}</>}
+            className={`rounded-xl px-5 ${sent ? 'bg-green-600 hover:bg-green-600' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'}`}>
+            {sending ? <><Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" /> Sending...</> :
+             sent ? <><Check className="w-3.5 h-3.5 mr-1.5" /> Sent{isAuthenticated ? ' via Gmail' : ''}</> :
+             <><Send className="w-3.5 h-3.5 mr-1.5" /> {isAuthenticated ? 'Send via Gmail' : 'Send'}</>}
           </Button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── New Email Compose ──────────────────────────────────────────
+
+function NewComposePanel({ onClose, isAuthenticated, senderName }: {
+  onClose: () => void; isAuthenticated?: boolean; senderName?: string
+}) {
+  const [to, setTo] = useState('')
+  const [subject, setSubject] = useState('')
+  const [body, setBody] = useState('')
+  const [sending, setSending] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [rewriting, setRewriting] = useState<RewriteAction | null>(null)
+
+  const handleRewrite = async (action: RewriteAction) => {
+    if (!body.trim() || rewriting) return
+    setRewriting(action)
+    try {
+      // Try to extract recipient name from the "to" field
+      const recipientName = to.includes('<') ? to.split('<')[0].trim() : to.split('@')[0]
+      const res = await fetch('/api/rewrite', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: body, action, senderName, recipientName: recipientName || undefined })
+      })
+      const data = await res.json()
+      if (data.text) setBody(data.text)
+    } catch { /* ignore */ }
+    finally { setRewriting(null) }
+  }
+
+  const handleSend = async () => {
+    if (sending || !to.trim() || !subject.trim() || !body.trim()) return
+    setSending(true)
+    try {
+      if (isAuthenticated) {
+        const res = await fetch('/api/gmail/send', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ to, subject, body })
+        })
+        if (!res.ok) throw new Error('Send failed')
+      }
+      setSent(true)
+      setTimeout(() => { onClose() }, 1500)
+    } catch (err) { console.error('Send failed:', err) }
+    finally { setSending(false) }
+  }
+
+  const aiTools: { action: RewriteAction; icon: typeof Wand2; label: string }[] = [
+    { action: 'fix-grammar', icon: CheckCheck, label: 'Fix Grammar' },
+    { action: 'formalize', icon: Wand2, label: 'Formalize' },
+    { action: 'shorten', icon: Minimize2, label: 'Shorten' },
+    { action: 'elaborate', icon: Maximize2, label: 'Elaborate' },
+  ]
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm flex items-center justify-center p-4">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl flex flex-col max-h-[85vh]">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-gray-100">
+          <span className="text-sm font-bold text-gray-800 flex items-center gap-2">
+            <PenSquare className="w-4 h-4 text-blue-600" /> New Email
+          </span>
+          <button onClick={onClose} className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"><X className="w-4 h-4 text-gray-400" /></button>
+        </div>
+
+        <div className="p-5 space-y-3 flex-1 overflow-y-auto">
+          <div>
+            <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">To</label>
+            <input value={to} onChange={e => setTo(e.target.value)} placeholder="recipient@email.com"
+              className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-300 transition-all" />
+          </div>
+          <div>
+            <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Subject</label>
+            <input value={subject} onChange={e => setSubject(e.target.value)} placeholder="Email subject"
+              className="w-full text-sm border border-gray-200 rounded-xl px-4 py-2.5 mt-1 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-300 transition-all" />
+          </div>
+          <div>
+            <label className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Message</label>
+            <textarea value={body} onChange={e => setBody(e.target.value)} placeholder="Write your email..."
+              rows={8}
+              className="w-full text-sm border border-gray-200 rounded-xl p-4 mt-1 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-300 transition-all" />
+          </div>
+
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-[11px] text-gray-400 font-bold uppercase tracking-wider mr-1">AI Tools</span>
+            {aiTools.map(t => (
+              <button key={t.action} onClick={() => handleRewrite(t.action)}
+                disabled={!body.trim() || !!rewriting}
+                className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-3 py-1.5 rounded-xl border border-gray-200 text-gray-600 hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all">
+                {rewriting === t.action ? <Loader2 className="w-3 h-3 animate-spin" /> : <t.icon className="w-3 h-3" />}
+                {t.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="px-5 py-3 border-t border-gray-100 flex items-center justify-between">
+          <p className="text-[11px] text-gray-400 font-medium">{body.length > 0 ? `${body.split(/\s+/).filter(Boolean).length} words` : ''}</p>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={onClose} className="rounded-xl">Cancel</Button>
+            <Button size="sm" onClick={handleSend}
+              disabled={!to.trim() || !subject.trim() || !body.trim() || sent || sending}
+              className={`rounded-xl px-5 ${sent ? 'bg-green-600 hover:bg-green-600' : 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700'}`}>
+              {sending ? <><Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" /> Sending...</> :
+               sent ? <><Check className="w-3.5 h-3.5 mr-1.5" /> Sent!</> :
+               <><Send className="w-3.5 h-3.5 mr-1.5" /> {isAuthenticated ? 'Send via Gmail' : 'Send'}</>}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
@@ -495,7 +629,7 @@ function ComposePanel({ thread, initialText, meta, onUpdateDraft, onClose, isAut
 
 // ─── AI Chat ────────────────────────────────────────────────────
 
-function AIChatPanel({ thread }: { thread: Thread | null }) {
+function AIChatPanel({ thread, isGmail }: { thread: Thread | null; isGmail?: boolean }) {
   const [messages, setMessages] = useState<AIChatMessage[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -510,40 +644,72 @@ function AIChatPanel({ thread }: { thread: Thread | null }) {
     setInput('')
     setLoading(true)
     try {
-      const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: userMsg.content, threadId: thread?.id ?? null }) })
+      const payload: Record<string, unknown> = { message: userMsg.content }
+      // For Gmail threads, send full thread data; for mock threads, send threadId
+      if (thread) {
+        if (isGmail) {
+          payload.thread = thread
+        } else {
+          payload.threadId = thread.id
+        }
+      }
+      const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       const data = await res.json()
       setMessages(prev => [...prev, { id: crypto.randomUUID(), role: 'assistant', content: data.reply ?? data.error ?? 'No response', timestamp: new Date().toISOString() }])
     } catch {
       setMessages(prev => [...prev, { id: crypto.randomUUID(), role: 'assistant', content: 'Failed to get response.', timestamp: new Date().toISOString() }])
     } finally { setLoading(false) }
-  }, [input, loading, thread])
+  }, [input, loading, thread, isGmail])
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.length === 0 && (
-          <div className="text-center py-8 text-gray-400 text-sm">
-            <Bot className="w-8 h-8 mx-auto mb-2 opacity-50" />
-            Ask about {thread ? 'this email' : 'your emails'}
+          <div className="text-center py-12 text-gray-400 text-sm">
+            <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-3">
+              <Bot className="w-7 h-7 text-blue-400" />
+            </div>
+            <p className="font-medium text-gray-500">AI Assistant</p>
+            <p className="text-xs mt-1">Ask about {thread ? 'this email' : 'your emails'}</p>
           </div>
         )}
         {messages.map(m => (
           <div key={m.id} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${m.role === 'user' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-800'}`}>
+            <div className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
+              m.role === 'user'
+                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm'
+                : 'bg-gray-100 text-gray-800'
+            }`}>
               {m.content}
             </div>
           </div>
         ))}
-        {loading && <div className="flex justify-start"><div className="bg-gray-100 rounded-lg px-3 py-2"><Loader2 className="w-4 h-4 animate-spin text-gray-400" /></div></div>}
+        {loading && (
+          <div className="flex justify-start">
+            <div className="bg-gray-100 rounded-2xl px-4 py-2.5">
+              <Loader2 className="w-4 h-4 animate-spin text-gray-400" />
+            </div>
+          </div>
+        )}
         <div ref={endRef} />
       </div>
       <div className="border-t border-gray-100 p-3 flex gap-2">
-        <Input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()} placeholder="Ask about this email..." className="text-sm" />
-        <Button size="sm" onClick={send} disabled={loading || !input.trim()}><Send className="w-4 h-4" /></Button>
+        <Input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()}
+          placeholder="Ask about this email..." className="text-sm rounded-xl" />
+        <Button size="sm" onClick={send} disabled={loading || !input.trim()}
+          className="rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 px-3">
+          <Send className="w-4 h-4" />
+        </Button>
       </div>
     </div>
   )
 }
+
+// ─── Filter types ───────────────────────────────────────────────
+
+type FilterPriority = 'all' | 'urgent' | 'important' | 'normal' | 'low'
+type FilterCategory = 'all' | 'work' | 'personal' | 'finance' | 'updates' | 'spam'
+type FilterRead = 'all' | 'read' | 'unread'
 
 // ─── Main inbox page ────────────────────────────────────────────
 
@@ -551,6 +717,7 @@ export default function InboxPage() {
   const { data: session, status: authStatus } = useSession()
   const isAuthenticated = !!session?.accessToken
   const isAuthLoading = authStatus === 'loading'
+  const userName = session?.user?.name ?? ''
 
   const [threads, setThreads] = useState<Thread[]>(mockThreads)
   const [gmailLoading, setGmailLoading] = useState(false)
@@ -563,13 +730,31 @@ export default function InboxPage() {
   const [showChat, setShowChat] = useState(false)
   const [showCompose, setShowCompose] = useState(false)
   const [composeInitial, setComposeInitial] = useState('')
-  const [activeTab, setActiveTab] = useState<'analysis' | 'emails'>('analysis')
+  const [activeTab, setActiveTab] = useState<'analysis' | 'emails'>('emails')
   const [allUserLabels, setAllUserLabels] = useState<string[]>([])
   const [showLabelInput, setShowLabelInput] = useState(false)
   const [newLabelText, setNewLabelText] = useState('')
+  const [sidebarExpanded, setSidebarExpanded] = useState(false)
+  const [categoriesOpen, setCategoriesOpen] = useState(true)
+  const [labelsOpen, setLabelsOpen] = useState(true)
+  const [showNewCompose, setShowNewCompose] = useState(false)
+  const [showFilterMenu, setShowFilterMenu] = useState(false)
+  const [filterPriority, setFilterPriority] = useState<FilterPriority>('all')
+  const [filterCategory, setFilterCategory] = useState<FilterCategory>('all')
+  const [filterRead, setFilterRead] = useState<FilterRead>('all')
+  const filterRef = useRef<HTMLDivElement>(null)
 
   const selectedThread = threads.find(t => t.id === selectedId) ?? null
   const getMeta = (id: string): ThreadMeta => metas[id] ?? defaultMeta
+
+  // Close filter dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(e.target as Node)) setShowFilterMenu(false)
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
 
   // Fetch real Gmail threads when authenticated
   const fetchGmailThreads = useCallback(async (query?: string) => {
@@ -618,18 +803,26 @@ export default function InboxPage() {
     })
   }, [])
 
-  // Analyze on select
+  // Analyze thread — sends full thread data for Gmail threads
   const analyzeThread = useCallback(async (threadId: string) => {
     if (analyses[threadId] || loadingThreads.has(threadId)) return
+    const thread = threads.find(t => t.id === threadId)
+    if (!thread) return
     setLoadingThreads(prev => new Set(prev).add(threadId))
     try {
-      const res = await fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ threadId }) })
+      const payload: Record<string, unknown> = { threadId }
+      // For Gmail threads (not mock), send full thread data
+      const isMock = mockThreads.some(m => m.id === threadId)
+      if (!isMock) {
+        payload.thread = thread
+      }
+      const res = await fetch('/api/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
       if (!res.ok) throw new Error('fail')
       const data: ComprehensiveAnalysis = await res.json()
       setAnalyses(prev => { const u = { ...prev, [threadId]: data }; saveJson(LS_ANALYSES, u); return u })
     } catch (err) { console.error(err) }
     finally { setLoadingThreads(prev => { const n = new Set(prev); n.delete(threadId); return n }) }
-  }, [analyses, loadingThreads])
+  }, [analyses, loadingThreads, threads])
 
   // Gmail API action helper
   const gmailAction = useCallback(async (threadId: string, action: string) => {
@@ -645,13 +838,21 @@ export default function InboxPage() {
 
   const handleSelect = useCallback((threadId: string) => {
     setSelectedId(threadId)
-    setActiveTab('analysis')
+    setActiveTab('emails')  // Default to emails tab
     setShowCompose(false)
     setComposeInitial('')
     updateMeta(threadId, { read: true })
     gmailAction(threadId, 'read')
-    analyzeThread(threadId)
-  }, [analyzeThread, updateMeta, gmailAction])
+    // Don't auto-analyze — user clicks Analysis tab to trigger it
+  }, [updateMeta, gmailAction])
+
+  // Trigger analysis when user clicks the Analysis tab
+  const handleAnalysisTab = useCallback(() => {
+    setActiveTab('analysis')
+    if (selectedId && !analyses[selectedId] && !loadingThreads.has(selectedId)) {
+      analyzeThread(selectedId)
+    }
+  }, [selectedId, analyses, loadingThreads, analyzeThread])
 
   const handleStar = useCallback((threadId: string) => {
     const current = getMeta(threadId)
@@ -718,11 +919,20 @@ export default function InboxPage() {
     setShowLabelInput(false)
   }, [allUserLabels])
 
-  // Filter threads by folder + search
+  const handleRefresh = useCallback(() => {
+    if (isAuthenticated) {
+      fetchGmailThreads()
+    }
+  }, [isAuthenticated, fetchGmailThreads])
+
+  const activeFiltersCount = (filterPriority !== 'all' ? 1 : 0) + (filterCategory !== 'all' ? 1 : 0) + (filterRead !== 'all' ? 1 : 0)
+
+  const clearFilters = () => { setFilterPriority('all'); setFilterCategory('all'); setFilterRead('all') }
+
+  // Filter threads by folder + search + filters
   const filteredThreads = threads.filter(t => {
     const m = getMeta(t.id)
 
-    // Folder filtering
     switch (folder) {
       case 'inbox': if (m.archived || m.trashed) return false; break
       case 'starred': if (!m.starred || m.trashed) return false; break
@@ -736,11 +946,19 @@ export default function InboxPage() {
       case 'all': if (m.trashed) return false; break
     }
 
-    // Search
     if (search) {
       const q = search.toLowerCase()
       if (!t.subject.toLowerCase().includes(q) && !t.from.name.toLowerCase().includes(q) && !t.preview.toLowerCase().includes(q)) return false
     }
+
+    // Apply filters
+    if (filterRead === 'read' && !m.read) return false
+    if (filterRead === 'unread' && m.read) return false
+
+    const analysis = analyses[t.id]
+    if (filterPriority !== 'all' && analysis && analysis.priority !== filterPriority) return false
+    if (filterCategory !== 'all' && analysis && analysis.category !== filterCategory) return false
+
     return true
   })
 
@@ -754,273 +972,398 @@ export default function InboxPage() {
     if (m.draft && !m.trashed) counts.drafts = (counts.drafts ?? 0) + 1
     if (m.trashed) counts.trash = (counts.trash ?? 0) + 1
   })
-  // Sent count
   counts.sent = threads.filter(t => t.emails.some(e => e.from.email.includes('you@')) && !getMeta(t.id).trashed).length
 
   const selectedAnalysis = selectedId ? analyses[selectedId] : null
   const isLoadingSelected = selectedId ? loadingThreads.has(selectedId) : false
 
+  // Determine sender and recipient names for the compose panel
+  const currentSenderName = userName || undefined
+  const currentRecipientName = selectedThread?.from.name || undefined
+
   return (
-    <div className="h-screen flex flex-col bg-white">
+    <div className="h-screen flex flex-col bg-gray-50/50">
       {/* Top bar */}
-      <header className="border-b border-gray-100 bg-white h-13 flex items-center px-4 gap-4 shrink-0">
+      <header className="border-b border-gray-200/80 bg-white/80 backdrop-blur-xl h-14 flex items-center px-4 gap-4 shrink-0 shadow-sm shadow-gray-100/50">
         <NextLink href="/" className="hover:opacity-80 transition-opacity">
           <Logo size="sm" />
         </NextLink>
 
-        <div className="flex-1 max-w-md relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <Input value={search} onChange={e => setSearch(e.target.value)} placeholder="Search emails..." className="pl-9 text-sm h-9 bg-gray-50 border-gray-200" />
-          {search && <button onClick={() => setSearch('')} className="absolute right-3 top-1/2 -translate-y-1/2"><X className="w-3.5 h-3.5 text-gray-400" /></button>}
+        <div className="flex-1 max-w-lg relative">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <Input value={search} onChange={e => setSearch(e.target.value)}
+            placeholder="Search emails..."
+            className="pl-10 text-sm h-10 bg-gray-50/80 border-gray-200 rounded-xl focus:bg-white transition-colors" />
+          {search && <button onClick={() => setSearch('')} className="absolute right-3.5 top-1/2 -translate-y-1/2"><X className="w-3.5 h-3.5 text-gray-400" /></button>}
         </div>
 
         <div className="flex items-center gap-2 ml-auto">
           {gmailLoading && <Loader2 className="w-4 h-4 animate-spin text-blue-500" />}
 
+          {/* Refresh button */}
           {isAuthenticated && (
-            <span className="text-[11px] text-green-600 font-medium bg-green-50 px-2 py-1 rounded-full flex items-center gap-1">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500" /> Gmail Connected
+            <Button variant="outline" size="sm" onClick={handleRefresh} disabled={gmailLoading}
+              className="rounded-xl" title="Refresh emails">
+              <RefreshCw className={`w-4 h-4 ${gmailLoading ? 'animate-spin' : ''}`} />
+            </Button>
+          )}
+
+          {/* Compose new email */}
+          <Button variant="outline" size="sm" onClick={() => setShowNewCompose(true)}
+            className="rounded-xl">
+            <PenSquare className="w-4 h-4 mr-1.5" /> Compose
+          </Button>
+
+          {isAuthenticated && (
+            <span className="text-[11px] text-emerald-700 font-semibold bg-emerald-50 px-3 py-1.5 rounded-full flex items-center gap-1.5 border border-emerald-200/60">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Gmail Connected
             </span>
           )}
 
           <Button variant="outline" size="sm" onClick={() => setShowChat(!showChat)}
-            className={showChat ? 'bg-blue-50 border-blue-200 text-blue-700' : ''}>
-            <Bot className="w-4 h-4 mr-1" /> AI Chat
+            className={`rounded-xl ${showChat ? 'bg-blue-50 border-blue-200 text-blue-700' : ''}`}>
+            <Bot className="w-4 h-4 mr-1.5" /> AI Chat
           </Button>
 
           {isAuthenticated ? (
-            <Button variant="outline" size="sm" onClick={() => signOut()}>
-              <LogOut className="w-4 h-4 mr-1" /> {session?.user?.name?.split(' ')[0] ?? 'Sign out'}
+            <Button variant="outline" size="sm" onClick={() => signOut()} className="rounded-xl">
+              <LogOut className="w-4 h-4 mr-1.5" /> {session?.user?.name?.split(' ')[0] ?? 'Sign out'}
             </Button>
           ) : (
             <Button variant="outline" size="sm" onClick={() => signIn('google', { callbackUrl: '/inbox' })}
-              className="border-blue-200 text-blue-700 hover:bg-blue-50">
-              <LogIn className="w-4 h-4 mr-1" /> Connect Gmail
+              className="rounded-xl border-blue-200 text-blue-700 hover:bg-blue-50">
+              <LogIn className="w-4 h-4 mr-1.5" /> Connect Gmail
             </Button>
           )}
         </div>
       </header>
 
       <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar */}
-        <aside className="w-52 border-r border-gray-100 py-2 shrink-0 flex flex-col">
+        {/* Sidebar — collapsed (icons only) by default, expands on hover */}
+        <aside
+          onMouseEnter={() => setSidebarExpanded(true)}
+          onMouseLeave={() => setSidebarExpanded(false)}
+          className={`border-r border-gray-200/80 bg-white py-3 shrink-0 flex flex-col transition-all duration-200 ease-in-out ${
+            sidebarExpanded ? 'w-56' : 'w-14'
+          }`}>
           <nav className="space-y-0.5 px-2">
             {sidebarItems.map(item => {
               const count = counts[item.folder]
               const active = folder === item.folder
               return (
                 <button key={item.folder} onClick={() => setFolder(item.folder)}
-                  className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm transition-colors ${
-                    active ? 'bg-blue-50 text-blue-700 font-medium' : 'text-gray-600 hover:bg-gray-50'
-                  }`}>
-                  <item.icon className={`w-4 h-4 ${active ? 'text-blue-600' : 'text-gray-400'}`} />
-                  <span className="flex-1 text-left">{item.label}</span>
-                  {count ? <span className={`text-[11px] font-medium ${active ? 'text-blue-600' : 'text-gray-400'}`}>{count}</span> : null}
+                  title={!sidebarExpanded ? item.label : undefined}
+                  className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all ${
+                    active
+                      ? 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 font-semibold shadow-sm shadow-blue-100/50'
+                      : 'text-gray-600 hover:bg-gray-50 font-medium'
+                  } ${sidebarExpanded ? '' : 'justify-center'}`}>
+                  <item.icon className={`w-[18px] h-[18px] shrink-0 ${active ? 'text-blue-600' : 'text-gray-400'}`} />
+                  {sidebarExpanded && <span className="flex-1 text-left truncate">{item.label}</span>}
+                  {sidebarExpanded && count ? (
+                    <span className={`text-[11px] font-bold min-w-[20px] text-center ${
+                      active ? 'text-blue-600' : item.folder === 'inbox' && count > 0 ? 'bg-blue-600 text-white rounded-full px-1.5 py-0.5' : 'text-gray-400'
+                    }`}>{count}</span>
+                  ) : null}
+                  {!sidebarExpanded && count && item.folder === 'inbox' && count > 0 ? (
+                    <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-blue-600" />
+                  ) : null}
                 </button>
               )
             })}
           </nav>
 
-          {/* Category filters */}
-          <div className="mt-4 px-2">
-            <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide px-3 mb-1">Categories</p>
-            {Object.entries(categoryConfig).map(([key, val]) => (
-              <button key={key} onClick={() => { setFolder('all'); setSearch(key) }}
-                className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-                <span className={`w-2 h-2 rounded-full ${val.cls.split(' ')[0]}`} />
-                {val.label}
+          {/* Categories — collapsible, only visible when sidebar expanded */}
+          {sidebarExpanded && (
+            <div className="mt-5 px-2">
+              <button onClick={() => setCategoriesOpen(!categoriesOpen)}
+                className="w-full flex items-center justify-between px-3 mb-1 group">
+                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Categories</p>
+                {categoriesOpen
+                  ? <ChevronDown className="w-3 h-3 text-gray-400 group-hover:text-gray-600" />
+                  : <ChevronRight className="w-3 h-3 text-gray-400 group-hover:text-gray-600" />}
               </button>
-            ))}
-          </div>
-
-          {/* User labels */}
-          <div className="mt-4 px-2 flex-1 overflow-y-auto">
-            <div className="flex items-center justify-between px-3 mb-1">
-              <p className="text-[11px] font-semibold text-gray-400 uppercase tracking-wide">Labels</p>
-              <button onClick={() => setShowLabelInput(true)} className="text-gray-400 hover:text-blue-600 transition-colors" title="Create label">
-                <Tag className="w-3 h-3" />
-              </button>
+              {categoriesOpen && Object.entries(categoryConfig).map(([key, val]) => (
+                <button key={key} onClick={() => { setFolder('all'); setSearch(key) }}
+                  className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors font-medium">
+                  <span className={`w-2.5 h-2.5 rounded-full ${val.dot}`} />
+                  {val.label}
+                </button>
+              ))}
             </div>
-            {showLabelInput && (
-              <div className="px-3 mb-1 flex gap-1">
-                <input value={newLabelText} onChange={e => setNewLabelText(e.target.value)}
-                  onKeyDown={e => { if (e.key === 'Enter') handleCreateLabel(newLabelText); if (e.key === 'Escape') { setShowLabelInput(false); setNewLabelText('') } }}
-                  placeholder="Label name..."
-                  className="flex-1 text-xs border border-gray-200 rounded px-2 py-1 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  autoFocus />
-                <button onClick={() => handleCreateLabel(newLabelText)} className="text-xs text-blue-600 font-medium px-1">Add</button>
+          )}
+
+          {/* Labels — collapsible, only visible when sidebar expanded */}
+          {sidebarExpanded && (
+            <div className="mt-5 px-2 flex-1 overflow-y-auto">
+              <div className="flex items-center justify-between px-3 mb-1">
+                <button onClick={() => setLabelsOpen(!labelsOpen)} className="flex items-center gap-1 group">
+                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Labels</p>
+                  {labelsOpen
+                    ? <ChevronDown className="w-3 h-3 text-gray-400 group-hover:text-gray-600" />
+                    : <ChevronRight className="w-3 h-3 text-gray-400 group-hover:text-gray-600" />}
+                </button>
+                {labelsOpen && (
+                  <button onClick={() => setShowLabelInput(true)} className="text-gray-400 hover:text-blue-600 transition-colors" title="Create label">
+                    <Plus className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
-            )}
-            {allUserLabels.map(label => (
-              <button key={label} onClick={() => { setFolder('all'); setSearch(label.toLowerCase()) }}
-                className="w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-gray-600 hover:bg-gray-50 transition-colors">
-                <Tag className="w-3 h-3 text-gray-400" />
-                {label}
-              </button>
-            ))}
-          </div>
+              {labelsOpen && (
+                <>
+                  {showLabelInput && (
+                    <div className="px-3 mb-2 flex gap-1">
+                      <input value={newLabelText} onChange={e => setNewLabelText(e.target.value)}
+                        onKeyDown={e => { if (e.key === 'Enter') handleCreateLabel(newLabelText); if (e.key === 'Escape') { setShowLabelInput(false); setNewLabelText('') } }}
+                        placeholder="Label name..."
+                        className="flex-1 text-xs border border-gray-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500/40 focus:border-blue-300"
+                        autoFocus />
+                      <button onClick={() => handleCreateLabel(newLabelText)} className="text-xs text-blue-600 font-bold px-1.5">Add</button>
+                    </div>
+                  )}
+                  {allUserLabels.map(label => (
+                    <button key={label} onClick={() => { setFolder('all'); setSearch(label.toLowerCase()) }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition-colors font-medium">
+                      <Tag className="w-3.5 h-3.5 text-gray-400" />
+                      {label}
+                    </button>
+                  ))}
+                </>
+              )}
+            </div>
+          )}
         </aside>
 
         {/* Thread list */}
-        <div className="w-72 border-r border-gray-100 flex flex-col shrink-0">
-          <div className="px-3 py-2 border-b border-gray-50 flex items-center justify-between">
-            <span className="text-xs font-medium text-gray-500">
+        <div className="w-80 border-r border-gray-200/80 flex flex-col shrink-0 bg-white">
+          <div className="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+            <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
               {filteredThreads.length} conversation{filteredThreads.length !== 1 ? 's' : ''}
             </span>
+            <div className="flex items-center gap-1.5">
+              {/* Filter button */}
+              <div ref={filterRef} className="relative">
+                <button onClick={() => setShowFilterMenu(!showFilterMenu)}
+                  className={`p-1.5 rounded-lg transition-colors ${showFilterMenu || activeFiltersCount > 0 ? 'bg-blue-50 text-blue-600' : 'hover:bg-gray-100 text-gray-400'}`}
+                  title="Filters">
+                  <Filter className="w-3.5 h-3.5" />
+                  {activeFiltersCount > 0 && (
+                    <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-blue-600 text-white text-[9px] font-bold flex items-center justify-center">
+                      {activeFiltersCount}
+                    </span>
+                  )}
+                </button>
+                {showFilterMenu && (
+                  <div className="absolute right-0 top-full mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl py-3 px-4 z-30 w-56">
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="text-xs font-bold text-gray-700">Filters</p>
+                      {activeFiltersCount > 0 && (
+                        <button onClick={clearFilters} className="text-[10px] text-blue-600 font-semibold hover:underline">Clear all</button>
+                      )}
+                    </div>
+
+                    {/* Read status filter */}
+                    <div className="mb-3">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Status</p>
+                      <div className="flex gap-1 flex-wrap">
+                        {(['all', 'unread', 'read'] as FilterRead[]).map(v => (
+                          <button key={v} onClick={() => setFilterRead(v)}
+                            className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-all ${
+                              filterRead === v ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            }`}>
+                            {v === 'all' ? 'All' : v === 'unread' ? 'Unread' : 'Read'}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Priority filter */}
+                    <div className="mb-3">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Priority</p>
+                      <div className="flex gap-1 flex-wrap">
+                        {(['all', 'urgent', 'important', 'normal', 'low'] as FilterPriority[]).map(v => (
+                          <button key={v} onClick={() => setFilterPriority(v)}
+                            className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-all capitalize ${
+                              filterPriority === v ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            }`}>
+                            {v}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Category filter */}
+                    <div>
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-1.5">Category</p>
+                      <div className="flex gap-1 flex-wrap">
+                        {(['all', 'work', 'personal', 'finance', 'updates', 'spam'] as FilterCategory[]).map(v => (
+                          <button key={v} onClick={() => setFilterCategory(v)}
+                            className={`text-[11px] font-semibold px-2.5 py-1 rounded-lg transition-all capitalize ${
+                              filterCategory === v ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                            }`}>
+                            {v}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Refresh button for thread list */}
+              {isAuthenticated && (
+                <button onClick={handleRefresh} disabled={gmailLoading}
+                  className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 transition-colors" title="Refresh">
+                  <RefreshCw className={`w-3.5 h-3.5 ${gmailLoading ? 'animate-spin' : ''}`} />
+                </button>
+              )}
+            </div>
           </div>
-          <div className="flex-1 overflow-y-auto divide-y divide-gray-50">
+          <div className="flex-1 overflow-y-auto">
             {filteredThreads.map(t => (
               <ThreadListItem key={t.id} thread={t} selected={t.id === selectedId}
                 analysis={analyses[t.id]} meta={getMeta(t.id)}
                 onSelect={() => handleSelect(t.id)} onStar={() => handleStar(t.id)} />
             ))}
             {filteredThreads.length === 0 && (
-              <div className="py-12 text-center text-gray-400 text-sm">
-                <Inbox className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                {folder === 'trash' ? 'Trash is empty' : folder === 'starred' ? 'No starred emails' : folder === 'drafts' ? 'No drafts' : 'No emails found'}
+              <div className="py-16 text-center text-gray-400 text-sm">
+                <div className="w-14 h-14 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                  <Inbox className="w-7 h-7 text-gray-300" />
+                </div>
+                <p className="font-medium text-gray-500">
+                  {activeFiltersCount > 0 ? 'No emails match filters' :
+                   folder === 'trash' ? 'Trash is empty' : folder === 'starred' ? 'No starred emails' : folder === 'drafts' ? 'No drafts' : 'No emails found'}
+                </p>
+                {activeFiltersCount > 0 && (
+                  <button onClick={clearFilters} className="text-xs text-blue-600 font-semibold mt-2 hover:underline">Clear filters</button>
+                )}
               </div>
             )}
           </div>
         </div>
 
         {/* Content */}
-        <main className="flex-1 flex overflow-hidden">
+        <main className="flex-1 flex overflow-hidden bg-gray-50/50">
           {!selectedThread ? (
-            <div className="flex-1 flex items-center justify-center text-gray-400">
+            <div className="flex-1 flex items-center justify-center">
               <div className="text-center">
-                <Mail className="w-12 h-12 mx-auto mb-3 opacity-30" />
-                <p className="text-sm">Select an email to analyze</p>
-                <p className="text-xs mt-1">MailMate will extract insights with AI</p>
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl flex items-center justify-center mx-auto mb-5">
+                  <Mail className="w-10 h-10 text-blue-300" />
+                </div>
+                <p className="text-base font-semibold text-gray-500">Select an email to read</p>
+                <p className="text-sm text-gray-400 mt-1.5">Click on AI Analysis tab to get insights</p>
               </div>
             </div>
           ) : (
-            <div className="flex-1 flex flex-col overflow-hidden">
+            <div className="flex-1 flex flex-col overflow-hidden bg-white">
               {/* Thread header */}
-              <div className="px-6 py-3 border-b border-gray-100 shrink-0">
+              <div className="px-6 py-4 border-b border-gray-100 shrink-0 bg-gradient-to-r from-white to-gray-50/50">
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
-                    <h1 className="text-lg font-semibold text-gray-900 truncate">{selectedThread.subject}</h1>
-                    <p className="text-sm text-gray-500 mt-0.5">
+                    <h1 className="text-xl font-bold text-gray-900 truncate">{selectedThread.subject}</h1>
+                    <p className="text-sm text-gray-500 mt-1 font-medium">
                       {selectedThread.from.name} &middot; {selectedThread.emails.length} message{selectedThread.emails.length !== 1 ? 's' : ''}
                     </p>
                   </div>
-                  <div className="flex items-center gap-1 shrink-0 ml-3">
+                  <div className="flex items-center gap-1 shrink-0 ml-4">
                     {selectedAnalysis && <PriorityBadge priority={selectedAnalysis.priority} />}
                     <SenderBadge importance={selectedAnalysis?.senderImportance ?? 'regular'} />
-                    <div className="w-px h-4 bg-gray-200 mx-1" />
-                    <button onClick={() => handleMarkUnread(selectedThread.id)} className="p-1.5 hover:bg-gray-100 rounded-md" title="Mark as unread">
+                    <div className="w-px h-5 bg-gray-200 mx-1.5" />
+                    <button onClick={() => handleMarkUnread(selectedThread.id)}
+                      className="p-2 hover:bg-gray-100 rounded-xl transition-colors" title="Mark as unread">
                       <Mail className={`w-4 h-4 ${!getMeta(selectedThread.id).read ? 'text-blue-500' : 'text-gray-400'}`} />
                     </button>
-                    <button onClick={() => handleStar(selectedThread.id)} className="p-1.5 hover:bg-gray-100 rounded-md" title="Star">
+                    <button onClick={() => handleStar(selectedThread.id)}
+                      className="p-2 hover:bg-gray-100 rounded-xl transition-colors" title="Star">
                       <Star className={`w-4 h-4 ${getMeta(selectedThread.id).starred ? 'fill-amber-400 text-amber-400' : 'text-gray-400'}`} />
                     </button>
-                    <button onClick={() => handleSnooze(selectedThread.id)} className="p-1.5 hover:bg-gray-100 rounded-md" title="Snooze">
+                    <button onClick={() => handleSnooze(selectedThread.id)}
+                      className="p-2 hover:bg-gray-100 rounded-xl transition-colors" title="Snooze">
                       <AlarmClock className={`w-4 h-4 ${getMeta(selectedThread.id).snoozedUntil ? 'text-purple-500' : 'text-gray-400'}`} />
                     </button>
-                    <button onClick={() => handleArchive(selectedThread.id)} className="p-1.5 hover:bg-gray-100 rounded-md" title="Archive">
+                    <button onClick={() => handleArchive(selectedThread.id)}
+                      className="p-2 hover:bg-gray-100 rounded-xl transition-colors" title="Archive">
                       <Archive className="w-4 h-4 text-gray-400" />
                     </button>
-                    <button onClick={() => handleTrash(selectedThread.id)} className="p-1.5 hover:bg-gray-100 rounded-md" title="Trash">
+                    <button onClick={() => handleTrash(selectedThread.id)}
+                      className="p-2 hover:bg-gray-100 rounded-xl transition-colors" title="Trash">
                       <Trash2 className="w-4 h-4 text-gray-400" />
                     </button>
                   </div>
                 </div>
 
                 {/* User labels on thread */}
-                <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+                <div className="flex items-center gap-2 mt-3 flex-wrap">
                   {getMeta(selectedThread.id).userLabels.map(label => (
-                    <span key={label} className="inline-flex items-center gap-1 text-[11px] bg-indigo-50 text-indigo-700 rounded-full px-2 py-0.5 font-medium">
+                    <span key={label} className="inline-flex items-center gap-1 text-[11px] bg-indigo-50 text-indigo-700 rounded-full px-2.5 py-1 font-semibold border border-indigo-100">
                       <Tag className="w-2.5 h-2.5" />{label}
-                      <button onClick={() => handleRemoveLabel(selectedThread.id, label)} className="hover:text-red-500 ml-0.5"><X className="w-2.5 h-2.5" /></button>
+                      <button onClick={() => handleRemoveLabel(selectedThread.id, label)} className="hover:text-red-500 ml-0.5 transition-colors"><X className="w-2.5 h-2.5" /></button>
                     </span>
                   ))}
                   <div className="relative group">
-                    <button className="inline-flex items-center gap-0.5 text-[11px] text-gray-400 hover:text-blue-600 rounded-full px-2 py-0.5 border border-dashed border-gray-300 hover:border-blue-400 transition-colors">
+                    <button className="inline-flex items-center gap-1 text-[11px] text-gray-400 hover:text-blue-600 rounded-full px-2.5 py-1 border border-dashed border-gray-300 hover:border-blue-400 transition-colors font-medium">
                       <Tag className="w-2.5 h-2.5" /> Add label
                     </button>
-                    <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg py-1 z-20 hidden group-hover:block min-w-[140px]">
+                    <div className="absolute top-full left-0 mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl py-1.5 z-20 hidden group-hover:block min-w-[160px]">
                       {allUserLabels.filter(l => !getMeta(selectedThread.id).userLabels.includes(l)).map(label => (
                         <button key={label} onClick={() => handleAddLabel(selectedThread.id, label)}
-                          className="w-full text-left px-3 py-1.5 text-xs text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors">
+                          className="w-full text-left px-4 py-2 text-xs text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors font-medium">
                           {label}
                         </button>
                       ))}
                       {allUserLabels.filter(l => !getMeta(selectedThread.id).userLabels.includes(l)).length === 0 && (
-                        <p className="px-3 py-1.5 text-xs text-gray-400">All labels applied</p>
+                        <p className="px-4 py-2 text-xs text-gray-400">All labels applied</p>
                       )}
                     </div>
                   </div>
                 </div>
 
-                {/* Tabs */}
-                <div className="flex gap-4 mt-3">
-                  <button onClick={() => setActiveTab('analysis')}
-                    className={`text-sm font-medium pb-1 border-b-2 transition-colors ${activeTab === 'analysis' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-400 hover:text-gray-600'}`}>
-                    <Sparkles className="w-3.5 h-3.5 inline mr-1" />AI Analysis
-                  </button>
+                {/* Tabs — Emails first (default), then Analysis */}
+                <div className="flex gap-1 mt-4">
                   <button onClick={() => setActiveTab('emails')}
-                    className={`text-sm font-medium pb-1 border-b-2 transition-colors ${activeTab === 'emails' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-400 hover:text-gray-600'}`}>
-                    <Mail className="w-3.5 h-3.5 inline mr-1" />Emails ({selectedThread.emails.length})
+                    className={`inline-flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl transition-all ${
+                      activeTab === 'emails'
+                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm shadow-blue-500/20'
+                        : 'text-gray-500 hover:bg-gray-100'
+                    }`}>
+                    <Mail className="w-3.5 h-3.5" />Emails ({selectedThread.emails.length})
+                  </button>
+                  <button onClick={handleAnalysisTab}
+                    className={`inline-flex items-center gap-1.5 text-sm font-semibold px-4 py-2 rounded-xl transition-all ${
+                      activeTab === 'analysis'
+                        ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-sm shadow-blue-500/20'
+                        : 'text-gray-500 hover:bg-gray-100'
+                    }`}>
+                    <Sparkles className="w-3.5 h-3.5" />AI Analysis
                   </button>
                 </div>
               </div>
 
               {/* Tab content */}
               <div className="flex-1 overflow-y-auto">
-                {activeTab === 'analysis' ? (
-                  <div className="p-6 space-y-5 max-w-3xl">
-                    {isLoadingSelected ? (
-                      <div className="py-16 text-center">
-                        <Loader2 className="w-8 h-8 animate-spin text-blue-500 mx-auto mb-3" />
-                        <p className="text-sm text-gray-500">Analyzing with AI...</p>
-                        <p className="text-xs text-gray-400 mt-1">Extracting insights, tasks, meetings, and more</p>
-                      </div>
-                    ) : selectedAnalysis ? (
-                      <>
-                        <SummarySection analysis={selectedAnalysis} />
-                        <FollowUpSection needed={selectedAnalysis.followUpNeeded} suggestion={selectedAnalysis.followUpSuggestion} />
-                        <SmartRepliesSection replies={selectedAnalysis.smartReplies} onUseReply={handleUseReply} />
-                        <DraftReplySection draft={selectedAnalysis.draftReply} />
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                          <MeetingsSection meetings={selectedAnalysis.meetings} isAuthenticated={isAuthenticated} />
-                          <TasksSection tasks={selectedAnalysis.tasks} />
-                        </div>
-                        <DeadlinesSection deadlines={selectedAnalysis.deadlines} />
-                        <KeyInfoSection keyInfo={selectedAnalysis.keyInfo} />
-
-                        {/* Reply button */}
-                        {!showCompose && (
-                          <button onClick={() => { setComposeInitial(''); setShowCompose(true) }}
-                            className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors">
-                            <CornerUpLeft className="w-4 h-4" /> Reply to this email
-                          </button>
-                        )}
-                      </>
-                    ) : (
-                      <div className="py-16 text-center text-gray-400"><p className="text-sm">Analysis unavailable.</p></div>
-                    )}
-                  </div>
-                ) : (
+                {activeTab === 'emails' ? (
                   <div className="p-6 space-y-4 max-w-3xl">
                     {selectedThread.emails.map(email => (
-                      <div key={email.id} className="border border-gray-200 rounded-lg p-4">
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs ${
-                              email.from.email.includes('you@') ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600'
+                      <div key={email.id} className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-3">
+                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center text-sm font-semibold ${
+                              email.from.email.includes('you@')
+                                ? 'bg-gradient-to-br from-blue-500 to-indigo-600 text-white'
+                                : 'bg-gray-100 text-gray-600'
                             }`}>{email.from.name.charAt(0).toUpperCase()}</div>
                             <div>
-                              <p className="text-sm font-medium text-gray-900">{email.from.name}</p>
+                              <p className="text-sm font-semibold text-gray-900">{email.from.name}</p>
                               <p className="text-xs text-gray-400">{email.from.email}</p>
                             </div>
                           </div>
-                          <span className="text-xs text-gray-400">{timeAgo(email.timestamp)}</span>
+                          <span className="text-xs text-gray-400 font-medium">{timeAgo(email.timestamp)}</span>
                         </div>
                         <div className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">{email.body}</div>
                         {email.attachments && email.attachments.length > 0 && (
-                          <div className="mt-3 flex gap-2 flex-wrap">
+                          <div className="mt-4 flex gap-2 flex-wrap">
                             {email.attachments.map(a => (
-                              <span key={a.name} className="inline-flex items-center gap-1.5 text-xs bg-gray-50 border border-gray-200 rounded-lg px-2.5 py-1.5 text-gray-600">
+                              <span key={a.name} className="inline-flex items-center gap-1.5 text-xs bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-gray-600 font-medium">
                                 <FileText className="w-3 h-3" />{a.name} <span className="text-gray-400">({a.size})</span>
                               </span>
                             ))}
@@ -1032,9 +1375,43 @@ export default function InboxPage() {
                     {/* Reply button in emails tab */}
                     {!showCompose && (
                       <button onClick={() => { setComposeInitial(''); setShowCompose(true) }}
-                        className="inline-flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-4 py-2 rounded-lg transition-colors">
+                        className="inline-flex items-center gap-2.5 text-sm font-semibold text-blue-700 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 px-5 py-3 rounded-xl transition-all border border-blue-200/60">
                         <CornerUpLeft className="w-4 h-4" /> Reply
                       </button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="p-6 space-y-6 max-w-3xl">
+                    {isLoadingSelected ? (
+                      <div className="py-20 text-center">
+                        <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl flex items-center justify-center mx-auto mb-4">
+                          <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+                        </div>
+                        <p className="text-sm font-semibold text-gray-600">Analyzing with AI...</p>
+                        <p className="text-xs text-gray-400 mt-1.5">Extracting insights, tasks, meetings, and more</p>
+                      </div>
+                    ) : selectedAnalysis ? (
+                      <>
+                        <SummarySection analysis={selectedAnalysis} />
+                        <FollowUpSection needed={selectedAnalysis.followUpNeeded} suggestion={selectedAnalysis.followUpSuggestion} />
+                        <SmartRepliesSection replies={selectedAnalysis.smartReplies} onUseReply={handleUseReply} />
+                        <DraftReplySection draft={selectedAnalysis.draftReply} />
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                          <MeetingsSection meetings={selectedAnalysis.meetings} isAuthenticated={isAuthenticated} />
+                          <TasksSection tasks={selectedAnalysis.tasks} />
+                        </div>
+                        <DeadlinesSection deadlines={selectedAnalysis.deadlines} />
+                        <KeyInfoSection keyInfo={selectedAnalysis.keyInfo} />
+
+                        {!showCompose && (
+                          <button onClick={() => { setComposeInitial(''); setShowCompose(true) }}
+                            className="inline-flex items-center gap-2.5 text-sm font-semibold text-blue-700 bg-gradient-to-r from-blue-50 to-indigo-50 hover:from-blue-100 hover:to-indigo-100 px-5 py-3 rounded-xl transition-all border border-blue-200/60">
+                            <CornerUpLeft className="w-4 h-4" /> Reply to this email
+                          </button>
+                        )}
+                      </>
+                    ) : (
+                      <div className="py-20 text-center text-gray-400"><p className="text-sm font-medium">Analysis unavailable.</p></div>
                     )}
                   </div>
                 )}
@@ -1049,6 +1426,8 @@ export default function InboxPage() {
                   onUpdateDraft={(text) => updateMeta(selectedThread.id, { draft: text })}
                   onClose={() => setShowCompose(false)}
                   isAuthenticated={isAuthenticated}
+                  senderName={currentSenderName}
+                  recipientName={currentRecipientName}
                 />
               )}
             </div>
@@ -1056,16 +1435,30 @@ export default function InboxPage() {
 
           {/* Chat sidebar */}
           {showChat && (
-            <aside className="w-80 border-l border-gray-100 flex flex-col shrink-0">
-              <div className="h-12 border-b border-gray-100 flex items-center justify-between px-4">
-                <span className="text-sm font-medium text-gray-700 flex items-center gap-1.5"><Bot className="w-4 h-4 text-blue-600" /> AI Assistant</span>
-                <button onClick={() => setShowChat(false)} className="p-1 hover:bg-gray-100 rounded"><X className="w-4 h-4 text-gray-400" /></button>
+            <aside className="w-80 border-l border-gray-200/80 flex flex-col shrink-0 bg-white">
+              <div className="h-14 border-b border-gray-100 flex items-center justify-between px-4">
+                <span className="text-sm font-bold text-gray-700 flex items-center gap-2">
+                  <div className="w-7 h-7 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center">
+                    <Bot className="w-4 h-4 text-white" />
+                  </div>
+                  AI Assistant
+                </span>
+                <button onClick={() => setShowChat(false)} className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"><X className="w-4 h-4 text-gray-400" /></button>
               </div>
-              <AIChatPanel thread={selectedThread} />
+              <AIChatPanel thread={selectedThread} isGmail={isAuthenticated && !mockThreads.some(m => m.id === (selectedThread?.id ?? ''))} />
             </aside>
           )}
         </main>
       </div>
+
+      {/* New compose modal */}
+      {showNewCompose && (
+        <NewComposePanel
+          onClose={() => setShowNewCompose(false)}
+          isAuthenticated={isAuthenticated}
+          senderName={currentSenderName}
+        />
+      )}
     </div>
   )
 }
