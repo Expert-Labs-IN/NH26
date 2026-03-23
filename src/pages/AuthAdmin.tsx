@@ -81,8 +81,8 @@ export default function AuthAdmin() {
       <div className="flex-1 flex items-center justify-center p-6 bg-background">
         <div className="w-full max-w-md">
           <div className="lg:hidden flex items-center gap-3 mb-8 justify-center">
-            <div className="w-10 h-10 rounded-xl bg-destructive flex items-center justify-center">
-              <Shield className="w-5 h-5 text-destructive-foreground" />
+            <div className="w-10 h-10 rounded-xl bg-zinc-900 flex items-center justify-center">
+              <Shield className="w-5 h-5 text-white" />
             </div>
             <span className="text-xl font-bold text-foreground">Admin Portal</span>
           </div>
@@ -90,7 +90,7 @@ export default function AuthAdmin() {
           <Card className="border-0 shadow-lg shadow-black/5">
             <CardHeader className="pb-4">
               <CardTitle className="text-xl flex items-center gap-2">
-                <Shield className="w-5 h-5 text-destructive" />
+                <Shield className="w-5 h-5 text-zinc-900" />
                 Admin Sign In
               </CardTitle>
               <CardDescription>Access the admin dashboard with your admin credentials</CardDescription>
