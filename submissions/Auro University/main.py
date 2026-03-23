@@ -17,10 +17,15 @@ from groq import Groq
 from pydantic import BaseModel, Field
 from supermemory import Supermemory
 
+def current_iso_time() -> str:
+    from datetime import datetime, timezone
+    return datetime.now(timezone.utc).isoformat()
+
 
 # ── Pydantic Models ────────────────────────────────────────────────────────────
 
 class EmailItem(BaseModel):
+    
     email_id: str
     subject: str
     sender_name: str
@@ -30,48 +35,62 @@ class EmailItem(BaseModel):
 
 
 class ProcessEmailsRequest(BaseModel):
+
     emails: List[EmailItem]
     user_name: str
     user_email: str
 
 
 class Priority(BaseModel):
-    level: Literal["requires_action", "informational", "low"]
+
+    level: Literal["urgent", "requires_action", "fyi"]
     reasons: List[str]
 
 
 class SuggestedReply(BaseModel):
+
     subject: str
     body: str
 
 
 class CalendarEvent(BaseModel):
+
     title: str
-    date: str           # YYYY-MM-DD
-    time: str           # HH:MM
+    date: Optional[str] = None           # YYYY-MM-DD or null
+    time: Optional[str] = None           # HH:MM or null
     participants: List[str]
     description: str
 
 
 class Task(BaseModel):
+
     title: str
     deadline: Optional[str] = None   # YYYY-MM-DD or null
     priority: Literal["high", "medium", "low"]
 
 
 class ProcessedEmail(BaseModel):
+
     email_id: str
+    # Remove user_id from LLM output, we'll inject it internally, same for action states
     summary: str
     priority: Priority
     intent: str
-    has_meeting: bool
-    has_tasks: bool
     suggested_reply: SuggestedReply
     calendar_event: Optional[CalendarEvent] = None
     tasks: List[Task] = Field(default_factory=list)
+    has_meeting: bool
+    has_tasks: bool
+    
+    # Action states (defaults for MongoDB)
+    reply_sent: bool = Field(default=False)
+    calendar_created: bool = Field(default=False)
+    tasks_approved: bool = Field(default=False)
+    processed_at: str = Field(default_factory=current_iso_time)
 
 
 class ProcessEmailsResponse(BaseModel):
+
     processed: List[ProcessedEmail]
 
 
@@ -120,7 +139,7 @@ The JSON must follow this exact schema:
   "email_id": "<string>",
   "summary": "<one-sentence summary of the email>",
   "priority": {
-    "level": "<requires_action | informational | low>",
+    "level": "<urgent | requires_action | fyi>",
     "reasons": ["<reason 1>", "..."]
   },
   "intent": "<single label: meeting_request | follow_up | information | action_required | introduction | other>",
@@ -132,8 +151,8 @@ The JSON must follow this exact schema:
   },
   "calendar_event": <null if no meeting, otherwise {
     "title": "<event title>",
-    "date": "<YYYY-MM-DD>",
-    "time": "<HH:MM>",
+    "date": "<YYYY-MM-DD or null>",
+    "time": "<HH:MM or null>",
     "participants": ["<email1>", "..."],
     "description": "<short description>"
   }>,
@@ -333,22 +352,29 @@ app.add_middleware(
 )
 
 
+BATCH_SIZE = 3
+
+
 @app.post("/process-emails", response_model=ProcessEmailsResponse)
 async def process_emails(request: ProcessEmailsRequest):
     if not request.emails:
         raise HTTPException(status_code=400, detail="emails list must not be empty")
 
     loop = asyncio.get_event_loop()
+    all_results: list[ProcessedEmail] = []
 
-    # Process all emails concurrently in a thread pool
-    results: list[ProcessedEmail] = await asyncio.gather(*[
-        loop.run_in_executor(
-            None, process_single, email, request.user_name, request.user_email
-        )
-        for email in request.emails
-    ])
+    # Process in batches of BATCH_SIZE (3 at a time)
+    for i in range(0, len(request.emails), BATCH_SIZE):
+        batch = request.emails[i : i + BATCH_SIZE]
+        batch_results = await asyncio.gather(*[
+            loop.run_in_executor(
+                None, process_single, email, request.user_name, request.user_email
+            )
+            for email in batch
+        ])
+        all_results.extend(batch_results)
 
-    return ProcessEmailsResponse(processed=list(results))
+    return ProcessEmailsResponse(processed=all_results)
 
 
 @app.post("/generate-reply", response_model=GenerateReplyResponse)

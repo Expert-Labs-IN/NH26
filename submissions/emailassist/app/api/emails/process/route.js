@@ -6,18 +6,22 @@ import { NextResponse } from "next/server";
 
 const FASTAPI_URL = process.env.FASTAPI_URL || "http://127.0.0.1:8000";
 
-export async function POST() {
+export async function POST(request) {
   try {
     const session = await auth();
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    // Read maxResults from request body (default 20, max 50)
+    const body = await request.json().catch(() => ({}));
+    const maxResults = Math.min(parseInt(body.maxResults) || 20, 50);
+
     const { user, accessToken } = session;
     await connectDB();
 
     // Step 1: Fetch unread emails from Gmail
-    const rawEmails = await fetchUnreadEmails(accessToken);
+    const rawEmails = await fetchUnreadEmails(accessToken, maxResults);
     if (rawEmails.length === 0) {
       return NextResponse.json({ processed: [], message: "No new emails to process" });
     }

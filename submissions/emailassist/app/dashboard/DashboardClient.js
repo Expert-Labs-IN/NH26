@@ -10,6 +10,7 @@ export default function DashboardClient({ initialEmails }) {
   const [isRefreshing, startRefresh] = useTransition();
   const [fastApiDown, setFastApiDown] = useState(false);
   const [refreshMsg, setRefreshMsg] = useState("");
+  const [maxResults, setMaxResults] = useState(20);
 
   // Check FastAPI health on mount
   useEffect(() => {
@@ -24,7 +25,11 @@ export default function DashboardClient({ initialEmails }) {
     startRefresh(async () => {
       setRefreshMsg("");
       try {
-        const processRes = await fetch("/api/emails/process", { method: "POST" });
+        const processRes = await fetch("/api/emails/process", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ maxResults }),
+        });
         const processData = await processRes.json();
 
         // Re-fetch the full list from DB
@@ -59,15 +64,31 @@ export default function DashboardClient({ initialEmails }) {
         {/* ── Left Panel: Email List ── */}
         <aside className="w-80 flex-shrink-0 border-r border-gray-800 flex flex-col">
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800">
-            <h2 className="text-sm font-semibold text-white">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-gray-800 gap-2">
+            <h2 className="text-sm font-semibold text-white shrink-0">
               Inbox{" "}
               <span className="text-gray-500 font-normal">({emails.length})</span>
             </h2>
+
+            {/* Fetch count dropdown */}
+            <select
+              value={maxResults}
+              onChange={(e) => setMaxResults(Number(e.target.value))}
+              disabled={isRefreshing}
+              className="text-xs bg-gray-800 border border-gray-700 text-gray-300 rounded-lg px-2 py-1.5 focus:outline-none focus:border-blue-500 disabled:opacity-50 cursor-pointer"
+              title="Number of emails to fetch"
+            >
+              <option value={5}>5 emails</option>
+              <option value={10}>10 emails</option>
+              <option value={20}>20 emails</option>
+              <option value={30}>30 emails</option>
+              <option value={50}>50 emails</option>
+            </select>
+
             <button
               onClick={handleRefresh}
               disabled={isRefreshing}
-              className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white border border-gray-700 hover:border-gray-600 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-white border border-gray-700 hover:border-gray-600 px-3 py-1.5 rounded-lg transition-colors disabled:opacity-50 shrink-0"
             >
               <svg
                 className={`w-3 h-3 ${isRefreshing ? "animate-spin" : ""}`}
@@ -110,3 +131,4 @@ export default function DashboardClient({ initialEmails }) {
     </div>
   );
 }
+
