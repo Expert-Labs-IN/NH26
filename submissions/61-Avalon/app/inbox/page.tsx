@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 import {
-  Mail, Search, Loader2, X, Inbox, Bot, Send, Sparkles, Home,
-  Calendar, ListChecks, Clock, AlertTriangle, Tag, Star, ArrowRight,
-  ChevronDown, Copy, Check, MessageSquare, FileText, Link2, Users, DollarSign
+  Mail, Search, Loader2, X, Inbox, Bot, Send, Sparkles,
+  Calendar, ListChecks, Clock, AlertTriangle, Tag, Star,
+  Copy, Check, MessageSquare, FileText, Link2, Users, DollarSign
 } from 'lucide-react'
 import NextLink from 'next/link'
 import { Input } from '@/components/ui/input'
