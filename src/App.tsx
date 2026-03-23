@@ -17,6 +17,8 @@ import UsersAdmin from "./pages/UsersAdmin";
 import AuthAdmin from "./pages/AuthAdmin";
 import AuthAdminSignup from "./pages/AuthAdminSignup";
 import About from "./pages/About";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
