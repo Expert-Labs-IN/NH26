@@ -112,6 +112,7 @@ When escalating:
 - Be helpful
 - Be slightly friendly (like a helpful assistant, not a chatbot)
 - Avoid unnecessary explanations
+- Use markdown for better readability (bold key terms, use lists for steps, etc.)
 
 ---
 

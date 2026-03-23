@@ -2,9 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Bot, User, Loader2, CheckCircle2, Building2 } from "lucide-react";
+import { Send, Bot, User, Loader2, CheckCircle2, Building2, Ticket, ArrowRight } from "lucide-react";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { toast } from "react-toastify";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type Message = {
     role: "user" | "assistant" | "system";
@@ -20,6 +23,8 @@ export default function ChatbotPage() {
     
     const [input, setInput] = useState("");
     const [isLoading, setIsLoading] = useState(false);
+    const [isEscalated, setIsEscalated] = useState(false);
+    const [ticketId, setTicketId] = useState<string | null>(null);
     const [guidelines, setGuidelines] = useState<string>("");
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -68,7 +73,10 @@ export default function ChatbotPage() {
             });
 
             if (res.ok) {
+                const resData = await res.json();
                 toast.success("Ticket instantly escalated to our human experts.");
+                setIsEscalated(true);
+                setTicketId(resData.ticket?.documentId || resData.ticket?.id || "");
             } else {
                 toast.error("Failed to automatically escalate ticket.");
             }
@@ -123,7 +131,7 @@ export default function ChatbotPage() {
 
     const sendMessage = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!input.trim() || isLoading) return;
+        if (!input.trim() || isLoading || isEscalated) return;
 
         // Add context that the user relates to a specific department on the very first message sent
         let isFirstMessage = messages.filter(m => m.role === "user").length === 0;
@@ -332,8 +340,36 @@ export default function ChatbotPage() {
                                         <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center shadow-lg ${isUser ? 'bg-slate-800 text-white' : 'bg-blue-600 text-white'}`}>
                                             {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
                                         </div>
-                                        <div className={`px-5 py-3 rounded-2xl text-[15px] leading-relaxed relative whitespace-pre-wrap ${isUser ? 'bg-slate-800 text-white rounded-tr-none' : 'bg-[#1a1a1a] text-slate-300 border border-slate-800/80 rounded-tl-none'}`}>
-                                            {displayContent}
+                                        <div className={`px-5 py-3 rounded-2xl text-[15px] leading-relaxed relative ${isUser ? 'bg-slate-800 text-white rounded-tr-none' : 'bg-[#1a1a1a] text-slate-300 border border-slate-800/80 rounded-tl-none'}`}>
+                                            <div className="prose prose-invert max-w-none prose-p:leading-relaxed prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-800 prose-sm">
+                                                <ReactMarkdown 
+                                                    remarkPlugins={[remarkGfm]}
+                                                    components={{
+                                                        p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                                                        ul: ({ children }) => <ul className="list-disc ml-4 mb-2">{children}</ul>,
+                                                        ol: ({ children }) => <ol className="list-decimal ml-4 mb-2">{children}</ol>,
+                                                        li: ({ children }) => <li className="mb-1">{children}</li>,
+                                                        code: ({ node, className, children, ...props }: any) => {
+                                                            const match = /language-(\w+)/.exec(className || '');
+                                                            return match ? (
+                                                                <div className="relative group my-2">
+                                                                    <pre className="overflow-x-auto p-4 rounded-xl bg-black/50 border border-slate-800/50 text-sm">
+                                                                        <code className={className} {...props}>
+                                                                            {children}
+                                                                        </code>
+                                                                    </pre>
+                                                                </div>
+                                                            ) : (
+                                                                <code className="px-1.5 py-0.5 rounded bg-slate-700/50 font-mono text-sm" {...props}>
+                                                                    {children}
+                                                                </code>
+                                                            );
+                                                        }
+                                                    }}
+                                                >
+                                                    {displayContent}
+                                                </ReactMarkdown>
+                                            </div>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -361,28 +397,50 @@ export default function ChatbotPage() {
                     <div ref={messagesEndRef} />
                 </div>
 
-                {/* Input Form */}
+                {/* Input Form / Post-Escalation Status */}
                 <div className="p-4 bg-[#151515] border-t border-slate-800">
-                    <form onSubmit={sendMessage} className="relative flex items-center">
-                        <input
-                            type="text"
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            placeholder="Type your message here..."
-                            className="w-full bg-[#0a0a0a] text-white border border-slate-800 rounded-full pl-6 pr-14 py-4 outline-none focus:ring-1 focus:ring-slate-700 transition-all font-medium text-sm shadow-inner"
-                            disabled={isLoading}
-                        />
-                        <button
-                            type="submit"
-                            disabled={!input.trim() || isLoading}
-                            className="absolute right-2 p-2.5 bg-white text-black rounded-full hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md"
+                    {isEscalated ? (
+                        <motion.div 
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="flex flex-col items-center gap-4 py-6"
                         >
-                            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5 ml-0.5" />}
-                        </button>
-                    </form>
-                    <p className="text-center text-xs text-slate-500 mt-3 font-medium">
-                        Sarathi AI may make mistakes. We automatically flag unresolvable issues for human review.
-                    </p>
+                            <div className="flex items-center gap-3 px-6 py-3 bg-emerald-900/20 border border-emerald-800/40 rounded-2xl text-emerald-400 font-bold text-sm uppercase tracking-wide">
+                                <CheckCircle2 className="w-5 h-5" />
+                                Assigned to a specialized human expert
+                            </div>
+                            <Link 
+                                href="/user/my-tickets"
+                                className="w-full sm:w-auto px-10 py-4 bg-white text-black rounded-full font-extrabold hover:bg-slate-200 transition-all flex items-center justify-center gap-2 shadow-xl shadow-white/5 group"
+                            >
+                                View Ticket in My History
+                                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </motion.div>
+                    ) : (
+                        <>
+                            <form onSubmit={sendMessage} className="relative flex items-center">
+                                <input
+                                    type="text"
+                                    value={input}
+                                    onChange={(e) => setInput(e.target.value)}
+                                    placeholder="Type your message here..."
+                                    className="w-full bg-[#0a0a0a] text-white border border-slate-800 rounded-full pl-6 pr-14 py-4 outline-none focus:ring-1 focus:ring-slate-700 transition-all font-medium text-sm shadow-inner"
+                                    disabled={isLoading}
+                                />
+                                <button
+                                    type="submit"
+                                    disabled={!input.trim() || isLoading}
+                                    className="absolute right-2 p-2.5 bg-white text-black rounded-full hover:bg-slate-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md"
+                                >
+                                    {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5 ml-0.5" />}
+                                </button>
+                            </form>
+                            <p className="text-center text-xs text-slate-500 mt-3 font-medium">
+                                Sarathi AI may make mistakes. We automatically flag unresolvable issues for human review.
+                            </p>
+                        </>
+                    )}
                 </div>
             </div>
         </div>

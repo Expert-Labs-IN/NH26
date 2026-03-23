@@ -1,10 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
     Send, ChevronRight, AlertCircle, Building2, 
     MessageSquare, ShieldAlert, Cpu, CheckCircle2,
-    Loader2
+    Loader2, Sparkles, Brain
 } from "lucide-react";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
@@ -29,6 +29,9 @@ export default function CreateTicketPage() {
     });
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isAnalyzing, setIsAnalyzing] = useState(false);
+    const [aiSuggestion, setAiSuggestion] = useState<string | null>(null);
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -44,13 +47,28 @@ export default function CreateTicketPage() {
         }
 
         setIsSubmitting(true);
+        setAiSuggestion("Analyzing your request to determine priority and category...");
 
         try {
+            // First analyze with AI in background to determine metadata
+            const analysisRes = await fetch("/api/analyze-ticket", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    title: formData.title, 
+                    description: formData.description,
+                    departments: departments.map((d: any) => ({ id: d.id, title: d.title || d.attributes?.title }))
+                })
+            });
+
+            if (!analysisRes.ok) throw new Error("AI Autonomous Routing failed");
+            const analysisData = await analysisRes.json();
+
             const ticketData = {
                 title: formData.title,
                 description: formData.description,
-                category: formData.category,
-                severity: formData.severity,
+                category: analysisData.category || "General Support",
+                severity: analysisData.severity || "Low",
                 aiResolved: false,
                 raisedBy: (session.user as any).id,
                 department: formData.department,
@@ -58,7 +76,8 @@ export default function CreateTicketPage() {
 
             await strapi.create("tickets", ticketData);
             
-            toast.success("Ticket created successfully! Redirecting...");
+            setAiSuggestion(`Success! Automatically categorized as ${analysisData.category} and routed.`);
+            toast.success("Ticket created and routed autonomously.");
             
             setTimeout(() => {
                 router.push("/user/my-tickets");
@@ -68,6 +87,7 @@ export default function CreateTicketPage() {
             console.error("Error creating ticket:", error);
             toast.error("Something went wrong. Please try again.");
             setIsSubmitting(false);
+            setAiSuggestion(null);
         }
     };
 
@@ -96,28 +116,26 @@ export default function CreateTicketPage() {
 
                 <form onSubmit={handleSubmit} className="space-y-8 bg-[#111]/80 backdrop-blur-xl border border-slate-800 p-10 rounded-[2.5rem] shadow-2xl">
                     <div className="space-y-6">
-                        {/* Title */}
-                        <div className="space-y-3">
-                            <label className="text-sm font-black text-slate-500 uppercase tracking-widest px-1">Ticket Subject</label>
-                            <input 
-                                required
-                                type="text" 
-                                placeholder="Describe your issue in a few words..."
-                                className="w-full bg-black/40 border border-slate-800 rounded-2xl px-6 py-4 outline-none focus:ring-1 ring-blue-500/50 transition-all font-medium"
-                                value={formData.title}
-                                onChange={(e) => setFormData({...formData, title: e.target.value})}
-                            />
-                        </div>
-
-                        {/* Department & Severity Row */}
+                        {/* Title & Department Row */}
                         <div className="grid md:grid-cols-2 gap-6">
                             <div className="space-y-3">
-                                <label className="text-sm font-black text-slate-500 uppercase tracking-widest px-1">Department</label>
+                                <label className="text-sm font-black text-slate-500 uppercase tracking-widest px-1">Ticket Subject</label>
+                                <input 
+                                    required
+                                    type="text" 
+                                    placeholder="Brief summary..."
+                                    className="w-full bg-black/40 border border-slate-800 rounded-2xl px-6 py-4 outline-none focus:ring-1 ring-blue-500/50 transition-all font-medium"
+                                    value={formData.title}
+                                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                                />
+                            </div>
+                            <div className="space-y-3">
+                                <label className="text-sm font-black text-slate-500 uppercase tracking-widest px-1">Target Department</label>
                                 <div className="relative">
                                     <Building2 className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
                                     <select 
                                         required
-                                        className="w-full bg-black/40 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 outline-none focus:ring-1 ring-blue-500/50 appearance-none transition-all font-medium"
+                                        className="w-full bg-black/40 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 outline-none focus:ring-1 ring-blue-500/50 appearance-none transition-all font-medium whitespace-nowrap overflow-hidden text-ellipsis"
                                         value={formData.department}
                                         onChange={(e) => setFormData({...formData, department: e.target.value})}
                                     >
@@ -128,41 +146,6 @@ export default function CreateTicketPage() {
                                     </select>
                                 </div>
                             </div>
-                            <div className="space-y-3">
-                                <label className="text-sm font-black text-slate-500 uppercase tracking-widest px-1">Priority Level</label>
-                                <div className="relative">
-                                    <ShieldAlert className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                                    <select 
-                                        className="w-full bg-black/40 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 outline-none focus:ring-1 ring-blue-500/50 appearance-none transition-all font-medium"
-                                        value={formData.severity}
-                                        onChange={(e) => setFormData({...formData, severity: e.target.value})}
-                                    >
-                                        <option value="Low">Low</option>
-                                        <option value="Medium">Medium</option>
-                                        <option value="High">High</option>
-                                        <option value="Critical">Critical</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Category */}
-                        <div className="space-y-3">
-                            <label className="text-sm font-black text-slate-500 uppercase tracking-widest px-1">Issue Category</label>
-                            <div className="relative">
-                                <Cpu className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
-                                <select 
-                                    className="w-full bg-black/40 border border-slate-800 rounded-2xl pl-12 pr-6 py-4 outline-none focus:ring-1 ring-blue-500/50 appearance-none transition-all font-medium"
-                                    value={formData.category}
-                                    onChange={(e) => setFormData({...formData, category: e.target.value})}
-                                >
-                                    <option value="General Support">General Support</option>
-                                    <option value="Billing">Billing & Payments</option>
-                                    <option value="Technical Error">Technical Error</option>
-                                    <option value="Account Access">Account Access</option>
-                                    <option value="Other">Other</option>
-                                </select>
-                            </div>
                         </div>
 
                         {/* Description */}
@@ -170,28 +153,46 @@ export default function CreateTicketPage() {
                             <label className="text-sm font-black text-slate-500 uppercase tracking-widest px-1">Full Description</label>
                             <textarea 
                                 required
-                                rows={5}
+                                rows={8}
                                 placeholder="Please provide detailed information about your issue..."
-                                className="w-full bg-black/40 border border-slate-800 rounded-2xl px-6 py-4 outline-none focus:ring-1 ring-blue-500/50 transition-all font-medium resize-none placeholder:text-slate-600"
+                                className="w-full bg-black/40 border border-slate-800 rounded-3xl px-6 py-6 outline-none focus:ring-1 ring-blue-500/50 transition-all font-medium resize-none placeholder:text-slate-600 shadow-inner"
                                 value={formData.description}
                                 onChange={(e) => setFormData({...formData, description: e.target.value})}
                             />
                         </div>
+
+                        {/* AI Status Feedback */}
+                        <AnimatePresence>
+                            {aiSuggestion && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="px-6 py-5 bg-blue-950/20 border border-blue-800/40 rounded-2xl flex items-center gap-4 text-blue-400"
+                                >
+                                    <div className="shrink-0 w-12 h-12 bg-blue-900/30 rounded-xl flex items-center justify-center border border-blue-700/30">
+                                        <Brain className="w-6 h-6 animate-pulse" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <p className="text-sm font-bold leading-snug">{aiSuggestion}</p>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </div>
 
                     <button 
                         type="submit"
-                        disabled={isSubmitting}
-                        className="w-full bg-white text-black font-black text-lg py-5 rounded-2xl hover:bg-slate-200 transition-all shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] flex items-center justify-center gap-3 disabled:opacity-50"
+                        disabled={isSubmitting || !formData.title || !formData.description}
+                        className="w-full relative group overflow-hidden bg-white text-black font-black text-lg py-5 rounded-2xl hover:bg-slate-200 transition-all shadow-[0_20px_40px_-15px_rgba(255,255,255,0.2)] flex items-center justify-center gap-3 disabled:opacity-50"
                     >
                         {isSubmitting ? (
                             <>
                                 <Loader2 className="w-6 h-6 animate-spin" />
-                                Creating Ticket...
+                                Analyzing with AI Assistant...
                             </>
                         ) : (
                             <>
-                                <Send className="w-5 h-5" />
+                                <Send className="w-5 h-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                 Raise Ticket
                             </>
                         )}

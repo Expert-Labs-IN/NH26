@@ -20,6 +20,7 @@ export default function MyTicketsPage() {
         filters: {
             raisedBy: { id: userID },
         },
+        sort: "createdAt:desc",
         populate: "*"
     });
 
