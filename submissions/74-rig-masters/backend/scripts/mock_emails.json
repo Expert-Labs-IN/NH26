@@ -1,0 +1,92 @@
+[
+  {
+    "message_id": "msg_001",
+    "sender": "cto@acmecorp.com",
+    "sender_name": "Marcus Allen",
+    "recipient": "you@company.com",
+    "subject": "URGENT: Production server down - immediate action required",
+    "body": "Our production API server has been returning 503 errors for the last 20 minutes. Customer complaints are piling up and our SLA is at risk. I need you to investigate immediately and get back to me within the hour with a status update. If we cannot resolve this by 3PM EST, we will need to initiate our incident response protocol and notify affected clients. This is your top priority right now.",
+    "received_at": "2025-03-23T08:15:00Z"
+  },
+  {
+    "message_id": "msg_002",
+    "sender": "hr@company.com",
+    "sender_name": "HR Team",
+    "recipient": "you@company.com",
+    "subject": "Reminder: Submit your Q1 performance self-review by Friday",
+    "body": "Hi team, this is a friendly reminder that Q1 performance self-reviews are due this Friday, March 28th. Please log into the HR portal and complete your self-assessment. The form should take about 30 minutes. If you have any questions, reach out to the HR team. Thanks for your cooperation.",
+    "received_at": "2025-03-23T09:00:00Z"
+  },
+  {
+    "message_id": "msg_003",
+    "sender": "partnerships@techventures.io",
+    "sender_name": "Sophia Reyes",
+    "recipient": "you@company.com",
+    "subject": "Partnership opportunity - AI integration proposal",
+    "body": "Hello, I hope this message finds you well. I am reaching out from TechVentures to explore a potential partnership opportunity. We have developed an AI-powered analytics platform that integrates seamlessly with systems like yours. I would love to schedule a 30-minute call to walk you through what we offer and discuss how we could add value to your team. Are you available for a call next week on Tuesday or Wednesday between 2-5PM EST? Looking forward to connecting.",
+    "received_at": "2025-03-23T09:45:00Z"
+  },
+  {
+    "message_id": "msg_004",
+    "sender": "legal@acmecorp.com",
+    "sender_name": "Daniel Osei",
+    "recipient": "you@company.com",
+    "subject": "Contract renewal - signature required before March 31st",
+    "body": "Please find attached the renewed service agreement for the 2025-2026 contract period. We require your signature no later than March 31st to avoid any service interruption. Key changes from the previous contract include: updated data processing clauses to comply with GDPR amendments, revised SLA response times from 4 hours to 2 hours for critical issues, and a 5% pricing adjustment. Please review, sign, and return via DocuSign. If you have any concerns, please schedule a call with our legal team before the 28th.",
+    "received_at": "2025-03-23T10:30:00Z"
+  },
+  {
+    "message_id": "msg_005",
+    "sender": "newsletter@devdigest.com",
+    "sender_name": "Dev Digest Editorial",
+    "recipient": "you@company.com",
+    "subject": "Dev Digest Weekly: Top 10 FastAPI patterns in 2025",
+    "body": "This week in Dev Digest: We cover the top 10 FastAPI patterns that senior engineers are using in 2025, a deep dive into async SQLAlchemy best practices, and a roundup of the best new Python libraries released this quarter. Also inside: interview tips from 5 senior engineers at top tech companies, and our exclusive guide to building production-ready AI backends. Read more at devdigest.com/weekly/march-23.",
+    "received_at": "2025-03-23T11:00:00Z"
+  },
+  {
+    "message_id": "msg_006",
+    "sender": "pm@company.com",
+    "sender_name": "Priya Nair",
+    "recipient": "you@company.com",
+    "subject": "Sprint planning meeting - Monday 10AM, conference room B",
+    "body": "Hi team, sprint planning for Sprint 14 is scheduled for Monday March 25th at 10:00 AM in Conference Room B (and Zoom for remote attendees, link below). Please come prepared with your task estimates for the following: completing the payment gateway integration, fixing the reported authentication bug on mobile, and initial setup for the new analytics dashboard. The meeting should run approximately 90 minutes. Zoom link: https://zoom.us/j/123456789. Please confirm your attendance by replying to this email.",
+    "received_at": "2025-03-23T11:30:00Z"
+  },
+  {
+    "message_id": "msg_007",
+    "sender": "client@bigretail.com",
+    "sender_name": "James Whitfield",
+    "recipient": "you@company.com",
+    "subject": "Re: Integration issue - data not syncing correctly",
+    "body": "Hi, following up on the issue I reported last Thursday. The data sync between our inventory system and your platform is still failing intermittently. About 15% of our product updates are not reflecting in your system within the expected 5-minute window. This is causing discrepancies in our reporting and our operations team is spending extra hours each week reconciling manually. We are a premium client and this level of reliability is below what we were promised. I need a resolution plan with a timeline by end of this week or we will need to escalate to our account manager.",
+    "received_at": "2025-03-23T12:00:00Z"
+  },
+  {
+    "message_id": "msg_008",
+    "sender": "finance@company.com",
+    "sender_name": "Finance Department",
+    "recipient": "you@company.com",
+    "subject": "Monthly expense report approved",
+    "body": "Hi, your expense report for February 2025 totalling $847.50 has been reviewed and approved. Reimbursement will be processed in the next payroll cycle on April 1st. Items approved: conference registration $450, travel to client site $275, team lunch $122.50. Please retain your receipts for 3 years per company policy. If you have questions, contact finance@company.com.",
+    "received_at": "2025-03-23T13:00:00Z"
+  },
+  {
+    "message_id": "msg_009",
+    "sender": "security@company.com",
+    "sender_name": "IT Security Team",
+    "recipient": "you@company.com",
+    "subject": "Action required: Enable MFA on your account before March 25th",
+    "body": "As part of our updated security policy, all team members are required to enable Multi-Factor Authentication (MFA) on their company accounts by Monday March 25th. Accounts without MFA enabled after this date will be temporarily locked until the requirement is met. To enable MFA: log into the company portal, go to Security Settings, select Enable MFA, and follow the setup steps. This should take less than 5 minutes. If you need help, the IT helpdesk is available at helpdesk@company.com or ext. 4500.",
+    "received_at": "2025-03-23T14:00:00Z"
+  },
+  {
+    "message_id": "msg_010",
+    "sender": "ceo@company.com",
+    "sender_name": "Rachel Kim",
+    "recipient": "you@company.com",
+    "subject": "All-hands meeting recap and Q2 roadmap highlights",
+    "body": "Team, thank you all for attending yesterday's all-hands. Here is a brief recap of the key points discussed. Q1 Results: we exceeded our revenue target by 12%, grew our customer base by 340 new accounts, and successfully launched 3 major product features. Q2 Focus areas: expanding into two new markets (Southeast Asia and LATAM), launching our enterprise tier in May, and investing heavily in AI-powered features across the platform. Company culture: we are introducing flexible summer hours starting in June and a new mental health day policy. Full recording and slides are available on the company intranet. Great work everyone - keep it up.",
+    "received_at": "2025-03-23T15:00:00Z"
+  }
+]
