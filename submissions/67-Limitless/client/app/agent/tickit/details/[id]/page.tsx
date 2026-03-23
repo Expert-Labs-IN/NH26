@@ -4,7 +4,8 @@ import { motion } from "framer-motion";
 import { 
     Clock, CheckCircle2, AlertTriangle, ArrowLeft, 
     User, Building2, Tag, MessageSquare, Save, Loader2,
-    Calendar, Mail, ShieldCheck, Activity, FileText
+    Calendar, Mail, ShieldCheck, Activity, FileText,
+    Phone
 } from "lucide-react";
 import { useState, useEffect, use } from "react";
 import { useStrapi } from "@/lib/sdk/useStrapi";
@@ -83,7 +84,7 @@ export default function AgentTicketDetailsPage({ params }: { params: Promise<{ i
     const raisedBy = attr.raisedBy?.data?.attributes?.username || attr.raisedBy?.username || "Guest User";
     const email = attr.raisedBy?.data?.attributes?.email || attr.raisedBy?.email || "No email provided";
     const department = attr.department?.data?.attributes?.title || attr.department?.title || "Support";
-
+const phone = attr.raisedBy?.data?.attributes?.phone || attr.raisedBy?.phone || "No phone provided";
     return (
         <div className="min-h-[calc(100vh-64px)] bg-[#0a0a0a] text-slate-200 py-12 px-6 font-sans relative overflow-x-hidden">
             {/* Ambient Background Glows */}
@@ -266,6 +267,10 @@ export default function AgentTicketDetailsPage({ params }: { params: Promise<{ i
                                             <p className="text-xs text-slate-500 flex items-center gap-1">
                                                 <Mail className="w-3 h-3" />
                                                 {email}
+                                            </p>
+                                            <p className="text-xs text-slate-500 flex items-center gap-1">
+                                                <Phone className="w-3 h-3" />
+                                                {phone}
                                             </p>
                                         </div>
                                     </div>
