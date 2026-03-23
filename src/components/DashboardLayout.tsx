@@ -110,6 +110,22 @@ export default function DashboardLayout({ children }: Props) {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex-1" />
+          <div className="flex items-center gap-2 mr-2">
+            <Label htmlFor="admin-toggle" className="text-xs text-muted-foreground cursor-pointer">Admin</Label>
+            <Switch
+              id="admin-toggle"
+              checked={isAdmin}
+              onCheckedChange={async (checked) => {
+                if (!user) return;
+                if (checked) {
+                  await supabase.from("user_roles").insert({ user_id: user.id, role: "admin" as any });
+                } else {
+                  await supabase.from("user_roles").delete().eq("user_id", user.id).eq("role", "admin");
+                }
+                toast({ title: checked ? "Admin role enabled" : "Admin role disabled" });
+                window.location.reload();
+              }}
+            />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="rounded-full">
