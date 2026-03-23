@@ -8,7 +8,28 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
-import { MessageSquare, Bot, Send } from "lucide-react";
+import { MessageSquare, Bot, Send, Clock, ArrowUpCircle, User } from "lucide-react";
+
+const SLA_HOURS: Record<string, number> = {
+  critical: 4,
+  high: 8,
+  medium: 24,
+  low: 48,
+};
+
+function getEstimatedTime(ticket: any) {
+  const createdAt = new Date(ticket.created_at).getTime();
+  const slaHours = SLA_HOURS[ticket.priority] || 24;
+  const deadline = createdAt + slaHours * 60 * 60 * 1000;
+  const now = Date.now();
+  const remaining = deadline - now;
+  if (ticket.status === "resolved" || ticket.status === "closed") return { label: "Resolved", overdue: false };
+  if (remaining <= 0) return { label: "Overdue", overdue: true };
+  const hours = Math.floor(remaining / (60 * 60 * 1000));
+  const mins = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+  if (hours > 0) return { label: `~${hours}h ${mins}m left`, overdue: false };
+  return { label: `~${mins}m left`, overdue: false };
+}
 
 export default function TicketDetail() {
   const { id } = useParams();
@@ -18,6 +39,7 @@ export default function TicketDetail() {
   const [comments, setComments] = useState<any[]>([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
+  const [creatorName, setCreatorName] = useState("");
 
   const fetchData = async () => {
     if (!id) return;
@@ -27,6 +49,10 @@ export default function TicketDetail() {
     ]);
     setTicket(t);
     setComments(c || []);
+    if (t) {
+      const { data: prof } = await supabase.from("profiles").select("full_name, email").eq("user_id", t.created_by).single();
+      setCreatorName(prof?.full_name || prof?.email || "Unknown");
+    }
     setLoading(false);
   };
 
