@@ -1,36 +1,150 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🌪️ EmailAssist AI: The Future of Your Inbox
 
-## Getting Started
+EmailAssist AI is a cutting-edge email management platform that combines modern UI design with state-of-the-art Large Language Models (LLMs) to transform how you handle emails. By leveraging **Llama-3.3-70b** (via NVIDIA NIM) and **Supermemory**, it provides deep context-aware analysis, automated task extraction, and autonomous "Autopilot" capabilities.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Key Features
+
+- **🧠 Intelligent Summarization**: Get a one-sentence summary of every email, no matter how long the thread.
+- **🚥 Priority Detection**: Automatically categorizes emails into `urgent`, `requires_action`, or `fyi` with reasoning.
+- **⚡ Autonomous Autopilot**: Define natural language rules (e.g., "Always reply formally to my investors"), and let the AI decide which actions to take.
+- **📅 Contextual Extraction**: Detects meeting requests and action items, turning them into calendar events and task lists instantly.
+- **🖋️ Tone-Aware Reply Generation**: Compose professional, friendly, formal, or concise replies in seconds, incorporating past interactions from memory.
+- **🕰️ Long-Term Memory**: Uses [Supermemory](https://supermemory.ai) to store and retrieve user profiles and relevant past emails for truly personalized assistance.
+- **🎨 Premium Bento Dashboard**: A fluid, interactive UI built with **Tailwind CSS v4** and **Framer Motion** for a high-end user experience.
+- **🔒 Secure Integration**: Full **Google OAuth** integration via **Next-Auth v5** for safe access to your Gmail and Calendar.
+
+---
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework**: Next.js 15 (App Router)
+- **Library**: React 19
+- **Styling**: Tailwind CSS v4
+- **Animations**: Framer Motion
+- **Icons**: Lucide-react
+- **Auth**: Next-Auth v5 (Beta)
+
+### Backend
+- **Framework**: FastAPI (Python 3.12+)
+- **LLM Engine**: Groq (Llama-3.3-70b-instruct) via **NVIDIA NIM**
+- **Memory Layer**: Supermemory API
+- **Model Validation**: Pydantic
+- **Package Manager**: `uv` (Modern Python Environment)
+
+### Infrastructure & APIs
+- **Database**: MongoDB (via Mongoose)
+- **Email/Calendar**: Google Gmail & Calendar APIs
+- **Deployment**: Vercel (Frontend), Docker-ready
+
+---
+
+## 🚦 System Architecture & Flow
+
+```mermaid
+graph TD
+    A[User Auth via NextAuth] -->|Google OAuth| B[Next.js App]
+    B -->|Fetch Emails| C[Gmail API]
+    C -->|Batch Emails| D[FastAPI Backend]
+    D -->|Query Profile & Context| E[Supermemory]
+    D -->|Analyze & Structure| F[NVIDIA NIM / Llama-3.3-70b]
+    F -->|Return JSON| D
+    D -->|Autopilot Logic| G[User-Defined Rules]
+    G -->|Structured Results| B
+    B -->|Review & Action| H[Send Reply / Create Event]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1.  **Authentication**: User logs in with Google.
+2.  **Email Fetching**: The frontend fetches the latest emails from the Gmail API using secure tokens.
+3.  **AI Analysis**: Emails are sent to the FastAPI backend, which processes them in batches (3 at a time) using Groq's high-performance LLM endpoint.
+4.  **Context Injection**: The AI queries **Supermemory** for the user's "static/dynamic profile" to ensure all responses and summaries are tailored to the user.
+5.  **Autonomous Decision**: The "Autopilot" engine checks incoming emails against natural language rules to decide if it should automatically trigger a reply or a calendar event.
+6.  **Interactive Dashboard**: Structured data is displayed in a beautiful Bento Grid, allowing the user to approve AI suggestions with a single click.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Getting Started
 
-## Learn More
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18+)
+- [Python 3.12+](https://www.python.org/)
+- [`uv`](https://github.com/astral-sh/uv) (Highly recommended for Python management)
 
-To learn more about Next.js, take a look at the following resources:
+### 1. Clone the Project
+```bash
+git clone https://github.com/your-repo/emailassist-ai.git
+cd emailassist-ai
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Backend Setup (`Auro University` or `emailassist-ai`)
+Navigate to the backend directory:
+```bash
+cd "Auro University"
+```
+**Using `uv` (Recommended):**
+```bash
+# Create and activate venv, install dependencies
+uv sync
+```
+**Configure Environment:**
+Create a `.env` file in the backend directory:
+```env
+NVIDIA_NIM_API_KEY=your_nvidia_api_key
+SUPERMEMORY_API_KEY=your_supermemory_api_key
+```
+**Start the Backend:**
+```bash
+uv run python main.py
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Frontend Setup (`emailassist`)
+Navigate to the frontend directory:
+```bash
+cd ../emailassist
+```
+**Install Dependencies:**
+```bash
+npm install
+```
+**Configure Environment:**
+Create a `.env.local` file:
+```env
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 
-## Deploy on Vercel
+# NextAuth
+NEXTAUTH_SECRET=your_32_char_secret
+NEXTAUTH_URL=http://localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# MongoDB
+MONGODB_URI=mongodb://127.0.0.1:27017/emailassist
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Backend URL
+FASTAPI_URL=http://127.0.0.1:8000
+```
+**Start the Frontend:**
+```bash
+npm run dev
+```
+
+---
+
+## 📸 Demo & Screenshots
+
+> [!TIP]
+> Use the **Bento Grid** to quickly scan through urgent tasks. The emerald accents indicate high-priority items extracted by the AI.
+
+> [!IMPORTANT]
+> To use the **Autopilot** feature, ensure your rules are clear. For example: *"If an email is from Sarah about a meeting, auto-accept and add it to my calendar."*
+
+---
+
+## 📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+Built with ❤️ by the **Auro-Strawhats** Team.
