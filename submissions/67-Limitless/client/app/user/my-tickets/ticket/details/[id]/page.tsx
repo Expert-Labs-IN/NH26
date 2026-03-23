@@ -81,13 +81,6 @@ export default function UserTicketDetailsPage({ params }: { params: Promise<{ id
                         </div>
                     </div>
 
-                    <Link 
-                        href={`/user/raise-tickit/chat?id=${ticket.documentId || ticket.id}`}
-                        className="inline-flex items-center justify-center gap-3 bg-white text-black font-black px-10 py-5 rounded-[1.5rem] shadow-[0_0_40px_-5px_rgba(255,255,255,0.2)] hover:scale-105 transition-all text-lg"
-                    >
-                        <MessageSquare className="w-6 h-6" />
-                        Join Chat Thread
-                    </Link>
                 </header>
 
                 <div className="grid lg:grid-cols-3 gap-10">
