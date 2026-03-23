@@ -69,6 +69,18 @@
     "type": {
       "type": "string",
       "default": "user"
+    },
+    "tickets": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ticket.ticket",
+      "mappedBy": "raisedBy"
+    },
+    "assignedTickits": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::ticket.ticket",
+      "mappedBy": "assignedTo"
     }
   }
 }
