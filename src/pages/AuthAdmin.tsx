@@ -133,6 +133,9 @@ export default function AuthAdmin() {
               </form>
 
               <div className="mt-6 space-y-2 text-center">
+                <Link to="/forgot-password?portal=admin" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
+                  Forgot password?
+                </Link>
                 <Link to="/auth/admin/signup" className="block text-sm text-foreground font-medium hover:underline transition-colors">
                   Don't have an account? Sign up
                 </Link>

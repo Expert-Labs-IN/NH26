@@ -148,6 +148,11 @@ export default function Auth() {
                     <Button type="submit" className="w-full active:scale-[0.97] transition-transform" disabled={loading}>
                       {loading ? "Signing in…" : "Sign In"}
                     </Button>
+                    <div className="text-right">
+                      <Link to="/forgot-password" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                        Forgot password?
+                      </Link>
+                    </div>
                   </form>
 
                   <div className="relative my-6">
