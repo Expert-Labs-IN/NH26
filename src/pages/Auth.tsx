@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
-import { Headset, Mail, Lock, User, Phone, ChevronRight } from "lucide-react";
+import { Headset, Mail, Lock, User, Phone, ChevronRight, Shield } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -86,6 +87,7 @@ export default function Auth() {
           <h1 className="text-4xl font-bold text-primary-foreground mb-4 leading-tight" style={{ lineHeight: "1.15" }}>
             SmartDesk
           </h1>
+          <p className="text-primary-foreground/60 text-sm font-medium tracking-wide uppercase mb-2">Employee Portal</p>
           <p className="text-primary-foreground/80 text-lg leading-relaxed">
             AI-powered complaint management that predicts, classifies, and resolves issues before they escalate.
           </p>
@@ -124,8 +126,8 @@ export default function Auth() {
             <TabsContent value="signin">
               <Card className="border-0 shadow-lg shadow-black/5">
                 <CardHeader className="pb-4">
-                  <CardTitle className="text-xl">Welcome back</CardTitle>
-                  <CardDescription>Sign in to your SmartDesk account</CardDescription>
+                  <CardTitle className="text-xl">Employee Sign In</CardTitle>
+                  <CardDescription>Sign in to your SmartDesk employee account</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSignIn} className="space-y-4">
@@ -215,6 +217,13 @@ export default function Auth() {
               </Card>
             </TabsContent>
           </Tabs>
+
+          <div className="mt-6 text-center">
+            <Link to="/auth/admin" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Shield className="w-3.5 h-3.5" />
+              Admin login
+            </Link>
+          </div>
         </div>
       </div>
     </div>
