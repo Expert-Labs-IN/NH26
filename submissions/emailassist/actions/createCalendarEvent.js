@@ -17,7 +17,8 @@ export async function createCalendarEvent({ emailId, eventData }) {
   await connectDB();
 
   // Create event via Google Calendar API
-  const createdEvent = await createGCalEvent(session.accessToken, eventData);
+  const createdEvent = await createGCalEvent(session.accessToken, eventData, session.user.email);
+
 
   // Mark calendarCreated = true in DB
   await ProcessedEmail.findOneAndUpdate(

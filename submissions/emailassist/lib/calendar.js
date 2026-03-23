@@ -15,7 +15,7 @@ function getCalendarClient(accessToken) {
  * eventData shape:
  * { title, date (YYYY-MM-DD), time (HH:MM), participants: [], description }
  */
-export async function createCalendarEvent(accessToken, eventData) {
+export async function createCalendarEvent(accessToken, eventData, userEmail) {
   const calendar = getCalendarClient(accessToken);
 
   const { title, date, time, participants, description } = eventData;
@@ -36,8 +36,11 @@ export async function createCalendarEvent(accessToken, eventData) {
     throw new Error("Event date is required to create a calendar event.");
   }
 
-  // Build attendees list from participant emails
-  const attendees = (participants || []).map((email) => ({ email }));
+  // Filter to valid email addresses only, fallback to logged-in user if none
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const validEmails = (participants || []).filter((p) => emailRegex.test(p));
+  const attendeeEmails = validEmails.length > 0 ? validEmails : (userEmail ? [userEmail] : []);
+  const attendees = attendeeEmails.map((email) => ({ email }));
 
   const event = {
     summary: title,
@@ -53,8 +56,6 @@ export async function createCalendarEvent(accessToken, eventData) {
           end: { date: date },
         }),
   };
-
-  console.log(event);
 
   const response = await calendar.events.insert({
     calendarId: "primary",
