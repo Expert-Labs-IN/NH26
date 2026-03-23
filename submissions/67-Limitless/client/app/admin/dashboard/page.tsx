@@ -151,7 +151,6 @@ export default function AdminDashboardPage() {
                                 <ShieldCheck className="w-6 h-6 text-orange-500" />
                                 Pending Escalations
                             </h2>
-                            <Link href="/agent/all-tickits" className="text-xs font-black text-blue-500 uppercase tracking-widest hover:underline decoration-2 underline-offset-8">All Repository</Link>
                         </div>
 
                         <div className="space-y-4">
