@@ -1,74 +1,150 @@
-# National 2026 Hackathon
+# 🌪️ EmailAssist AI: The Future of Your Inbox
 
-Welcome to the official repository for the National 2026 Hackathon! This repository is where all teams will submit their final project code.
-
-## Submission Guidelines
-
-To keep everyone's code organized and prevent conflicts, all submissions must be uploaded using the **Fork and Pull Request** workflow. 
-
-Your code must be placed inside the `submissions/` folder in a sub-folder named with your team number and team name.
-**Format:** `submissions/[Team Number]-[Team Name]/`
-**Example:** `submissions/04-code-ninjas/`
+EmailAssist AI is a cutting-edge email management platform that combines modern UI design with state-of-the-art Large Language Models (LLMs) to transform how you handle emails. By leveraging **Llama-3.3-70b** (via NVIDIA NIM) and **Supermemory**, it provides deep context-aware analysis, automated task extraction, and autonomous "Autopilot" capabilities.
 
 ---
 
-## Step-by-Step Submission Guide for Beginners
+## ✨ Key Features
 
-If you are new to Git and GitHub, follow these exact steps to submit your project:
-
-### Step 1: Fork the Repository
-1. Click the **"Fork"** button in the top right corner of this repository.
-2. This creates a complete copy of this repository under your own GitHub account.
-
-### Step 2: Clone Your Fork
-1. Go to your newly forked repository on your GitHub profile.
-2. Click the green **"Code"** button and copy the URL.
-3. Open your computer's terminal (or command prompt) and run:
-   ```bash
-   git clone https://github.com/Expert-Labs-IN/NH26
-   ```
-4. Move into the project folder:
-   ```bash
-   cd NH26
-   ```
-
-### Step 3: Create Your Team's Folder
-1. Navigate to the `submissions` folder:
-   ```bash
-   cd submissions
-   ```
-2. Create a new folder with your team number and team name (use hyphens, no spaces):
-   ```bash
-   mkdir 04-code-ninjas
-   ```
-3. Place all of your project code, assets, and documentation **inside this folder only**.
-
-### Step 4: Add Your Code and Commit
-Once your code is ready, save it to Git:
-```bash
-git add .
-git commit -m "Add final project submission for Team 04-code-ninjas"
-```
-
-### Step 5: Push to Your Fork
-Upload the code from your computer back to your GitHub account:
-```bash
-git push origin main
-```
-*(Note: If your default branch is `master`, use `git push origin master` instead).*
-
-### Step 6: Create a Pull Request (PR)
-1. Go to the original National 2026 repository (this page).
-2. You should see a banner saying your branch is ahead of the main repository. Click **"Compare & pull request"**.
-3. Title your Pull Request with your team name (e.g., `Submission: Team 04-code-ninjas`).
-4. Add any necessary descriptions about your project.
-5. Click **"Create pull request"**.
-
-**Congratulations! Your project is now officially submitted.**
+- **🧠 Intelligent Summarization**: Get a one-sentence summary of every email, no matter how long the thread.
+- **🚥 Priority Detection**: Automatically categorizes emails into `urgent`, `requires_action`, or `fyi` with reasoning.
+- **⚡ Autonomous Autopilot**: Define natural language rules (e.g., "Always reply formally to my investors"), and let the AI decide which actions to take.
+- **📅 Contextual Extraction**: Detects meeting requests and action items, turning them into calendar events and task lists instantly.
+- **🖋️ Tone-Aware Reply Generation**: Compose professional, friendly, formal, or concise replies in seconds, incorporating past interactions from memory.
+- **🕰️ Long-Term Memory**: Uses [Supermemory](https://supermemory.ai) to store and retrieve user profiles and relevant past emails for truly personalized assistance.
+- **🎨 Premium Bento Dashboard**: A fluid, interactive UI built with **Tailwind CSS v4** and **Framer Motion** for a high-end user experience.
+- **🔒 Secure Integration**: Full **Google OAuth** integration via **Next-Auth v5** for safe access to your Gmail and Calendar.
 
 ---
 
-## ⚠️ Important Rules
-* **DO NOT** edit, move, or delete any files outside of your designated team folder.
-* Ensure you do not upload heavy dependencies (like `node_modules` or `__pycache__`). Use a `.gitignore` file inside your project folder.
-* Your folder name must match exactly: `TeamNumber-TeamName`.
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework**: Next.js 15 (App Router)
+- **Library**: React 19
+- **Styling**: Tailwind CSS v4
+- **Animations**: Framer Motion
+- **Icons**: Lucide-react
+- **Auth**: Next-Auth v5 (Beta)
+
+### Backend
+- **Framework**: FastAPI (Python 3.12+)
+- **LLM Engine**: Groq (Llama-3.3-70b-instruct) via **NVIDIA NIM**
+- **Memory Layer**: Supermemory API
+- **Model Validation**: Pydantic
+- **Package Manager**: `uv` (Modern Python Environment)
+
+### Infrastructure & APIs
+- **Database**: MongoDB (via Mongoose)
+- **Email/Calendar**: Google Gmail & Calendar APIs
+- **Deployment**: Vercel (Frontend), Docker-ready
+
+---
+
+## 🚦 System Architecture & Flow
+
+```mermaid
+graph TD
+    A[User Auth via NextAuth] -->|Google OAuth| B[Next.js App]
+    B -->|Fetch Emails| C[Gmail API]
+    C -->|Batch Emails| D[FastAPI Backend]
+    D -->|Query Profile & Context| E[Supermemory]
+    D -->|Analyze & Structure| F[NVIDIA NIM / Llama-3.3-70b]
+    F -->|Return JSON| D
+    D -->|Autopilot Logic| G[User-Defined Rules]
+    G -->|Structured Results| B
+    B -->|Review & Action| H[Send Reply / Create Event]
+```
+
+1.  **Authentication**: User logs in with Google.
+2.  **Email Fetching**: The frontend fetches the latest emails from the Gmail API using secure tokens.
+3.  **AI Analysis**: Emails are sent to the FastAPI backend, which processes them in batches (3 at a time) using Groq's high-performance LLM endpoint.
+4.  **Context Injection**: The AI queries **Supermemory** for the user's "static/dynamic profile" to ensure all responses and summaries are tailored to the user.
+5.  **Autonomous Decision**: The "Autopilot" engine checks incoming emails against natural language rules to decide if it should automatically trigger a reply or a calendar event.
+6.  **Interactive Dashboard**: Structured data is displayed in a beautiful Bento Grid, allowing the user to approve AI suggestions with a single click.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v18+)
+- [Python 3.12+](https://www.python.org/)
+- [`uv`](https://github.com/astral-sh/uv) (Highly recommended for Python management)
+
+### 1. Clone the Project
+```bash
+git clone https://github.com/your-repo/emailassist-ai.git
+cd emailassist-ai
+```
+
+### 2. Backend Setup (`Auro University` or `emailassist-ai`)
+Navigate to the backend directory:
+```bash
+cd "Auro University"
+```
+**Using `uv` (Recommended):**
+```bash
+# Create and activate venv, install dependencies
+uv sync
+```
+**Configure Environment:**
+Create a `.env` file in the backend directory:
+```env
+NVIDIA_NIM_API_KEY=your_nvidia_api_key
+SUPERMEMORY_API_KEY=your_supermemory_api_key
+```
+**Start the Backend:**
+```bash
+uv run python main.py
+```
+
+### 3. Frontend Setup (`emailassist`)
+Navigate to the frontend directory:
+```bash
+cd ../emailassist
+```
+**Install Dependencies:**
+```bash
+npm install
+```
+**Configure Environment:**
+Create a `.env.local` file:
+```env
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# NextAuth
+NEXTAUTH_SECRET=your_32_char_secret
+NEXTAUTH_URL=http://localhost:3000
+
+# MongoDB
+MONGODB_URI=mongodb://127.0.0.1:27017/emailassist
+
+# Backend URL
+FASTAPI_URL=http://127.0.0.1:8000
+```
+**Start the Frontend:**
+```bash
+npm run dev
+```
+
+---
+
+## 📸 Demo & Screenshots
+
+> [!TIP]
+> Use the **Bento Grid** to quickly scan through urgent tasks. The emerald accents indicate high-priority items extracted by the AI.
+
+> [!IMPORTANT]
+> To use the **Autopilot** feature, ensure your rules are clear. For example: *"If an email is from Sarah about a meeting, auto-accept and add it to my calendar."*
+
+---
+
+## 📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+Built with ❤️ by the **Auro-Strawhats** Team.
