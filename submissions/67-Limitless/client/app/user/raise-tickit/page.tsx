@@ -1,11 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MessageSquare, Bot, Zap, ShieldCheck, ArrowRight } from "lucide-react";
+import { MessageSquare, Bot, Zap, ShieldCheck, ArrowRight, Send, FileText } from "lucide-react";
 import Link from "next/link";
 
 export default function RaiseTicketPage() {
-    const containerVariants = {
+    const containerVariants: any = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
@@ -13,7 +13,7 @@ export default function RaiseTicketPage() {
         },
     };
 
-    const itemVariants = {
+    const itemVariants: any = {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
     };
@@ -62,7 +62,7 @@ export default function RaiseTicketPage() {
                     </motion.div>
                 </div>
 
-                <motion.div variants={itemVariants} className="flex justify-center">
+                <motion.div variants={itemVariants} className="flex flex-col md:flex-row justify-center gap-6">
                     <Link 
                         href="/user/raise-tickit/chat"
                         className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-white text-black font-bold text-lg rounded-xl overflow-hidden transition-all hover:scale-[1.02] shadow-[0_0_30px_-5px_rgba(255,255,255,0.2)]"
@@ -72,6 +72,26 @@ export default function RaiseTicketPage() {
                             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </span>
                         <div className="absolute inset-0 bg-slate-200 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                    </Link>
+
+                    <Link 
+                        href="/user/raise-tickit/create"
+                        className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border border-white/20 text-white font-bold text-lg rounded-xl overflow-hidden transition-all hover:bg-white/5 hover:border-white/40 shadow-lg"
+                    >
+                        <span className="relative z-10 flex items-center gap-2 font-bold uppercase tracking-wider">
+                            Manual Ticket
+                            <Send className="w-5 h-5 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+                        </span>
+                    </Link>
+
+                    <Link 
+                        href="/user/my-tickets"
+                        className="group relative inline-flex items-center justify-center gap-3 px-8 py-4 bg-transparent border border-white/20 text-white font-bold text-lg rounded-xl overflow-hidden transition-all hover:bg-white/5 hover:border-white/40 shadow-lg"
+                    >
+                        <span className="relative z-10 flex items-center gap-2 font-bold uppercase tracking-wider">
+                            My Tickets
+                            <FileText className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                        </span>
                     </Link>
                 </motion.div>
             </motion.div>
