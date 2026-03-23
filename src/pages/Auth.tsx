@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "@/hooks/use-toast";
-import { Headset, Mail, Lock, User, Phone, ChevronRight } from "lucide-react";
+import { Headset, Mail, Lock, User, Phone, ChevronRight, Shield } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Auth() {
   const navigate = useNavigate();
