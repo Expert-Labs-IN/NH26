@@ -538,12 +538,9 @@ export interface ApiTicketTicket extends Struct.CollectionTypeSchema {
   options: {
     draftAndPublish: false;
   };
-  pluginOptions: {
-    i18n: {
-      localized: false;
-    };
-  };
   attributes: {
+    agentResolutionDescription: Schema.Attribute.String;
+    aiAgentChat: Schema.Attribute.JSON;
     aiResolved: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     assignedTo: Schema.Attribute.Relation<
       'manyToOne',
@@ -569,6 +566,7 @@ export interface ApiTicketTicket extends Struct.CollectionTypeSchema {
     >;
     severity: Schema.Attribute.Enumeration<['Low', 'Medium', 'High']>;
     summary: Schema.Attribute.Text;
+    tags: Schema.Attribute.String;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &

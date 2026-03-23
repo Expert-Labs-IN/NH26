@@ -9,11 +9,7 @@
   "options": {
     "draftAndPublish": false
   },
-  "pluginOptions": {
-    "i18n": {
-      "localized": false
-    }
-  },
+  "pluginOptions": {},
   "attributes": {
     "title": {
       "type": "string"
@@ -56,6 +52,15 @@
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "assignedTickits"
+    },
+    "agentResolutionDescription": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "string"
+    },
+    "aiAgentChat": {
+      "type": "json"
     }
   }
 }
