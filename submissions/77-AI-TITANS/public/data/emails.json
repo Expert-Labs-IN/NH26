@@ -1,0 +1,179 @@
+[
+  {
+    "id": "email-001",
+    "from": {
+      "name": "Sarah Chen",
+      "email": "sarah.chen@techcorp.com",
+      "isVIP": true
+    },
+    "to": {
+      "name": "You",
+      "email": "you@company.com"
+    },
+    "subject": "URGENT: Q4 Budget Review Meeting - Need Your Input",
+    "body": "Hi,\n\nI hope this email finds you well. We need to schedule an urgent meeting to review the Q4 budget allocations. The finance team has flagged some concerns about our departmental spending, and we need to address this before Friday.\n\nCan we meet this Thursday, March 28th at 2:00 PM? The meeting should take about 90 minutes. I'll send a calendar invite once you confirm.\n\nPlease bring:\n- Updated spending reports\n- Proposed budget adjustments\n- Team headcount projections for next quarter\n\nLet me know if this time works for you.\n\nBest regards,\nSarah Chen\nVP of Operations",
+    "timestamp": "2026-03-23T09:15:00Z",
+    "thread": [
+      {
+        "from": "sarah.chen@techcorp.com",
+        "subject": "Re: Q3 Budget Review Follow-up",
+        "body": "Thanks for the detailed Q3 analysis. However, we're seeing some concerning trends...",
+        "timestamp": "2026-03-20T14:30:00Z"
+      }
+    ],
+    "priority": "urgent",
+    "hasAttachments": false
+  },
+  {
+    "id": "email-002",
+    "from": {
+      "name": "Marketing Team",
+      "email": "marketing@company.com",
+      "isVIP": false
+    },
+    "to": {
+      "name": "You",
+      "email": "you@company.com"
+    },
+    "subject": "Action Required: Review Website Copy for Product Launch",
+    "body": "Hello Team,\n\nWe're finalizing the website copy for our upcoming product launch and need everyone's review by end of day Wednesday.\n\nPlease review the following:\n1. Homepage hero section copy\n2. Product features descriptions\n3. Pricing page content\n4. FAQ section\n\nThe document is shared in the Google Drive folder: /Marketing/Product Launch/Website Copy Draft\n\nPlease add your comments directly in the document and mark any critical issues with [CRITICAL] tag.\n\nDeadline: Wednesday, March 27th, 5:00 PM EST\n\nThanks,\nMarketing Team",
+    "timestamp": "2026-03-23T08:45:00Z",
+    "thread": [],
+    "priority": "action_required",
+    "hasAttachments": true
+  },
+  {
+    "id": "email-003",
+    "from": {
+      "name": "Alex Thompson",
+      "email": "alex.thompson@clientcorp.com",
+      "isVIP": true
+    },
+    "to": {
+      "name": "You",
+      "email": "you@company.com"
+    },
+    "subject": "Following up on proposal - Questions",
+    "body": "Hi,\n\nThank you for the comprehensive proposal you sent last week. Our leadership team has reviewed it and we're very interested in moving forward.\n\nWe have a few questions before we can proceed:\n\n1. Can you clarify the implementation timeline? We'd ideally like to go live by June 1st.\n2. What level of support is included in Year 1 vs Year 2?\n3. Are there any additional costs we should anticipate beyond the quoted price?\n4. Can you provide 2-3 client references in the healthcare industry?\n\nAlso, our CFO would like to schedule a call to discuss the payment terms. Would you be available next week?\n\nLooking forward to your response.\n\nBest,\nAlex Thompson\nDirector of Technology\nClientCorp Healthcare Solutions",
+    "timestamp": "2026-03-23T11:20:00Z",
+    "thread": [
+      {
+        "from": "you@company.com",
+        "subject": "Proposal for Digital Transformation Initiative",
+        "body": "Hi Alex, Please find attached our comprehensive proposal...",
+        "timestamp": "2026-03-16T15:00:00Z"
+      },
+      {
+        "from": "alex.thompson@clientcorp.com",
+        "subject": "Re: Proposal for Digital Transformation Initiative",
+        "body": "Thanks! We'll review this week and get back to you.",
+        "timestamp": "2026-03-17T09:30:00Z"
+      }
+    ],
+    "priority": "action_required",
+    "hasAttachments": false
+  },
+  {
+    "id": "email-004",
+    "from": {
+      "name": "IT Support",
+      "email": "itsupport@company.com",
+      "isVIP": false
+    },
+    "to": {
+      "name": "You",
+      "email": "you@company.com"
+    },
+    "subject": "Scheduled System Maintenance - March 30th",
+    "body": "Dear Team,\n\nThis is to inform you about scheduled system maintenance:\n\nDate: Saturday, March 30th, 2026\nTime: 2:00 AM - 6:00 AM EST\nAffected Systems: Email servers, VPN, internal applications\n\nDuring this window, all company systems will be temporarily unavailable. Please plan accordingly and ensure all critical work is completed before the maintenance window.\n\nIf you have any urgent needs during this time, please contact the emergency hotline at ext. 9999.\n\nThank you for your cooperation.\n\nIT Support Team",
+    "timestamp": "2026-03-23T07:30:00Z",
+    "thread": [],
+    "priority": "fyi",
+    "hasAttachments": false
+  },
+  {
+    "id": "email-005",
+    "from": {
+      "name": "Jennifer Brooks",
+      "email": "jennifer.brooks@partner.com",
+      "isVIP": true
+    },
+    "to": {
+      "name": "You",
+      "email": "you@company.com"
+    },
+    "subject": "Partnership Opportunity Discussion",
+    "body": "Hello,\n\nI'm reaching out from PartnerCorp regarding a potential strategic partnership opportunity.\n\nWe've been following your company's growth in the AI space and believe there's strong alignment between our platforms. I'd love to schedule a 30-minute introductory call to explore how we might work together.\n\nI'm available:\n- Tuesday, March 26th: 10:00 AM - 12:00 PM or 3:00 PM - 5:00 PM\n- Wednesday, March 27th: 9:00 AM - 11:00 AM\n- Thursday, March 28th: 1:00 PM - 4:00 PM\n\nAll times EST. Please let me know what works best for you, and I'll send over a calendar invite.\n\nLooking forward to connecting!\n\nBest regards,\nJennifer Brooks\nBusiness Development Director\nPartnerCorp\nPhone: (555) 123-4567",
+    "timestamp": "2026-03-23T10:00:00Z",
+    "thread": [],
+    "priority": "action_required",
+    "hasAttachments": false
+  },
+  {
+    "id": "email-006",
+    "from": {
+      "name": "Team Newsletter",
+      "email": "newsletter@company.com",
+      "isVIP": false
+    },
+    "to": {
+      "name": "All Staff",
+      "email": "allstaff@company.com"
+    },
+    "subject": "Weekly Roundup: Company News & Updates",
+    "body": "Welcome to this week's company newsletter!\n\n🎉 Celebrations:\n- Congratulations to the Sales team for closing 5 major deals this week!\n- Happy work anniversary to Maria (5 years) and David (3 years)!\n\n📢 Announcements:\n- New cafeteria menu starting next week\n- Employee satisfaction survey opens Monday\n- Q1 All-Hands meeting scheduled for April 5th\n\n💡 Pro Tips:\n- Remember to submit your expense reports by month-end\n- Check out the new learning resources in the HR portal\n\nHave a great weekend!\n\nYour People Team",
+    "timestamp": "2026-03-23T17:00:00Z",
+    "thread": [],
+    "priority": "fyi",
+    "hasAttachments": false
+  },
+  {
+    "id": "email-007",
+    "from": {
+      "name": "Michael Roberts",
+      "email": "michael.roberts@company.com",
+      "isVIP": false
+    },
+    "to": {
+      "name": "You",
+      "email": "you@company.com"
+    },
+    "subject": "Project Status Update & Blockers",
+    "body": "Hi,\n\nQuick update on the Phoenix Project:\n\n✅ Completed:\n- API integration with third-party service\n- Database schema migration\n- Initial UI mockups approved\n\n🚧 In Progress:\n- Frontend development (70% complete)\n- User authentication system\n- Admin dashboard\n\n❌ Blockers:\n- Still waiting on security review from InfoSec team (requested 2 weeks ago)\n- Design assets for mobile view not yet received\n- Server provisioning delayed due to budget approval\n\nCan you help expedite the security review? This is becoming critical for our timeline.\n\nNext standup: Tomorrow at 10 AM\n\nThanks,\nMichael",
+    "timestamp": "2026-03-23T16:30:00Z",
+    "thread": [
+      {
+        "from": "michael.roberts@company.com",
+        "subject": "Phoenix Project Kickoff",
+        "body": "Excited to get started on this project!",
+        "timestamp": "2026-03-01T09:00:00Z"
+      },
+      {
+        "from": "you@company.com",
+        "subject": "Re: Phoenix Project Kickoff",
+        "body": "Great! Let's schedule a kickoff meeting.",
+        "timestamp": "2026-03-01T14:00:00Z"
+      }
+    ],
+    "priority": "action_required",
+    "hasAttachments": false
+  },
+  {
+    "id": "email-008",
+    "from": {
+      "name": "Rachel Kim",
+      "email": "rachel.kim@vendor.com",
+      "isVIP": false
+    },
+    "to": {
+      "name": "You",
+      "email": "you@company.com"
+    },
+    "subject": "Invoice #INV-2026-0342 - Payment Due",
+    "body": "Dear Customer,\n\nThis is a friendly reminder that Invoice #INV-2026-0342 for $15,750.00 is due on March 28th, 2026.\n\nInvoice Details:\n- Service Period: February 1 - 28, 2026\n- Amount: $15,750.00\n- Due Date: March 28, 2026\n\nPayment can be made via:\n- Bank transfer (details in invoice)\n- Credit card through our payment portal\n- Check mailed to our office\n\nIf you have already made the payment, please disregard this notice. If you have any questions or need a copy of the invoice, please don't hesitate to reach out.\n\nThank you for your business!\n\nBest regards,\nRachel Kim\nAccounts Receivable\nVendor Services Inc.",
+    "timestamp": "2026-03-23T09:00:00Z",
+    "thread": [],
+    "priority": "action_required",
+    "hasAttachments": true
+  }
+]
