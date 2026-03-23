@@ -205,7 +205,7 @@ export default function MyTicketsPage() {
                                                 </div>
                                             </div>
                                             <Link 
-                                                href={`/user/raise-tickit/chat?id=${ticket.id}`}
+                                                href={`/user/my-tickets/ticket/details/${ticket.documentId || ticket.id}`}
                                                 className="inline-flex items-center gap-2 text-xs font-black text-white hover:text-blue-400 hover:gap-3 transition-all uppercase tracking-widest"
                                             >
                                                 Details
