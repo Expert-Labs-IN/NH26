@@ -23,10 +23,16 @@
     "category": {
       "type": "enumeration",
       "enum": [
-        "Billing",
-        "Technical",
-        "Account",
-        "Other"
+        "Orders & Refunds",
+        "Delivery / Logistics",
+        "Product Issues",
+        "Subscription / Plans",
+        "Security & Fraud",
+        "KYC / Verification",
+        "App/Website Bugs",
+        "Feature Requests",
+        "Complaints / Feedback",
+        "Others"
       ]
     },
     "severity": {

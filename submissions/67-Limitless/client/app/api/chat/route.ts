@@ -1,8 +1,22 @@
 import { strapi } from "@/lib/sdk/sdk";
 
 
+
+const categories = [
+    "Orders & Refunds",
+    "Delivery / Logistics",
+    "Product Issues",
+    "Subscription / Plans",
+    "Security & Fraud",
+    "KYC / Verification",
+    "App/Website Bugs",
+    "Feature Requests",
+    "Complaints / Feedback",
+    "Others"
+];
+
 async function getSystemPrompt(documentId: any) {
-    const category: any = await strapi.findOne("departments", documentId);
+    const department: any = await strapi.findOne("departments", documentId);
     return `You are Sarathi, an intelligent, professional customer support AI for a tech company. 
 Your goal is to resolve user issues rapidly and accurately. Ask clarifying questions if needed.
 If you CAN resolve the issue, answer it fully and politely.
@@ -10,7 +24,8 @@ If you CANNOT resolve the issue after the user has explained it, or if it requir
 
 if the user is asking for a ticket to be raised, you MUST escalate it.
 
-selectedCategory:${category.title}
+Department:${department.title}
+Categories:${categories.join(", ")} choose from these categories only
 tip:keep convo concise and to the point. don't repeat yourself. don't be too formal act like a friend who is helping you out and only assist with the selected category 
 
 TO ESCALATE:

@@ -9,31 +9,25 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { title, departmentId, summary, description, category, severity, messages } = await req.json();
+
+    const { title, departmentId, summary, description, severity, messages } = await req.json();
 
     try {
 
-        const agentsQueryUrl = new URL(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users`);
-        agentsQueryUrl.searchParams.append("filters[type][$eq]", "agent");
-        agentsQueryUrl.searchParams.append("populate", "assignedTickits,department");
-
-        if (departmentId) {
-            agentsQueryUrl.searchParams.append("filters[department][documentId][$eq]", departmentId.toString());
-        }
-
-        const agentsRes = await fetch(agentsQueryUrl.toString(), {
-            headers: { "Authorization": `Bearer ${session.jwt}` }
+        const agents: any = await strapi.find("users", {
+            filters: {
+                type: { $eq: "agent" },
+                ...(departmentId && {
+                    department: {
+                        documentId: { $eq: departmentId.toString() },
+                    },
+                }),
+            },
+            populate: ["assignedTickits", "department"],
         });
 
-
-        let agents = await agentsRes.json();
-        console.log(agents)
-
         if (!agents || agents.length === 0) {
-            const fallbackRes = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/users?filters[type][$eq]=agent&populate=assignedTickits`, {
-                headers: { "Authorization": `Bearer ${session.jwt}` }
-            });
-            agents = await fallbackRes.json();
+            return NextResponse.json({ error: "No agents found" }, { status: 404 });
         }
 
         let assignedAgentId = null;
@@ -43,12 +37,8 @@ export async function POST(req: Request) {
                 const bCount = b.assignedTickits?.length || 0;
                 return aCount - bCount;
             });
-            assignedAgentId = agents[0].id;
+            assignedAgentId = agents[0].documentId;
         }
-
-
-        const categories = await strapi.find("departments");
-        const categoryToTickit: any = categories.data.find((c: any) => c.title.toLowerCase().includes(category.toLowerCase()));
 
         const ticketBody = {
             title,
@@ -58,7 +48,7 @@ export async function POST(req: Request) {
             aiResolved: false,
             raisedBy: session?.user?.id,
             assignedTo: assignedAgentId,
-            department: categoryToTickit?.id || null,
+            department: departmentId || null,
             aiAgentChat: messages
         };
 

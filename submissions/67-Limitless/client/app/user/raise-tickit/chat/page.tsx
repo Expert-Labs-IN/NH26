@@ -43,7 +43,7 @@ export default function ChatbotPage() {
             // Inject strictly selected department into escalation payload
             const assignedDepartmentId = selectedDepartment?.documentId || selectedDepartment?.attributes?.id || escalationData.category;
 
-            const res = await fetch("/api/tickets", {
+            const res = await fetch("/api/create-ticket", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -77,8 +77,10 @@ export default function ChatbotPage() {
             if (possibleJson.includes('_action') && possibleJson.includes('escalate')) {
                 try {
                     // Scrub AI hallucinated syntax like double-double quotes `""key""` or trailing commas
+                    // Also strip stray spaces out of property keys! (e.g. " _action": )
                     const safeJson = possibleJson
                         .replace(/""/g, '"') 
+                        .replace(/"\s+([^"]+)"\s*:/g, '"$1":')
                         .replace(/,\s*}/g, '}'); 
                         
                     const parsed = JSON.parse(safeJson);
@@ -129,7 +131,7 @@ export default function ChatbotPage() {
             const response = await fetch("/api/chat", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ messages: newMessages, stream: true }),
+                body: JSON.stringify({ departmentId: selectedDepartment?.documentId,messages: newMessages, stream: true }),
             });
 
             if (!response.body) throw new Error("No response body");
@@ -170,7 +172,20 @@ export default function ChatbotPage() {
 
                             setMessages((prev) => {
                                 const updated = [...prev];
-                                updated[updated.length - 1].content = assistantResponse;
+                                
+                                // Hide JSON block from the user while it is actively streaming
+                                let displayContent = assistantResponse;
+                                const hideIndex = displayContent.indexOf('```json');
+                                if (hideIndex !== -1) {
+                                    if (!displayContent.includes('_action')) {
+                                        // Still generating the JSON, show a nice loader string
+                                        displayContent = displayContent.substring(0, hideIndex) + "\n\n*⚙️ Generating Ticket...*";
+                                    } else {
+                                        displayContent = displayContent.substring(0, hideIndex) + "\n\n*⚙️ Escalating to human experts...*";
+                                    }
+                                }
+
+                                updated[updated.length - 1].content = displayContent;
                                 return updated;
                             });
                         }
