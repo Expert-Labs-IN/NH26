@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-600 text-white font-semibold rounded-xl px-6 py-3
+           hover:bg-brand-700 active:scale-[0.98] transition-all duration-200
+           shadow-brand hover:shadow-lg disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+  .btn-secondary {
+    @apply bg-white text-gray-700 font-medium rounded-xl px-6 py-3
+           border border-gray-200 hover:border-brand-300 hover:text-brand-600
+           active:scale-[0.98] transition-all duration-200
+           hover:shadow-md dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700
+           dark:hover:border-brand-500 dark:hover:text-brand-400;
+  }
+  .input-field {
+    @apply w-full px-4 py-3 bg-white border border-gray-200 rounded-xl
+           text-gray-900 placeholder:text-gray-400
+           focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500
+           transition-all duration-200
+           dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100 dark:placeholder:text-gray-500;
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+  }
+  .glass-dark {
+    @apply bg-gray-900/70 backdrop-blur-xl border border-gray-700/30;
+  }
+  .gradient-brand {
+    @apply bg-gradient-to-r from-brand-600 via-purple-600 to-brand-600;
+    background-size: 200% auto;
+  }
+  .gradient-bg {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+  .gradient-mesh {
+    background:
+      radial-gradient(at 40% 20%, hsla(240, 100%, 74%, 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 50%, hsla(355, 85%, 63%, 0.08) 0px, transparent 50%),
+      radial-gradient(at 80% 50%, hsla(240, 100%, 70%, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsla(22, 100%, 77%, 0.1) 0px, transparent 50%);
+  }
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-600 to-purple-600;
+  }
+  .shadow-brand {
+    box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.3);
+  }
+  .card-hover {
+    @apply transition-all duration-300 ease-out;
+  }
+  .card-hover:hover {
+    @apply -translate-y-1 shadow-xl;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c7d2fe;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #818cf8;
+}
+
+/* Skeleton loading animation */
+.skeleton {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
