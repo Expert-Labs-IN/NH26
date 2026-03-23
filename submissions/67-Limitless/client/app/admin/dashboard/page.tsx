@@ -114,14 +114,20 @@ export default function AdminDashboardPage() {
                         </div>
 
                         <div className="space-y-4">
-                            {agents.slice(0, 5).map((agent: any) => (
-                                <div key={agent.id} className="flex items-center justify-between p-6 bg-black/40 rounded-3xl border border-slate-800/50 group hover:border-slate-700 transition-all">
+                             {agents.slice(0, 5).map((agent: any) => (
+                                <Link 
+                                    key={agent.id} 
+                                    href={`/admin/agents/details/${agent.id}`}
+                                    className="flex items-center justify-between p-6 bg-black/40 rounded-3xl border border-slate-800/50 group hover:border-slate-700 transition-all"
+                                >
                                     <div className="flex items-center gap-4">
                                         <div className="w-12 h-12 bg-blue-600/20 text-blue-400 rounded-2xl flex items-center justify-center font-black text-lg">
                                             {agent.username?.charAt(0).toUpperCase()}
                                         </div>
                                         <div>
-                                            <p className="font-bold text-white leading-none mb-1.5">{agent.username}</p>
+                                            <p className="font-bold text-white leading-none mb-1.5 group-hover:text-blue-400 transition-colors">
+                                                {agent.username}
+                                            </p>
                                             <p className="text-[10px] text-slate-500 font-black uppercase tracking-widest flex items-center gap-1.5">
                                                 <Building2 className="w-3 h-3 text-slate-700" />
                                                 Support Team
@@ -132,7 +138,7 @@ export default function AdminDashboardPage() {
                                         <p className="text-xs font-black text-slate-400 mb-1">Active</p>
                                         <p className="text-[10px] text-emerald-500/80 font-black uppercase tracking-widest">Verified</p>
                                     </div>
-                                </div>
+                                </Link>
                             ))}
                             <button className="w-full py-4 text-xs font-black text-slate-500 uppercase tracking-widest hover:text-white transition-colors">View All Experts</button>
                         </div>
@@ -145,7 +151,6 @@ export default function AdminDashboardPage() {
                                 <ShieldCheck className="w-6 h-6 text-orange-500" />
                                 Pending Escalations
                             </h2>
-                            <Link href="/agent/all-tickits" className="text-xs font-black text-blue-500 uppercase tracking-widest hover:underline decoration-2 underline-offset-8">All Repository</Link>
                         </div>
 
                         <div className="space-y-4">
