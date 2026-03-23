@@ -135,7 +135,7 @@ export default function AdminAllTicketsPage() {
 
                                     <div className="flex items-center gap-4">
                                         <Link 
-                                            href={`/agent/tickit/details/${docId}`}
+                                            href={`/admin/tickets/details/${docId}`}
                                             className="px-8 py-4 bg-white/5 border border-slate-800 rounded-2xl text-[11px] font-black uppercase tracking-widest text-slate-300 hover:bg-white hover:text-black hover:border-white transition-all flex items-center gap-2"
                                         >
                                             Audit Details
