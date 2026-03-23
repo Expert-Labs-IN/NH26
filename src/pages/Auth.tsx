@@ -217,8 +217,14 @@ export default function Auth() {
               </Card>
             </TabsContent>
           </Tabs>
+
+          <div className="mt-6 text-center">
+            <Link to="/auth/admin" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
+              <Shield className="w-3.5 h-3.5" />
+              Admin login
+            </Link>
+          </div>
         </div>
-      </div>
     </div>
   );
 }
