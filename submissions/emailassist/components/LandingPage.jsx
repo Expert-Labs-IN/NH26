@@ -255,7 +255,7 @@ export function LandingPage({ onStart }) {
           className="text-white px-5 py-2.5 rounded-lg font-bold text-sm transition-opacity hover:opacity-90 flex items-center gap-2"
           style={{ background: C }}
         >
-          <Zap className="w-4 h-4" /> Launch Demo
+          <Zap className="w-4 h-4" /> Launch
         </button>
       </nav>
 
