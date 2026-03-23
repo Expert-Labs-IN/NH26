@@ -1,0 +1,122 @@
+[
+  {
+    "id": "email_001",
+    "from": "ceo@corp.com",
+    "fromName": "Alex Morgan (CEO)",
+    "to": "me@company.com",
+    "subject": "URGENT: Contract Review Needed by EOD",
+    "body": "Hi,\n\nI need you to review and sign off on the Henderson contract immediately. Legal has flagged three clauses that need your approval before we can proceed.\n\nThis is time-sensitive — the deal closes tonight and we stand to lose $2.4M if we miss the deadline. I've cc'd Sarah from Legal who has the documents ready.\n\nPlease review by 5pm today without fail.\n\nRegards,\nAlex Morgan\nCEO",
+    "timestamp": "2026-03-23T08:15:00Z",
+    "thread": [],
+    "isRead": false,
+    "priority": null
+  },
+  {
+    "id": "email_002",
+    "from": "james.liu@techclient.com",
+    "fromName": "James Liu",
+    "to": "me@company.com",
+    "subject": "Request: Product Demo Scheduling",
+    "body": "Hi there,\n\nI hope this finds you well. We've been evaluating your platform for our team of 50 engineers and I'd love to schedule a product demo sometime next week.\n\nWe're particularly interested in the workflow automation features and the API integration capabilities. Could you send me some available slots? Tuesday or Wednesday afternoon work best for us.\n\nLooking forward to connecting!\n\nBest,\nJames Liu\nCTO, TechClient Inc.",
+    "timestamp": "2026-03-23T09:02:00Z",
+    "thread": [],
+    "isRead": false,
+    "priority": null
+  },
+  {
+    "id": "email_003",
+    "from": "billing@vendor.com",
+    "fromName": "Vendor Billing Team",
+    "to": "me@company.com",
+    "subject": "OVERDUE: Invoice #INV-2026-0087 — Payment Required",
+    "body": "Dear Account Holder,\n\nThis is a final notice regarding invoice #INV-2026-0087 for $8,750.00 which was due on March 10, 2026.\n\nYour account is now 13 days past due. To avoid service suspension and a 1.5% late fee, please arrange payment within 48 hours.\n\nPayment methods: Wire transfer, ACH, or credit card via our portal at billing.vendor.com/pay\n\nVendor Billing Team",
+    "timestamp": "2026-03-23T09:45:00Z",
+    "thread": [],
+    "isRead": false,
+    "priority": null
+  },
+  {
+    "id": "email_004",
+    "from": "priya.sharma@company.com",
+    "fromName": "Priya Sharma",
+    "to": "me@company.com",
+    "subject": "Team Meeting Agenda — Next Wednesday",
+    "body": "Hey,\n\nCan you put together the agenda for next Wednesday's all-hands? We need to cover:\n1. Q1 performance review\n2. New product roadmap reveal\n3. Team restructuring update\n\nI'd also like you to present the metrics dashboard you've been building. It'll be about 30 mins total.\n\nCan you send me the agenda by Monday EOD so I can distribute it beforehand?\n\nThanks,\nPriya",
+    "timestamp": "2026-03-23T10:20:00Z",
+    "thread": [],
+    "isRead": true,
+    "priority": null
+  },
+  {
+    "id": "email_005",
+    "from": "newsletter@techdigest.io",
+    "fromName": "Tech Digest Weekly",
+    "to": "me@company.com",
+    "subject": "This Week in AI: GPT-5, Gemini Updates & What's Next",
+    "body": "Tech Digest Weekly | March 23, 2026\n\nTOP STORIES THIS WEEK\n\n- OpenAI quietly updates GPT-5 with improved reasoning\n- Google Gemini 2.5 achieves new benchmarks on coding tasks\n- Anthropic releases Claude 4 with 200K context window\n- Mistral announces European data-center partnership\n\nANALYSIS: Why local LLMs are gaining enterprise traction...\n\nRead more at techdigest.io | Unsubscribe",
+    "timestamp": "2026-03-23T07:00:00Z",
+    "thread": [],
+    "isRead": true,
+    "priority": null
+  },
+  {
+    "id": "email_006",
+    "from": "qa@company.com",
+    "fromName": "QA Team — Rohan Mehta",
+    "to": "me@company.com",
+    "subject": "Bug Report: Auth Flow Breaking on Safari — Needs Dev Attention",
+    "body": "Hi,\n\nWe've found a critical bug during regression testing for v2.4 release:\n\nBUG-4821: OAuth login fails on Safari 17.x\n- Steps to reproduce: Open app in Safari, click Login with Google, OAuth window opens but callback URL throws 403\n- Affects: ~18% of our user base (Safari users)\n- Severity: High — users cannot log in\n- Environment: Production + Staging\n\nDev needs to investigate the CORS headers on the callback endpoint.\n\nWe're blocked on this for the release. Can someone pick this up today?\n\nRohan Mehta | QA Lead",
+    "timestamp": "2026-03-23T11:05:00Z",
+    "thread": [],
+    "isRead": false,
+    "priority": null
+  },
+  {
+    "id": "email_007",
+    "from": "diana.chen@enterprise-client.com",
+    "fromName": "Diana Chen",
+    "to": "me@company.com",
+    "subject": "Extremely Disappointed — Immediate Resolution Required",
+    "body": "I am writing to express my extreme dissatisfaction with the service disruption we experienced last Thursday.\n\nOur entire team of 200 was unable to access the platform for 4 hours during our peak business period. This resulted in an estimated $50,000 in lost productivity and two client escalations.\n\nI have been a customer for 3 years and this is unacceptable. I require:\n1. A full incident report within 24 hours\n2. A credit for the downtime\n3. A call with your VP of Engineering this week\n4. A commitment on SLA improvements\n\nIf I do not hear back by end of day, I will be escalating to our board and reconsidering our contract renewal.\n\nDiana Chen\nVP Operations, Enterprise Client Corp",
+    "timestamp": "2026-03-23T08:50:00Z",
+    "thread": [],
+    "isRead": false,
+    "priority": null
+  },
+  {
+    "id": "email_008",
+    "from": "yusuf.al-rashid@gmail.com",
+    "fromName": "Yusuf Al-Rashid",
+    "to": "me@company.com",
+    "subject": "Following Up — Senior Frontend Engineer Interview",
+    "body": "Dear Hiring Team,\n\nI interviewed for the Senior Frontend Engineer position on March 18th with your team. I wanted to follow up and reiterate my strong interest in joining your organisation.\n\nThe technical discussion around your React architecture was particularly engaging, and I believe my 6 years of experience with React, TypeScript, and performance optimisation would be a strong fit.\n\nPlease do let me know if there are any updates on the process.\n\nWarm regards,\nYusuf Al-Rashid",
+    "timestamp": "2026-03-23T13:15:00Z",
+    "thread": [],
+    "isRead": true,
+    "priority": null
+  },
+  {
+    "id": "email_009",
+    "from": "noreply@statuspage.io",
+    "fromName": "StatusPage — System Monitor",
+    "to": "me@company.com",
+    "subject": "[Resolved] All Systems Operational — Incident #4521",
+    "body": "STATUS UPDATE — March 23, 2026 at 06:00 UTC\n\nRESOLVED: Incident #4521 has been resolved. All services are now operating normally.\n\nSUMMARY:\n- Incident start: March 22, 2026 at 23:15 UTC\n- Incident end: March 23, 2026 at 05:55 UTC\n- Affected services: API Gateway (partial degradation)\n- Root cause: Database connection pool exhaustion during scheduled maintenance\n- Impact: ~12% of API requests failed or had increased latency\n\nNo further action required.\n\nStatusPage Monitoring System",
+    "timestamp": "2026-03-23T06:05:00Z",
+    "thread": [],
+    "isRead": true,
+    "priority": null
+  },
+  {
+    "id": "email_010",
+    "from": "legal@lawfirm.com",
+    "fromName": "Sarah Okafor — Legal Counsel",
+    "to": "me@company.com",
+    "subject": "ACTION REQUIRED: Signature Needed on 3 Legal Documents",
+    "body": "Dear,\n\nWe require your immediate signature on the following documents:\n\n1. NDA Amendment — Henderson Partnership (expires March 25)\n2. Data Processing Agreement — EU GDPR compliance (regulatory deadline: March 28)\n3. IP Assignment Agreement — Q2 contractor onboarding\n\nPlease review and sign via DocuSign at the link below. All three documents require your e-signature.\n\nMissing the NDA deadline may void the Henderson deal. The DPA is required by EU regulators.\n\nDocuSign Link: [Secure link sent separately via encrypted email]\n\nSarah Okafor, Esq.\nSenior Legal Counsel",
+    "timestamp": "2026-03-23T09:30:00Z",
+    "thread": [],
+    "isRead": false,
+    "priority": null
+  }
+]
