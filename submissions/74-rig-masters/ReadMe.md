@@ -53,6 +53,10 @@ voice_service/ → Speech processing module
 https://www.loom.com/share/fa3b6fefc7194755bca405495fb5e8fa
 
 ---
+<img width="1915" height="848" alt="image" src="https://github.com/user-attachments/assets/9e69dfed-2bad-4084-8598-829cd6907105" />
+<img width="1917" height="862" alt="image" src="https://github.com/user-attachments/assets/22b9f834-aa6e-4420-8549-c800f4eeab75" />
+<img width="1919" height="871" alt="image" src="https://github.com/user-attachments/assets/206986e4-b69e-43d9-8008-f8356bedc2dd" />
+
 
 ## ⚙️ Setup Instructions
 
@@ -70,6 +74,7 @@ uvicorn main:app --reload
 
 #### Frontend Setup 
 cd frontend
+
 npm install
 npm run dev
 
