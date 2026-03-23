@@ -1,16 +1,17 @@
 import { strapi } from "@/lib/sdk/sdk";
 
 
-const categories = await strapi.find("departments");
-
-const systemPrompt = `You are Sarathi, an intelligent, professional customer support AI for a tech company. 
+async function getSystemPrompt(documentId: any) {
+    const category: any = await strapi.findOne("departments", documentId);
+    return `You are Sarathi, an intelligent, professional customer support AI for a tech company. 
 Your goal is to resolve user issues rapidly and accurately. Ask clarifying questions if needed.
 If you CAN resolve the issue, answer it fully and politely.
 If you CANNOT resolve the issue after the user has explained it, or if it requires human authorization (like refunds, backend account deletions, physical hardware issues), you MUST escalate it.
 
 if the user is asking for a ticket to be raised, you MUST escalate it.
 
-tip:keep convo concise and to the point. don't repeat yourself. don't be too formal act like a friend who is helping you out.
+selectedCategory:${category.title}
+tip:keep convo concise and to the point. don't repeat yourself. don't be too formal act like a friend who is helping you out and only assist with the selected category 
 
 TO ESCALATE:
 You must reply explaining that you are bringing in a human expert, and at the VERY END of your message, you MUST output a JSON code block with the exact following structure:
@@ -24,9 +25,13 @@ You must reply explaining that you are bringing in a human expert, and at the VE
 }
 \`\`\`
 IMPORTANT: You MUST strictly use double quotes for all keys and string values so it is completely valid JSON. Do not output this JSON block unless you are actively escalating the ticket in that message.`;
+
+
+}
+
 export async function POST(req: Request) {
     try {
-        const { messages, model = 'openai-fast', stream: isStream, personality, provider } = await req.json();
+        const { messages, departmentId, model = 'openai-fast', stream: isStream, personality, provider } = await req.json();
 
         console.log("Received messages:", personality, model, provider);
 
@@ -46,7 +51,7 @@ export async function POST(req: Request) {
                 messages: [
                     {
                         role: "system",
-                        content: systemPrompt || "void",
+                        content: await getSystemPrompt(departmentId)
                     },
                     ...messages
 
