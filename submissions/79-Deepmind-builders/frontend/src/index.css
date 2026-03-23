@@ -1,0 +1,57 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --surface:                  #faf8ff;
+  --surface-lowest:           #ffffff;
+  --surface-low:              #f2f3ff;
+  --surface-mid:              #ececf8;
+  --surface-high:             #e6e6f4;
+  --surface-highest:          #e0e0ee;
+  --inverse:                  #283044;
+  --inverse-2:                #1e2538;
+
+  --primary:                  #3525cd;
+  --primary-container:        #4f46e5;
+  --primary-dim:              rgba(53,37,205,0.08);
+  --primary-glow:             rgba(77,68,227,0.2);
+  --primary-text:             #3525cd;
+
+  --secondary:                #5a5693;
+  --tertiary-fixed:           #e9ddff;
+  --on-tertiary:              #5516be;
+  --surface-tint:             #4d44e3;
+
+  --on-surface:               #131b2e;
+  --on-surface-variant:       #464555;
+  --outline:                  #787594;
+  --outline-variant:          rgba(199,196,216,0.2);
+
+  --urgent:                   #c0392b;
+  --urgent-bg:                #fdf0ee;
+  --urgent-text:              #922b21;
+  --urgent-border:            rgba(192,57,43,0.2);
+  --action-color:             #b7600a;
+  --action-bg:                #fef6ec;
+  --action-text:              #7d4207;
+  --fyi-color:                #1a6e3c;
+  --fyi-bg:                   #edf7f2;
+  --fyi-text:                 #145c30;
+
+  --shadow:                   0 0 24px 0 rgba(19,27,46,0.06);
+  --shadow-md:                0 4px 20px rgba(19,27,46,0.1);
+
+  --font-display:             'Manrope', sans-serif;
+  --font-body:                'Inter', sans-serif;
+  --radius:                   8px;
+  --radius-md:                12px;
+  --radius-lg:                16px;
+  --radius-full:              9999px;
+}
+
+html, body, #root { height: 100%; background: var(--surface); color: var(--on-surface); font-family: var(--font-body); font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; cursor: pointer; border: none; outline: none; background: none; }
+input, textarea { font-family: var(--font-body); }
+::selection { background: var(--primary-dim); }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface-high); border-radius: 2px; }
