@@ -35,6 +35,7 @@ export interface Thread {
   unreadCount: number
   emails: Email[]
   category: EmailCategory
+  gmailLabels?: string[]
 }
 
 // --- Comprehensive Analysis ---
