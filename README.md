@@ -254,27 +254,26 @@ npm run dev      # Start on port 5173
 
 ### Landing Page
 <!-- Replace with actual screenshot -->
-![Landing Page](screenshots/landing.png)
+<img width="1936" height="1183" alt="image" src="https://github.com/user-attachments/assets/47d5b916-77ee-43b5-b1cc-d9689f282b08" />
 
 ### AI Chat — Conversation
 <!-- Replace with actual screenshot -->
-![AI Chat](screenshots/chat.png)
+<img width="1936" height="1003" alt="image" src="https://github.com/user-attachments/assets/75d9350c-fc14-4450-aedd-bc9b7d88684a" />
 
 ### AI Chat — Ticket Created + Satisfaction Rating
 <!-- Replace with actual screenshot -->
-![Ticket Created](screenshots/ticket-created.png)
+<img width="1920" height="1069" alt="image" src="https://github.com/user-attachments/assets/bbb8327a-240e-44ad-a751-f21590b94924" />
 
 ### Agent Login
 <!-- Replace with actual screenshot -->
-![Agent Login](screenshots/agent-login.png)
 
 ### Agent Dashboard — Ticket List + Analytics
 <!-- Replace with actual screenshot -->
-![Dashboard](screenshots/dashboard.png)
+<img width="1936" height="1559" alt="image" src="https://github.com/user-attachments/assets/9704801d-22dc-4987-8b09-0a9c9e30dd98" />
 
 ### Ticket Modal — Transcript + Status Workflow
 <!-- Replace with actual screenshot -->
-![Ticket Modal](screenshots/ticket-modal.png)
+<img width="1920" height="1069" alt="image" src="https://github.com/user-attachments/assets/8bfb645d-bc90-46b7-b81e-a7adb71cb733" />
 
 </details>
 
