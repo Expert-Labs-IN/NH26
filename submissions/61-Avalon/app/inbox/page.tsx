@@ -2220,8 +2220,8 @@ export default function InboxPage() {
         </aside>
 
         {!isCalendarView && (
-          <div className="w-80 border-r border-gray-200/80 flex flex-col shrink-0 bg-white">
-            <div className="px-4 py-3 border-b border-gray-100 space-y-2">
+          <div className="w-80 border-r border-gray-200/80 flex flex-col shrink-0 bg-white overflow-hidden">
+            <div className="px-4 py-3 border-b border-gray-100 space-y-2 shrink-0">
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-sm font-semibold text-gray-800">{folderMeta[folder].label}</h2>
@@ -2320,7 +2320,7 @@ export default function InboxPage() {
               )}
             </div>
 
-            <ScrollArea className="flex-1">
+            <ScrollArea className="flex-1 min-h-0">
               <div className="pb-4">
                 {filteredThreads.map(t => (
                   <ThreadListItem key={t.id} thread={t} selected={t.id === selectedId}
