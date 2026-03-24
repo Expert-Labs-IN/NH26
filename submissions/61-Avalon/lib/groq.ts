@@ -124,9 +124,9 @@ const rewritePrompts: Record<RewriteAction, string> = {
 }
 
 export async function rewriteText(text: string, action: RewriteAction, senderName?: string, recipientName?: string): Promise<string> {
-  const nameContext = []
-  if (recipientName) nameContext.push(`The recipient's name is "${recipientName}" — use it in the greeting (e.g., "Hi ${recipientName}," or "Dear ${recipientName},"). Do NOT use placeholder text like [Name] or [Recipient].`)
-  if (senderName) nameContext.push(`The sender's name is "${senderName}" — use it in the sign-off (e.g., "Best regards,\\n${senderName}"). Do NOT use placeholder text like [Your Name] or [Sender].`)
+  const nameContext: string[] = []
+  if (recipientName) nameContext.push(`The recipient's name is "${recipientName}" - use it in the greeting (e.g., "Hi ${recipientName}," or "Dear ${recipientName},"). Do NOT use placeholder text like [Name] or [Recipient].`)
+  if (senderName) nameContext.push(`The sender's name is "${senderName}" - use it in the sign-off (e.g., "Best regards,\\n${senderName}"). Do NOT use placeholder text like [Your Name] or [Sender].`)
   const nameInstructions = nameContext.length > 0 ? '\n\n' + nameContext.join('\n') : ''
 
   const { text: result } = await generateText({

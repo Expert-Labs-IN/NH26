@@ -6,6 +6,10 @@ import { Thread } from '@/types'
 export async function POST(request: NextRequest) {
   const { message, threadId, thread: inlineThread } = await request.json()
 
+  if (!message || typeof message !== 'string' || !message.trim()) {
+    return NextResponse.json({ error: 'Message is required' }, { status: 400 })
+  }
+
   let thread: Thread | null = null
   if (inlineThread && inlineThread.id && inlineThread.emails) {
     thread = inlineThread as Thread

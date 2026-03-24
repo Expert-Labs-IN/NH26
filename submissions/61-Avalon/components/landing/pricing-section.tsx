@@ -54,10 +54,10 @@ const plans = [
 
 export function PricingSection() {
   return (
-    <section id="pricing" className="relative py-32 lg:py-40 border-t border-foreground/10">
+    <section id="pricing" className="relative py-16 lg:py-20 border-t border-foreground/10">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Header */}
-        <div className="max-w-3xl mb-20">
+        <div className="max-w-3xl mb-12">
           <span className="font-mono text-xs tracking-widest text-muted-foreground uppercase block mb-6">
             Access modes
           </span>
