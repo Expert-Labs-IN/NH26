@@ -158,6 +158,10 @@ export default function ChatPage() {
                 {connected ? 'Live' : 'Reconnecting'}
               </span>
               <ThemeToggle />
+              <a href="/my-tickets" className={styles.navLink} style={{
+                fontSize: '0.8125rem', fontWeight: 500, color: 'var(--blue)',
+                textDecoration: 'none', opacity: 0.9
+              }}>📋 My Tickets</a>
             </div>
           </nav>
 

@@ -4,7 +4,21 @@ const authMiddleware = require('../middleware/auth');
 
 const router = express.Router();
 
-// All ticket routes require authentication
+// ── Public: user's own tickets (no agent auth needed) ──
+router.get('/user/:email', async (req, res) => {
+  try {
+    const email = decodeURIComponent(req.params.email);
+    const tickets = await Ticket.find({ userEmail: email })
+      .sort({ createdAt: -1 })
+      .select('ticketId category severity status summary assignedAgent emotion urgency createdAt updatedAt');
+    res.json(tickets);
+  } catch (error) {
+    console.error('User tickets error:', error.message);
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
+// All remaining ticket routes require agent authentication
 router.use(authMiddleware);
 
 // GET /api/tickets — List all tickets with optional filters
