@@ -209,9 +209,10 @@ module.exports = function chatHandler(io) {
         });
 
         // ─── Escalation Logic ───
+        const detailsReady = aiResult.detailsGathered !== false; // default true if field missing
         const shouldEscalate =
           forceEscalate ||
-          (!aiResult.resolved && (
+          (!aiResult.resolved && detailsReady && (
             session.messageCount >= 3 ||
             aiResult.severity === 'High' ||
             aiResult.severity === 'Critical' ||
@@ -225,6 +226,49 @@ module.exports = function chatHandler(io) {
             if (aiResult.severity === 'Low') aiResult.severity = 'Medium';
           }
 
+          // ─── Generate AI Agent Briefing ───
+          let agentBriefing = '';
+          try {
+            const transcriptText = session.history
+              .map(m => `${m.role === 'user' ? 'Customer' : 'AI'}: ${m.message || m.content || ''}`)
+              .join('\n');
+            const briefingPrompt = `You are a support team lead. Based on this conversation, write a concise but comprehensive agent briefing.
+
+Customer: ${session.name} (${session.email})
+Category: ${aiResult.category} | Severity: ${aiResult.severity} | Emotion: ${aiResult.emotion}
+
+Conversation:
+${transcriptText}
+
+Write a briefing in this format (plain text, no JSON, no markdown):
+ISSUE: [one-sentence description]
+DETAILS: [what happened, when, and the impact]
+CUSTOMER MOOD: [emotional state and how to approach]
+STEPS TRIED: [what the customer already attempted]
+RECOMMENDED ACTION: [specific next steps for the agent]
+PRIORITY NOTES: [any urgency or special handling needed]`;
+
+            if (process.env.GROQ_API_KEY) {
+              const Groq = require('groq-sdk');
+              const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+              const comp = await groq.chat.completions.create({
+                model: 'llama-3.3-70b-versatile',
+                messages: [{ role: 'user', content: briefingPrompt }],
+                temperature: 0.3, max_tokens: 400,
+              });
+              agentBriefing = comp.choices[0].message.content.trim();
+            } else if (process.env.GEMINI_API_KEY) {
+              const { GoogleGenerativeAI } = require('@google/generative-ai');
+              const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+              const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+              const result = await model.generateContent(briefingPrompt);
+              agentBriefing = result.response.text().trim();
+            }
+          } catch (briefErr) {
+            console.warn('⚠️ Agent briefing generation failed:', briefErr.message);
+            agentBriefing = `Issue: ${aiResult.summary}\nSeverity: ${aiResult.severity}\nEmotion: ${aiResult.emotion}`;
+          }
+
           const ticket = await Ticket.create({
             userName: session.name,
             userEmail: session.email,
@@ -234,7 +278,8 @@ module.exports = function chatHandler(io) {
             urgency: aiResult.urgency,
             summary: aiResult.summary || `User requested human assistance`,
             transcript: session.history,
-            securityFlag: aiResult.securityFlag
+            securityFlag: aiResult.securityFlag,
+            agentBriefing: agentBriefing
           });
 
           console.log(`🎫 Ticket created: ${ticket.ticketId} [${aiResult.severity}] ${aiResult.category}`);
@@ -251,6 +296,7 @@ module.exports = function chatHandler(io) {
             summary: ticket.summary,
             status: ticket.status,
             securityFlag: ticket.securityFlag,
+            agentBriefing: ticket.agentBriefing,
             createdAt: ticket.createdAt,
             transcript: session.history
           };

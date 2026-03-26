@@ -42,7 +42,8 @@ const ticketSchema = new mongoose.Schema({
   },
   assignedAgent: { type: String, default: null },
   securityFlag: { type: Boolean, default: false },
-  resolutionNotes: { type: String, default: '' }
+  resolutionNotes: { type: String, default: '' },
+  agentBriefing: { type: String, default: '' }
 }, { timestamps: true });
 
 module.exports = mongoose.model('Ticket', ticketSchema);

@@ -85,6 +85,23 @@ export default function TicketModal({ ticket, onClose, onUpdate, socket }) {
             </div>
           )}
 
+          {/* Agent Briefing */}
+          {ticket.agentBriefing && (
+            <div>
+              <div className={styles.sectionTitle}>🧠 AI Agent Briefing</div>
+              <pre className={styles.summary} style={{
+                whiteSpace: 'pre-wrap',
+                fontFamily: 'inherit',
+                fontSize: '0.85rem',
+                lineHeight: '1.6',
+                background: 'rgba(0, 113, 227, 0.04)',
+                padding: '1rem',
+                borderRadius: '12px',
+                border: '1px solid rgba(0, 113, 227, 0.1)'
+              }}>{ticket.agentBriefing}</pre>
+            </div>
+          )}
+
           {/* Transcript */}
           <div>
             <div className={styles.sectionTitle}>Chat Transcript</div>

@@ -2,6 +2,9 @@ import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
+import { jsPDF } from 'jspdf'
+import autoTable from 'jspdf-autotable'
+import * as XLSX from 'xlsx'
 import api from '../api/axios'
 import PageShell from '../components/PageShell'
 import Logo from '../components/Logo'
@@ -136,6 +139,63 @@ export default function Dashboard() {
     a.download = `smartdesk-tickets-${new Date().toISOString().slice(0, 10)}.csv`
     a.click()
     URL.revokeObjectURL(url)
+  }
+
+  // PDF export
+  const exportPDF = () => {
+    const doc = new jsPDF({ orientation: 'landscape' })
+    doc.setFontSize(18)
+    doc.text('SmartDesk — Ticket Report', 14, 18)
+    doc.setFontSize(10)
+    doc.setTextColor(100)
+    doc.text(`Generated: ${new Date().toLocaleString()} | Total: ${tickets.length} tickets`, 14, 26)
+
+    autoTable(doc, {
+      startY: 32,
+      head: [['Ticket ID', 'User', 'Category', 'Severity', 'Emotion', 'Status', 'Agent', 'Summary', 'Created']],
+      body: tickets.map(t => [
+        t.ticketId,
+        t.userName,
+        t.category,
+        t.severity,
+        t.emotion || 'N/A',
+        t.status,
+        t.assignedAgent || 'Unassigned',
+        (t.summary || '').substring(0, 60) + ((t.summary || '').length > 60 ? '…' : ''),
+        t.createdAt ? new Date(t.createdAt).toLocaleDateString() : ''
+      ]),
+      styles: { fontSize: 8, cellPadding: 3 },
+      headStyles: { fillColor: [0, 113, 227], textColor: 255 },
+      alternateRowStyles: { fillColor: [245, 247, 255] },
+    })
+
+    doc.save(`smartdesk-tickets-${new Date().toISOString().slice(0, 10)}.pdf`)
+  }
+
+  // Excel export
+  const exportExcel = () => {
+    const data = tickets.map(t => ({
+      'Ticket ID': t.ticketId,
+      'User': t.userName,
+      'Email': t.userEmail,
+      'Category': t.category,
+      'Severity': t.severity,
+      'Emotion': t.emotion || 'N/A',
+      'Urgency': t.urgency || 'N/A',
+      'Status': t.status,
+      'Assigned Agent': t.assignedAgent || 'Unassigned',
+      'Security Flag': t.securityFlag ? 'YES' : 'No',
+      'Summary': t.summary,
+      'Agent Briefing': t.agentBriefing || '',
+      'Resolution Notes': t.resolutionNotes || '',
+      'Created': t.createdAt ? new Date(t.createdAt).toLocaleString() : '',
+      'Updated': t.updatedAt ? new Date(t.updatedAt).toLocaleString() : '',
+    }))
+    const ws = XLSX.utils.json_to_sheet(data)
+    ws['!cols'] = Object.keys(data[0] || {}).map(() => ({ wch: 20 }))
+    const wb = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(wb, ws, 'Tickets')
+    XLSX.writeFile(wb, `smartdesk-tickets-${new Date().toISOString().slice(0, 10)}.xlsx`)
   }
 
   // Chart data
@@ -292,7 +352,13 @@ export default function Dashboard() {
               ))}
             </div>
             <button className={styles.exportBtn} onClick={exportCSV} title="Export CSV">
-              📥 Export
+              📥 CSV
+            </button>
+            <button className={styles.exportBtn} onClick={exportPDF} title="Export PDF">
+              📄 PDF
+            </button>
+            <button className={styles.exportBtn} onClick={exportExcel} title="Export Excel">
+              📊 Excel
             </button>
             <span className={styles.ticketCount}>{filtered.length} ticket{filtered.length !== 1 ? 's' : ''}</span>
           </div>
