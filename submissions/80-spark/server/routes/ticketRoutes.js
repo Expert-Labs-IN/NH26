@@ -18,6 +18,37 @@ router.get('/user/:email', async (req, res) => {
   }
 });
 
+// ── Public: user cancels own ticket ──
+router.put('/user/:id/cancel', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: 'Email required.' });
+
+    let ticket = await Ticket.findById(req.params.id).catch(() => null);
+    if (!ticket) ticket = await Ticket.findOne({ ticketId: req.params.id });
+    if (!ticket) return res.status(404).json({ error: 'Ticket not found.' });
+    if (ticket.userEmail !== email) return res.status(403).json({ error: 'Not your ticket.' });
+    if (['closed', 'resolved'].includes(ticket.status)) {
+      return res.status(400).json({ error: 'Ticket already ' + ticket.status + '.' });
+    }
+
+    ticket.status = 'closed';
+    ticket.resolutionNotes = 'Cancelled by user';
+    await ticket.save();
+
+    const io = req.app.get('io');
+    if (io) io.to('agents').emit('ticket_updated', {
+      _id: ticket._id, ticketId: ticket.ticketId,
+      status: ticket.status, resolutionNotes: ticket.resolutionNotes
+    });
+
+    res.json({ ticket });
+  } catch (error) {
+    console.error('Cancel ticket error:', error.message);
+    res.status(500).json({ error: 'Server error.' });
+  }
+});
+
 // All remaining ticket routes require agent authentication
 router.use(authMiddleware);
 

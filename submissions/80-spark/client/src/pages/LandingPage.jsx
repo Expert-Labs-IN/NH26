@@ -19,7 +19,7 @@ export default function LandingPage() {
     if (!name.trim() || !email.trim()) return
     sessionStorage.setItem('userName', name.trim())
     sessionStorage.setItem('userEmail', email.trim())
-    navigate('/chat')
+    navigate('/my-tickets')
   }
 
   // Google redirect login: step 1 — redirect to Google
@@ -69,7 +69,7 @@ export default function LandingPage() {
             sessionStorage.setItem('userName', data.user.name)
             sessionStorage.setItem('userEmail', data.user.email)
             sessionStorage.setItem('userAvatar', data.user.avatar || '')
-            navigate('/chat')
+            navigate('/my-tickets')
           } else {
             alert('Login failed: ' + (data.error || 'Unknown error'))
           }

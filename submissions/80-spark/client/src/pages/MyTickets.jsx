@@ -30,18 +30,17 @@ export default function MyTickets() {
     const [tickets, setTickets] = useState([])
     const [loading, setLoading] = useState(true)
     const [filter, setFilter] = useState('all')
+    const [cancelling, setCancelling] = useState(null)
     const socketRef = useRef(null)
 
     useEffect(() => {
         if (!email) { navigate('/'); return }
 
-        // Fetch tickets
         fetch(`${API_URL}/api/tickets/user/${encodeURIComponent(email)}`)
             .then(r => r.json())
             .then(data => { setTickets(Array.isArray(data) ? data : []); setLoading(false) })
             .catch(() => setLoading(false))
 
-        // Real-time updates
         const socket = io(SOCKET_URL, { timeout: 3000, reconnectionAttempts: 3 })
         socketRef.current = socket
 
@@ -64,6 +63,39 @@ export default function MyTickets() {
 
         return () => socket.disconnect()
     }, [])
+
+    const handleCancel = async (ticket) => {
+        if (!confirm(`Cancel ticket ${ticket.ticketId}? This cannot be undone.`)) return
+        setCancelling(ticket.ticketId)
+        try {
+            const id = ticket._id || ticket.ticketId
+            const res = await fetch(`${API_URL}/api/tickets/user/${id}/cancel`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email })
+            })
+            const data = await res.json()
+            if (res.ok) {
+                setTickets(prev => prev.map(t =>
+                    t.ticketId === ticket.ticketId ? { ...t, status: 'closed' } : t
+                ))
+            } else {
+                alert(data.error || 'Failed to cancel ticket')
+            }
+        } catch {
+            alert('Network error, try again')
+        } finally {
+            setCancelling(null)
+        }
+    }
+
+    const handleLogout = () => {
+        sessionStorage.removeItem('userName')
+        sessionStorage.removeItem('userEmail')
+        sessionStorage.removeItem('token')
+        sessionStorage.removeItem('userAvatar')
+        navigate('/', { replace: true })
+    }
 
     const filtered = filter === 'all'
         ? tickets
@@ -98,9 +130,12 @@ export default function MyTickets() {
                     </div>
                     <div className={styles.navRight}>
                         <span className={styles.userName}>{name || email}</span>
+                        <button className={styles.chatBtn} onClick={() => navigate('/chat')}>
+                            💬 New Chat
+                        </button>
                         <ThemeToggle />
-                        <button className={styles.backBtn} onClick={() => navigate('/chat')}>
-                            ← Back to Chat
+                        <button className={styles.logoutBtn} onClick={handleLogout}>
+                            Sign Out
                         </button>
                     </div>
                 </nav>
@@ -154,6 +189,7 @@ export default function MyTickets() {
                             {filtered.map(ticket => {
                                 const sm = STATUS_META[ticket.status] || STATUS_META.open
                                 const sc = SEV_CLS[ticket.severity] || 'sevMedium'
+                                const canAct = !['closed', 'resolved'].includes(ticket.status)
                                 return (
                                     <div key={ticket.ticketId} className={styles.card}>
                                         <div className={styles.cardTop}>
@@ -183,6 +219,25 @@ export default function MyTickets() {
                                             </span>
                                             <span className={styles.meta}>{ago(ticket.createdAt)}</span>
                                         </div>
+
+                                        {/* Action buttons */}
+                                        {canAct && (
+                                            <div className={styles.cardActions}>
+                                                <button
+                                                    className={styles.talkBtn}
+                                                    onClick={() => navigate('/chat')}
+                                                >
+                                                    💬 Talk to Agent
+                                                </button>
+                                                <button
+                                                    className={styles.cancelBtn}
+                                                    disabled={cancelling === ticket.ticketId}
+                                                    onClick={() => handleCancel(ticket)}
+                                                >
+                                                    {cancelling === ticket.ticketId ? 'Cancelling…' : '✕ Cancel'}
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
                                 )
                             })}

@@ -47,7 +47,8 @@
     color: var(--text-secondary);
 }
 
-.backBtn {
+.chatBtn,
+.logoutBtn {
     background: rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -61,18 +62,42 @@
     transition: all 0.2s;
 }
 
-.backBtn:hover {
-    background: rgba(255, 255, 255, 0.85);
-    color: var(--text);
+.chatBtn {
+    color: var(--blue);
+    border-color: var(--blue);
+    background: rgba(0, 113, 227, 0.06);
 }
 
-[data-theme="dark"] .backBtn {
+.chatBtn:hover {
+    background: rgba(0, 113, 227, 0.14);
+}
+
+.logoutBtn:hover {
+    background: rgba(255, 59, 48, 0.1);
+    color: #ff3b30;
+    border-color: #ff3b30;
+}
+
+[data-theme="dark"] .chatBtn,
+[data-theme="dark"] .logoutBtn {
     background: rgba(44, 44, 46, 0.6);
     border-color: rgba(255, 255, 255, 0.1);
 }
 
-[data-theme="dark"] .backBtn:hover {
-    background: rgba(58, 58, 60, 0.85);
+[data-theme="dark"] .chatBtn {
+    color: #0a84ff;
+    border-color: #0a84ff;
+    background: rgba(10, 132, 255, 0.1);
+}
+
+[data-theme="dark"] .chatBtn:hover {
+    background: rgba(10, 132, 255, 0.2);
+}
+
+[data-theme="dark"] .logoutBtn:hover {
+    background: rgba(255, 69, 58, 0.15);
+    color: #ff453a;
+    border-color: #ff453a;
 }
 
 /* ── Body ── */
@@ -453,6 +478,71 @@
 .startBtn:hover {
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(0, 113, 227, 0.35);
+}
+
+/* ── Card Actions ── */
+.cardActions {
+    display: flex;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+.talkBtn,
+.cancelBtn {
+    flex: 1;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.4rem 0.6rem;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: inherit;
+}
+
+.talkBtn {
+    background: rgba(0, 113, 227, 0.1);
+    color: #0071e3;
+    border-color: rgba(0, 113, 227, 0.2);
+}
+
+.talkBtn:hover {
+    background: rgba(0, 113, 227, 0.18);
+}
+
+.cancelBtn {
+    background: rgba(255, 59, 48, 0.08);
+    color: #ff3b30;
+    border-color: rgba(255, 59, 48, 0.15);
+}
+
+.cancelBtn:hover {
+    background: rgba(255, 59, 48, 0.15);
+}
+
+.cancelBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+[data-theme="dark"] .talkBtn {
+    background: rgba(10, 132, 255, 0.15);
+    color: #0a84ff;
+    border-color: rgba(10, 132, 255, 0.25);
+}
+
+[data-theme="dark"] .talkBtn:hover {
+    background: rgba(10, 132, 255, 0.25);
+}
+
+[data-theme="dark"] .cancelBtn {
+    background: rgba(255, 69, 58, 0.12);
+    color: #ff453a;
+    border-color: rgba(255, 69, 58, 0.2);
+}
+
+[data-theme="dark"] .cancelBtn:hover {
+    background: rgba(255, 69, 58, 0.22);
 }
 
 /* ── Responsive ── */
